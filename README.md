@@ -18,6 +18,19 @@ pnpm dev
 - 产品名称、介绍、能力与场景：`app/data/products.ts`
 - 视觉样式：`app/assets/css/main.css`
 
+## 咨询表单
+
+咨询页面地址为 `/contact`，支持通过查询参数自动回填和记录推广来源：
+
+```text
+/contact?product=2&source=zcyp-web
+```
+
+- `product`：`1` 招聘服务、`2` 校园招聘、`3` 人才服务、`99` 其他
+- `source`：最长 100 个字符，不在表单中显示；首次访问后保存 30 天，并随咨询请求提交
+
+表单使用 `NUXT_PUBLIC_API_BASE_URL` 作为后端 API 根地址，并自动拼接 `/cms/contact-inquiries`。例如根地址为 `https://api.example.com` 时，最终请求地址为 `https://api.example.com/cms/contact-inquiries`。变量留空时默认请求当前域名下的接口；前后端不同域名时，后端需允许推广站域名跨域访问。
+
 示例产品数据及效果指标仅用于展示，上线前请替换为企业真实、可验证的信息。
 
 ## SSG 静态打包

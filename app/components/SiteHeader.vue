@@ -1,3 +1,8 @@
+<script setup lang="ts">
+const source = useCampaignSource()
+const contactRoute = computed(() => getContactRoute(undefined, source.value))
+</script>
+
 <template>
   <header class="site-header">
     <div class="container nav-wrap">
@@ -10,7 +15,7 @@
         <NuxtLink to="/#advantages">优势</NuxtLink>
         <NuxtLink to="/#faq">常见问题</NuxtLink>
       </nav>
-      <a class="button button-small" href="#contact">获取方案</a>
+      <NuxtLink class="button button-small" :to="contactRoute">获取方案</NuxtLink>
     </div>
   </header>
 </template>

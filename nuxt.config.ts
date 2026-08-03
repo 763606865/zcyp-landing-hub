@@ -6,6 +6,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+      apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || '',
     },
   },
   app: {
@@ -22,7 +23,7 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       crawlLinks: true,
-      routes: ['/', '/products/enterprise-platform', '/products/data-insight', '/products/customer-growth', '/sitemap.xml', '/robots.txt'],
+      routes: ['/', '/contact', '/privacy', '/products/enterprise-platform', '/products/data-insight', '/products/customer-growth', '/sitemap.xml', '/robots.txt'],
     },
   },
 })

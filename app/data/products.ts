@@ -9,6 +9,7 @@ export interface Product {
   scenarios: string[]
   metric: string
   metricLabel: string
+  contactProduct: 1 | 2 | 3 | 99
 }
 
 export const products: Product[] = [
@@ -23,6 +24,7 @@ export const products: Product[] = [
     scenarios: ['跨部门项目协作', '销售过程管理', '内部审批流转'],
     metric: '30%',
     metricLabel: '示例：流程效率提升',
+    contactProduct: 1,
   },
   {
     slug: 'data-insight',
@@ -35,6 +37,7 @@ export const products: Product[] = [
     scenarios: ['管理驾驶舱', '渠道效果分析', '业务目标追踪'],
     metric: '1站式',
     metricLabel: '示例：经营数据总览',
+    contactProduct: 2,
   },
   {
     slug: 'customer-growth',
@@ -47,6 +50,7 @@ export const products: Product[] = [
     scenarios: ['广告线索承接', '私域客户运营', '老客复购激活'],
     metric: '全链路',
     metricLabel: '示例：客户旅程覆盖',
+    contactProduct: 3,
   },
 ]
 

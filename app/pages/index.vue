@@ -3,6 +3,8 @@ import { products } from '~/data/products'
 
 const config = useRuntimeConfig()
 const canonicalUrl = new URL('/', config.public.siteUrl).href
+const source = useCampaignSource()
+const contactRoute = computed(() => getContactRoute(undefined, source.value))
 
 useSeoMeta({
   title: '企业数字化产品与解决方案',
@@ -50,7 +52,7 @@ const faqs = [
           <p class="hero-lead">从团队协作、经营洞察到客户增长，用清晰易用的产品连接每一个关键业务环节。</p>
           <div class="hero-actions">
             <a class="button" href="#products">查看全部产品</a>
-            <a class="text-link" href="#contact">获取专属方案 <span>→</span></a>
+            <NuxtLink class="text-link" :to="contactRoute">获取专属方案 <span>→</span></NuxtLink>
           </div>
           <div class="hero-proof" aria-label="服务特点">
             <span>灵活配置</span><span>快速落地</span><span>持续服务</span>
@@ -111,7 +113,7 @@ const faqs = [
     <section id="contact" class="section contact-section">
       <div class="container contact-card">
         <div><p class="eyebrow eyebrow-light">下一步</p><h2>找到适合您的产品方案</h2><p>告诉我们您正在解决的问题，获取更有针对性的产品介绍与实施建议。</p></div>
-        <a class="button button-light" href="mailto:contact@example.com">立即联系我们</a>
+        <NuxtLink class="button button-light" :to="contactRoute">立即联系我们</NuxtLink>
       </div>
     </section>
   </div>
