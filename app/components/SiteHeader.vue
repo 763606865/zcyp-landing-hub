@@ -11,6 +11,7 @@ const contactRoute = computed(() => getContactRoute(undefined, source.value))
         <span>产品中心</span>
       </NuxtLink>
       <nav aria-label="主导航">
+        <NuxtLink to="/hr">HR事务所</NuxtLink>
         <NuxtLink to="/#products">产品</NuxtLink>
         <NuxtLink to="/#advantages">优势</NuxtLink>
         <NuxtLink to="/#faq">常见问题</NuxtLink>
