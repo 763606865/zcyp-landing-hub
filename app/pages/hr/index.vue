@@ -466,7 +466,7 @@ onMounted(() => {
         </section>
 
         <!-- ========== 联系我们 ========== -->
-        <section class="hr-section hr-contact">
+        <!-- <section class="hr-section hr-contact">
             <div class="hr-contact-inner container-hr hr-animate">
                 <div class="hr-contact-header">
                     <h2 class="hr-contact-title">联系我们</h2>
@@ -496,7 +496,7 @@ onMounted(() => {
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
     </div>
 </template>
 
