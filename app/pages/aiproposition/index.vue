@@ -70,11 +70,10 @@ onMounted(() => {
                 <h1 class="ai-banner-title">中测高科<span>命题服务</span></h1>
                 <p class="ai-banner-desc">全国考试命题服务市场占有率、客户满意度遥遥领先的行业<br />头部机构！</p>
                 <div class="ai-banner-actions">
-                    <a class="ai-btn ai-btn-primary" href="javascript:void(0)">
-                        <img src="/assets/images/ai_proposition/banner-phone.png" alt="" class="ai-btn-phone-icon" />
+                    <a class="ai-banner-btn ai-banner-btn-primary" href="/contact">
                         联系咨询
                     </a>
-                    <a class="ai-btn ai-btn-outline" href="javascript:void(0)">了解更多</a>
+                    <a class="ai-banner-btn ai-banner-btn-ghost" href="/contact">了解更多</a>
                 </div>
             </div>
             <!-- 统计卡片 -->
@@ -647,8 +646,8 @@ onMounted(() => {
                         <h3>对AI命题系统还有疑问？立即留言为你解答疑惑</h3>
                         <p>给我们留言，我们将会为您解答所有问题。</p>
                         <div class="ai-qa-btns">
-                            <a class="ai-btn ai-btn-white" href="javascript:void(0)">申请体验</a>
-                            <a class="ai-btn ai-btn-white-outline" href="javascript:void(0)">在线留言</a>
+                            <a class="ai-btn ai-btn-white" href="/contact">申请体验</a>
+                            <a class="ai-btn ai-btn-white-outline" href="/contact">在线留言</a>
                         </div>
                     </div>
                     <img src="/assets/images/ai_proposition/custom-service-icon.png" alt="人工客服" class="ai-qa-service" />
@@ -808,31 +807,49 @@ onMounted(() => {
     border: none;
 }
 
-.ai-btn-primary {
-    background: var(--ai-blue);
-    color: var(--ai-white);
+.ai-banner-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 28px;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    line-height: 1;
 }
 
-.ai-btn-primary:hover {
-    background: #0B53DE;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(15, 98, 254, 0.35);
+.ai-banner-btn-primary {
+    background: #0F62FE;
+    color: #fff;
 }
 
-.ai-btn-phone-icon {
+.ai-banner-btn-primary::before {
+    content: '';
+    display: inline-block;
     width: 16px;
     height: 16px;
+    background: url('/assets/images/ai_proposition/banner-phone.png') no-repeat center / contain;
+    flex-shrink: 0;
 }
 
-.ai-btn-outline {
+.ai-banner-btn-primary:hover {
+    background: #0043CE;
+    box-shadow: 0 6px 20px rgba(15, 98, 254, 0.4);
+    transform: translateY(-2px);
+}
+
+.ai-banner-btn-ghost {
     background: transparent;
-    color: var(--ai-white);
+    color: #fff;
     border: 1.5px solid rgba(255, 255, 255, 0.3);
 }
 
-.ai-btn-outline:hover {
-    border-color: var(--ai-white);
-    background: rgba(255, 255, 255, 0.08);
+.ai-banner-btn-ghost:hover {
+    opacity: 0.6;
     transform: translateY(-2px);
 }
 

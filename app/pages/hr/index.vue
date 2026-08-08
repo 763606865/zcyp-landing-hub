@@ -113,8 +113,8 @@ onMounted(() => {
                     都拥有专业的人力资源支撑。
                 </p>
                 <div class="hr-banner-actions">
-                    <a class="hr-btn hr-btn-primary" href="#">成为会员 <span>→</span></a>
-                    <a class="hr-btn hr-btn-outline" href="#">企业方案 <span>→</span></a>
+                    <a class="hr-btn hr-btn-primary" href="/contact">成为会员 <span>→</span></a>
+                    <a class="hr-btn hr-btn-outline" href="/contact">企业方案 <span>→</span></a>
                 </div>
             </div>
             <!-- 统计卡片 -->
@@ -451,7 +451,7 @@ onMounted(() => {
                     <div class="hr-resources">
                         <h3>免费资源下载</h3>
                         <div class="hr-resource-list">
-                            <div v-for="(res, idx) in resources" :key="idx" class="hr-resource-item hr-animate">
+                            <div v-for="(res, idx) in resources" :key="idx" class="hr-resource-item hr-animate" @click="$router.push('/contact')">
                                 <img :src="res.icon" :alt="res.name" class="hr-resource-icon" />
                                 <div class="hr-resource-info">
                                     <strong>{{ res.name }}</strong>
@@ -1254,9 +1254,9 @@ onMounted(() => {
 
 .hr-article-item:hover {
     background: #f9fafb;
-    margin: 0 -16px;
-    padding: 24px 16px;
-    border-radius: 12px;
+    /* margin: 0 -16px; */
+    /* padding: 24px 16px; */
+    /* border-radius: 12px; */
 }
 
 .hr-article-img {
