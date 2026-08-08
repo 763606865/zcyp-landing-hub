@@ -7,6 +7,7 @@
       </div>
       <div class="footer-links">
         <NuxtLink to="/hr">HR事务所</NuxtLink>
+        <NuxtLink to="/aiproposition">AI命题</NuxtLink>
         <NuxtLink to="/#products">产品方案</NuxtLink>
         <NuxtLink to="/#advantages">服务优势</NuxtLink>
         <NuxtLink to="/#faq">常见问题</NuxtLink>

@@ -23,7 +23,7 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       crawlLinks: true,
-      routes: ['/', '/hr', '/contact', '/privacy', '/products/enterprise-platform', '/products/data-insight', '/products/customer-growth', '/sitemap.xml', '/robots.txt'],
+      routes: ['/', '/hr', '/aiproposition', '/contact', '/privacy', '/products/enterprise-platform', '/products/data-insight', '/products/customer-growth', '/sitemap.xml', '/robots.txt'],
     },
   },
 })
