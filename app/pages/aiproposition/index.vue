@@ -70,10 +70,10 @@ onMounted(() => {
                 <h1 class="ai-banner-title">中测高科<span>命题服务</span></h1>
                 <p class="ai-banner-desc">全国考试命题服务市场占有率、客户满意度遥遥领先的行业<br />头部机构！</p>
                 <div class="ai-banner-actions">
-                    <NuxtLink class="ai-banner-btn ai-banner-btn-primary" to="/contact">
+                    <NuxtLink class="ai-banner-btn ai-banner-btn-primary" to="/contact?product=2">
                         联系咨询
                     </NuxtLink>
-                    <NuxtLink class="ai-banner-btn ai-banner-btn-ghost" to="/contact">了解更多</NuxtLink>
+                    <NuxtLink class="ai-banner-btn ai-banner-btn-ghost" to="/contact?product=2">了解更多</NuxtLink>
                 </div>
             </div>
             <!-- 统计卡片 -->
@@ -646,8 +646,8 @@ onMounted(() => {
                         <h3>对AI命题系统还有疑问？立即留言为你解答疑惑</h3>
                         <p>给我们留言，我们将会为您解答所有问题。</p>
                         <div class="ai-qa-btns">
-                            <NuxtLink class="ai-btn ai-btn-white" to="/contact">申请体验</NuxtLink>
-                            <NuxtLink class="ai-btn ai-btn-white-outline" to="/contact">在线留言</NuxtLink>
+                            <NuxtLink class="ai-btn ai-btn-white" to="/contact?product=2">申请体验</NuxtLink>
+                            <NuxtLink class="ai-btn ai-btn-white-outline" to="/contact?product=2">在线留言</NuxtLink>
                         </div>
                     </div>
                     <img src="/assets/images/ai_proposition/custom-service-icon.png" alt="人工客服" class="ai-qa-service" />

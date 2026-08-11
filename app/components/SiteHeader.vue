@@ -1,6 +1,16 @@
 <script setup lang="ts">
+const route = useRoute()
 const source = useCampaignSource()
-const contactRoute = computed(() => getContactRoute(undefined, source.value))
+
+const routeProductMap: Record<string, number> = {
+  '/hr': 1,
+  '/aiproposition': 2,
+  '/marking': 3,
+}
+const contactRoute = computed(() => {
+  const product = routeProductMap[route.path]
+  return getContactRoute(product, source.value)
+})
 </script>
 
 <template>

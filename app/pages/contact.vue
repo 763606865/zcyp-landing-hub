@@ -7,9 +7,9 @@ const config = useRuntimeConfig()
 const source = useCampaignSource()
 const contactApiUrl = `${config.public.apiBaseUrl.replace(/\/+$/, '')}/cms/contact-inquiries`
 const products = [
-  { value: 1 as ProductValue, label: '招聘服务' },
-  { value: 2 as ProductValue, label: '校园招聘' },
-  { value: 3 as ProductValue, label: '人才服务' },
+  { value: 1 as ProductValue, label: 'HR事务所' },
+  { value: 2 as ProductValue, label: 'AI命题' },
+  { value: 3 as ProductValue, label: '问卷服务' },
   { value: 99 as ProductValue, label: '其他' },
 ]
 
