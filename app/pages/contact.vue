@@ -25,9 +25,8 @@ const form = reactive({
   phone: '',
   product: 99 as ProductValue,
   content: '',
-  consent: false,
 })
-const errors = reactive<Partial<Record<FieldName | 'consent' | 'form', string>>>({})
+const errors = reactive<Partial<Record<FieldName | 'form', string>>>({})
 const submitting = ref(false)
 const success = ref(false)
 const submittedAt = ref('')
@@ -60,7 +59,6 @@ const validate = () => {
   const contentLength = form.content.trim().length
   if (contentLength < 10) errors.content = '请至少输入 10 个字符的咨询内容'
   if (contentLength > 5000) errors.content = '咨询内容不能超过 5000 个字符'
-  if (!form.consent) errors.consent = '请先同意隐私政策'
   return !Object.keys(errors).length
 }
 
@@ -90,7 +88,6 @@ const submit = async () => {
     form.company_name = ''
     form.phone = ''
     form.content = ''
-    form.consent = false
   } catch (error: any) {
     const status = error?.statusCode || error?.status || error?.response?.status
     const data = error?.data || error?.response?._data
@@ -179,11 +176,6 @@ const submit = async () => {
             <div class="content-count">{{ form.content.length }} / 5000</div>
             <small v-if="errors.content" class="field-error">{{ errors.content }}</small>
           </div>
-          <label class="consent-row">
-            <input v-model="form.consent" type="checkbox">
-            <span>我已阅读并同意 <NuxtLink to="/privacy" target="_blank">《隐私政策》</NuxtLink></span>
-          </label>
-          <small v-if="errors.consent" class="field-error consent-error">{{ errors.consent }}</small>
           <div v-if="errors.form" class="form-error" role="alert">{{ errors.form }}</div>
           <button class="contact-submit" type="submit" :disabled="submitting">
             <span v-if="submitting" class="submit-spinner" aria-hidden="true" />
