@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
+import type { DirectiveBinding } from 'vue'
 
 // 导航标签
 const navTabs = [
@@ -40,6 +41,43 @@ const handleScroll = () => {
 const aiSection = ref<HTMLElement>()
 const observerOptions = { threshold: 0.12 }
 
+// 数字滚动动画指令
+const countUpObserver = ref<IntersectionObserver>()
+
+const vCountUp = {
+    mounted(el: HTMLElement, binding: DirectiveBinding<number>) {
+        if (!countUpObserver.value) {
+            countUpObserver.value = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = entry.target as HTMLElement
+                        const endVal = parseFloat(target.dataset.countTarget || '0')
+                        const duration = 3000
+                        const startTime = performance.now()
+
+                        const animate = (now: number) => {
+                            const elapsed = now - startTime
+                            const progress = Math.min(elapsed / duration, 1)
+                            const eased = 1 - Math.pow(1 - progress, 3)
+                            target.textContent = Math.round(eased * endVal).toLocaleString('en-US')
+                            if (progress < 1) {
+                                requestAnimationFrame(animate)
+                            }
+                        }
+                        requestAnimationFrame(animate)
+                        countUpObserver.value?.unobserve(entry.target)
+                    }
+                })
+            }, { threshold: 0.3 })
+        }
+        el.dataset.countTarget = String(binding.value)
+        countUpObserver.value.observe(el)
+    },
+    unmounted(el: HTMLElement) {
+        countUpObserver.value?.unobserve(el)
+    }
+}
+
 onMounted(() => {
     window.addEventListener('scroll', handleScroll, { passive: true })
     if (aiSection.value) {
@@ -55,6 +93,10 @@ onMounted(() => {
             observer.observe(el as HTMLElement)
         })
     }
+})
+
+onBeforeUnmount(() => {
+    countUpObserver.value?.disconnect()
 })
 </script>
 
@@ -82,28 +124,28 @@ onMounted(() => {
                     <div class="ai-stat-item ai-animate">
                         <img src="/assets/images/ai_proposition/banner-icon1.png" alt="" class="ai-stat-icon" />
                         <div>
-                            <strong>28000<span class="ai-stat-plus">+</span></strong>
+                            <strong><span class="ai-count-number" v-count-up="28000">28000</span><span class="ai-stat-plus">+</span></strong>
                             <span>年均出库套数</span>
                         </div>
                     </div>
                     <div class="ai-stat-item ai-animate">
                         <img src="/assets/images/ai_proposition/banner-icon2.png" alt="" class="ai-stat-icon" />
                         <div>
-                            <strong>18000<span class="ai-stat-plus">+</span></strong>
+                            <strong><span class="ai-count-number" v-count-up="18000">18000</span><span class="ai-stat-plus">+</span></strong>
                             <span>年均笔试套数</span>
                         </div>
                     </div>
                     <div class="ai-stat-item ai-animate">
                         <img src="/assets/images/ai_proposition/banner-icon3.png" alt="" class="ai-stat-icon" />
                         <div>
-                            <strong>9000<span class="ai-stat-plus">+</span></strong>
+                            <strong><span class="ai-count-number" v-count-up="9000">9000</span><span class="ai-stat-plus">+</span></strong>
                             <span>年均面试套数</span>
                         </div>
                     </div>
                     <div class="ai-stat-item ai-animate">
                         <img src="/assets/images/ai_proposition/banner-icon4.png" alt="" class="ai-stat-icon" />
                         <div>
-                            <strong>1000<span class="ai-stat-plus">+</span></strong>
+                            <strong><span class="ai-count-number" v-count-up="1000">1000</span><span class="ai-stat-plus">+</span></strong>
                             <span>年均其他</span>
                         </div>
                     </div>
@@ -135,7 +177,7 @@ onMounted(() => {
                     <div class="ai-brand-stat-card">
                         <img src="/assets/images/ai_proposition/brand-icon1.png" alt="" class="ai-brand-stat-icon" />
                         <div class="box">
-                            <div class="ai-brand-stat-num">2019<span class="ai-brand-stat-unit">年成立</span></div>
+                            <div class="ai-brand-stat-num"><span class="ai-count-number" v-count-up="2019">2019</span><span class="ai-brand-stat-unit">年成立</span></div>
                             <div class="ai-brand-stat-desc">多方共同投资成立</div>
                         </div>
 
@@ -143,21 +185,21 @@ onMounted(() => {
                     <div class="ai-brand-stat-card">
                         <img src="/assets/images/ai_proposition/brand-icon2.png" alt="" class="ai-brand-stat-icon" />
                         <div class="box">
-                            <div class="ai-brand-stat-num">5000<span class="ai-brand-stat-unit">家/年</span></div>
+                            <div class="ai-brand-stat-num"><span class="ai-count-number" v-count-up="5000">5000</span><span class="ai-brand-stat-unit">家/年</span></div>
                             <div class="ai-brand-stat-desc">年服务客户数量</div>
                         </div>
                     </div>
                     <div class="ai-brand-stat-card">
                         <img src="/assets/images/ai_proposition/brand-icon3.png" alt="" class="ai-brand-stat-icon" />
                         <div class="box">
-                            <div class="ai-brand-stat-num">800<span class="ai-brand-stat-unit">万人次</span></div>
+                            <div class="ai-brand-stat-num"><span class="ai-count-number" v-count-up="800">800</span><span class="ai-brand-stat-unit">万人次</span></div>
                             <div class="ai-brand-stat-desc">年均服务考生</div>
                         </div>
                     </div>
                     <div class="ai-brand-stat-card">
                         <img src="/assets/images/ai_proposition/brand-icon4.png" alt="" class="ai-brand-stat-icon" />
                         <div class="box">
-                            <div class="ai-brand-stat-num">3500<span class="ai-brand-stat-unit">万人次</span></div>
+                            <div class="ai-brand-stat-num"><span class="ai-count-number" v-count-up="3500">3500</span><span class="ai-brand-stat-unit">万人次</span></div>
                             <div class="ai-brand-stat-desc">近五年累计服务考生</div>
                         </div>
                     </div>
@@ -208,15 +250,15 @@ onMounted(() => {
                     </div>
                     <div class="ai-network-data">
                         <div class="ai-network-data-card">
-                            <strong>30<span class="ai-data-unit">家</span></strong>
+                            <strong><span class="ai-count-number" v-count-up="30">30</span><span class="ai-data-unit">家</span></strong>
                             <span>分子公司</span>
                         </div>
                         <div class="ai-network-data-card">
-                            <strong>850<span class="ai-data-unit">+</span></strong>
+                            <strong><span class="ai-count-number" v-count-up="850">850</span><span class="ai-data-unit">+</span></strong>
                             <span>落地团队</span>
                         </div>
                         <div class="ai-network-data-card">
-                            <strong>32<span class="ai-data-unit">个</span></strong>
+                            <strong><span class="ai-count-number" v-count-up="32">32</span><span class="ai-data-unit">个</span></strong>
                             <span>省市覆盖</span>
                         </div>
                     </div>
@@ -277,27 +319,27 @@ onMounted(() => {
                     <h3 class="ai-block-title">专家团队实力</h3>
                     <div class="ai-expert-stats">
                         <div class="ai-expert-stat">
-                            <strong>300<span class="ai-expert-unit">人</span></strong>
+                            <strong><span class="ai-count-number" v-count-up="300">300</span><span class="ai-expert-unit">人</span></strong>
                             <span>全职研究员</span>
                         </div>
                         <div class="ai-expert-stat">
-                            <strong>160<span class="ai-expert-unit">+</span></strong>
+                            <strong><span class="ai-count-number" v-count-up="160">160</span><span class="ai-expert-unit">+</span></strong>
                             <span>南昌专职队伍</span>
                         </div>
                         <div class="ai-expert-stat">
-                            <strong>6<span class="ai-expert-unit">人</span></strong>
+                            <strong><span class="ai-count-number" v-count-up="6">6</span><span class="ai-expert-unit">人</span></strong>
                             <span>博士学历</span>
                         </div>
                         <div class="ai-expert-stat">
-                            <strong>88<span class="ai-expert-unit">人</span></strong>
+                            <strong><span class="ai-count-number" v-count-up="88">88</span><span class="ai-expert-unit">人</span></strong>
                             <span>硕士学历</span>
                         </div>
                         <div class="ai-expert-stat">
-                            <strong>24<span class="ai-expert-unit">人</span></strong>
+                            <strong><span class="ai-count-number" v-count-up="24">24</span><span class="ai-expert-unit">人</span></strong>
                             <span>高级职称</span>
                         </div>
                         <div class="ai-expert-stat">
-                            <strong>65<span class="ai-expert-unit">%</span></strong>
+                            <strong><span class="ai-count-number" v-count-up="65">65</span><span class="ai-expert-unit">%</span></strong>
                             <span>入职3年以上占比</span>
                         </div>
                     </div>
@@ -319,19 +361,19 @@ onMounted(() => {
                 <!-- 4个数据卡片 -->
                 <div class="ai-question-stats ai-animate">
                     <div class="ai-question-stat-card">
-                        <strong>285<span class="ai-qstat-unit">项</span></strong>
+                        <strong><span class="ai-count-number" v-count-up="285">285</span><span class="ai-qstat-unit">项</span></strong>
                         <span>专业覆盖</span>
                     </div>
                     <div class="ai-question-stat-card">
-                        <strong>20<span class="ai-qstat-unit">TB+</span></strong>
+                        <strong><span class="ai-count-number" v-count-up="20">20</span><span class="ai-qstat-unit">TB+</span></strong>
                         <span>题库文件大小</span>
                     </div>
                     <div class="ai-question-stat-card">
-                        <strong>1000<span class="ai-qstat-unit">项</span></strong>
+                        <strong><span class="ai-count-number" v-count-up="1000">1000</span><span class="ai-qstat-unit">项</span></strong>
                         <span>细分学科</span>
                     </div>
                     <div class="ai-question-stat-card">
-                        <strong>54<span class="ai-qstat-unit">+</span></strong>
+                        <strong><span class="ai-count-number" v-count-up="54">54</span><span class="ai-qstat-unit">+</span></strong>
                         <span>类用人单位</span>
                     </div>
                 </div>
@@ -340,14 +382,14 @@ onMounted(() => {
                     <div class="ai-growth-card">
                         <img src="/assets/images/ai_proposition/growth-rate.png" alt="" class="ai-growth-icon" />
                         <div>
-                            <strong>37<span class="ai-growth-unit">%+</span></strong>
+                            <strong><span class="ai-count-number" v-count-up="37">37</span><span class="ai-growth-unit">%+</span></strong>
                             <span>服务客户数平均增长</span>
                         </div>
                     </div>
                     <div class="ai-growth-card">
                         <img src="/assets/images/ai_proposition/growth-rate.png" alt="" class="ai-growth-icon" />
                         <div>
-                            <strong>35<span class="ai-growth-unit">%+</span></strong>
+                            <strong><span class="ai-count-number" v-count-up="35">35</span><span class="ai-growth-unit">%+</span></strong>
                             <span>服务考生数平均增长</span>
                         </div>
                     </div>
@@ -910,6 +952,12 @@ onMounted(() => {
     font-size: 13px;
     color: rgba(255, 255, 255, 0.5);
     font-weight: 400;
+}
+
+.ai-count-number {
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    color: inherit !important;
 }
 
 /* ===== 导航标签 ===== */

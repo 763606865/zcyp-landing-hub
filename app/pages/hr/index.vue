@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, watch, nextTick } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
+import type { DirectiveBinding } from 'vue'
 
 // 成功案例 Tab 筛选
 const caseTab = ref('全部案例')
@@ -7,29 +8,29 @@ const caseTabs = ['全部案例', '互联网/科技', '制造业', '消费品', 
 
 const caseCards = [
     // 互联网/科技 (bg1-3)
-    { category: '互联网/科技', img: 1, title: '某 SaaS 企业从 0 到 1 搭建HR体系', desc: '杭州 · 50-100人 · 企业服务', metrics: [{ value: '60%', label: '招聘效率提升' }, { value: '25%', label: '人力成本降低' }] },
-    { category: '互联网/科技', img: 2, title: 'AI 驱动的人才梯队建设项目落地', desc: '北京 · 200-500人 · 人工智能', metrics: [{ value: '45%', label: '人才留存率提升' }, { value: '3倍', label: '培训产出效率' }] },
-    { category: '互联网/科技', img: 3, title: '远程团队组织效能优化与文化建设', desc: '深圳 · 100-200人 · 云计算', metrics: [{ value: '80%', label: '远程协作满意度' }, { value: '30%', label: '沟通成本降低' }] },
+    { category: '互联网/科技', img: 1, title: '某 SaaS 企业从 0 到 1 搭建HR体系', desc: '杭州 · 50-100人 · 企业服务', metrics: [{ value: '60%', numValue: 60, suffix: '%', label: '招聘效率提升' }, { value: '25%', numValue: 25, suffix: '%', label: '人力成本降低' }] },
+    { category: '互联网/科技', img: 2, title: 'AI 驱动的人才梯队建设项目落地', desc: '北京 · 200-500人 · 人工智能', metrics: [{ value: '45%', numValue: 45, suffix: '%', label: '人才留存率提升' }, { value: '3倍', numValue: 3, suffix: '倍', label: '培训产出效率' }] },
+    { category: '互联网/科技', img: 3, title: '远程团队组织效能优化与文化建设', desc: '深圳 · 100-200人 · 云计算', metrics: [{ value: '80%', numValue: 80, suffix: '%', label: '远程协作满意度' }, { value: '30%', numValue: 30, suffix: '%', label: '沟通成本降低' }] },
     // 制造业 (bg4-6)
-    { category: '制造业', img: 4, title: '传统制造企业薪酬合规改造', desc: '东莞 · 200-500人 · 精密制造', metrics: [{ value: '100%', label: '合规达标率' }, { value: '80%', label: '纠纷减少' }] },
-    { category: '制造业', img: 5, title: '大型工厂蓝领员工排班系统智能化', desc: '苏州 · 1000人以上 · 汽车零部件', metrics: [{ value: '50%', label: '排班效率提升' }, { value: '15%', label: '加班成本降低' }] },
-    { category: '制造业', img: 6, title: '产线工人技能认证与晋升体系搭建', desc: '佛山 · 500-1000人 · 家电制造', metrics: [{ value: '70%', label: '技能达标率' }, { value: '40%', label: '离职率降低' }] },
+    { category: '制造业', img: 4, title: '传统制造企业薪酬合规改造', desc: '东莞 · 200-500人 · 精密制造', metrics: [{ value: '100%', numValue: 100, suffix: '%', label: '合规达标率' }, { value: '80%', numValue: 80, suffix: '%', label: '纠纷减少' }] },
+    { category: '制造业', img: 5, title: '大型工厂蓝领员工排班系统智能化', desc: '苏州 · 1000人以上 · 汽车零部件', metrics: [{ value: '50%', numValue: 50, suffix: '%', label: '排班效率提升' }, { value: '15%', numValue: 15, suffix: '%', label: '加班成本降低' }] },
+    { category: '制造业', img: 6, title: '产线工人技能认证与晋升体系搭建', desc: '佛山 · 500-1000人 · 家电制造', metrics: [{ value: '70%', numValue: 70, suffix: '%', label: '技能达标率' }, { value: '40%', numValue: 40, suffix: '%', label: '离职率降低' }] },
     // 消费品 (bg7-9)
-    { category: '消费品', img: 7, title: '新消费品牌绩效体系从 KPI 到 OKR 转型', desc: '上海 · 100-200人 · 新消费', metrics: [{ value: '35%', label: '目标达成率提升' }, { value: '90%', label: '员工满意度' }] },
-    { category: '消费品', img: 8, title: '连锁零售企业全国门店用工合规治理', desc: '广州 · 500-1000人 · 连锁零售', metrics: [{ value: '95%', label: '门店合规率' }, { value: '28%', label: '用工风险降低' }] },
-    { category: '消费品', img: 9, title: '快消品经销商团队激励方案设计', desc: '成都 · 200-500人 · 食品饮料', metrics: [{ value: '55%', label: '销售目标达成率' }, { value: '20%', label: '渠道成本优化' }] },
+    { category: '消费品', img: 7, title: '新消费品牌绩效体系从 KPI 到 OKR 转型', desc: '上海 · 100-200人 · 新消费', metrics: [{ value: '35%', numValue: 35, suffix: '%', label: '目标达成率提升' }, { value: '90%', numValue: 90, suffix: '%', label: '员工满意度' }] },
+    { category: '消费品', img: 8, title: '连锁零售企业全国门店用工合规治理', desc: '广州 · 500-1000人 · 连锁零售', metrics: [{ value: '95%', numValue: 95, suffix: '%', label: '门店合规率' }, { value: '28%', numValue: 28, suffix: '%', label: '用工风险降低' }] },
+    { category: '消费品', img: 9, title: '快消品经销商团队激励方案设计', desc: '成都 · 200-500人 · 食品饮料', metrics: [{ value: '55%', numValue: 55, suffix: '%', label: '销售目标达成率' }, { value: '20%', numValue: 20, suffix: '%', label: '渠道成本优化' }] },
     // 专业服务 (bg10-12)
-    { category: '专业服务', img: 10, title: '律所合伙人绩效分配机制改革', desc: '北京 · 50-100人 · 法律服务', metrics: [{ value: '40%', label: '合伙人满意度' }, { value: '30%', label: '案件周转提速' }] },
-    { category: '专业服务', img: 11, title: '咨询公司知识管理与人才发展闭环', desc: '上海 · 100-200人 · 管理咨询', metrics: [{ value: '65%', label: '知识复用率' }, { value: '50%', label: '新人上手周期缩短' }] },
-    { category: '专业服务', img: 12, title: '会计事务所多项目并行下的人力调配', desc: '深圳 · 200-500人 · 财税服务', metrics: [{ value: '45%', label: '项目交付准时率' }, { value: '35%', label: '人员闲置率降低' }] },
+    { category: '专业服务', img: 10, title: '律所合伙人绩效分配机制改革', desc: '北京 · 50-100人 · 法律服务', metrics: [{ value: '40%', numValue: 40, suffix: '%', label: '合伙人满意度' }, { value: '30%', numValue: 30, suffix: '%', label: '案件周转提速' }] },
+    { category: '专业服务', img: 11, title: '咨询公司知识管理与人才发展闭环', desc: '上海 · 100-200人 · 管理咨询', metrics: [{ value: '65%', numValue: 65, suffix: '%', label: '知识复用率' }, { value: '50%', numValue: 50, suffix: '%', label: '新人上手周期缩短' }] },
+    { category: '专业服务', img: 12, title: '会计事务所多项目并行下的人力调配', desc: '深圳 · 200-500人 · 财税服务', metrics: [{ value: '45%', numValue: 45, suffix: '%', label: '项目交付准时率' }, { value: '35%', numValue: 35, suffix: '%', label: '人员闲置率降低' }] },
     // 招聘服务 (bg13-15)
-    { category: '招聘服务', img: 13, title: '互联网大厂批量招聘项目高效交付', desc: '杭州 · 500-1000人 · 电商平台', metrics: [{ value: '200+', label: '季度到岗人数' }, { value: '90%', label: '试用期通过率' }] },
-    { category: '招聘服务', img: 14, title: '海外分支机构本地化招聘体系搭建', desc: '新加坡 · 50-100人 · 跨境电商', metrics: [{ value: '85%', label: '本地化率' }, { value: '40%', label: '招聘周期缩短' }] },
-    { category: '招聘服务', img: 15, title: '校招全流程数字化与雇主品牌升级', desc: '武汉 · 200-500人 · 生物医药', metrics: [{ value: '3倍', label: '简历投递增长' }, { value: '75%', label: 'Offer 接受率' }] },
+    { category: '招聘服务', img: 13, title: '互联网大厂批量招聘项目高效交付', desc: '杭州 · 500-1000人 · 电商平台', metrics: [{ value: '200+', numValue: 200, suffix: '+', label: '季度到岗人数' }, { value: '90%', numValue: 90, suffix: '%', label: '试用期通过率' }] },
+    { category: '招聘服务', img: 14, title: '海外分支机构本地化招聘体系搭建', desc: '新加坡 · 50-100人 · 跨境电商', metrics: [{ value: '85%', numValue: 85, suffix: '%', label: '本地化率' }, { value: '40%', numValue: 40, suffix: '%', label: '招聘周期缩短' }] },
+    { category: '招聘服务', img: 15, title: '校招全流程数字化与雇主品牌升级', desc: '武汉 · 200-500人 · 生物医药', metrics: [{ value: '3倍', numValue: 3, suffix: '倍', label: '简历投递增长' }, { value: '75%', numValue: 75, suffix: '%', label: 'Offer 接受率' }] },
     // 薪酬合规 (bg16-18)
-    { category: '薪酬合规', img: 16, title: '集团型企业多地区薪酬体系统一', desc: '北京 · 1000人以上 · 综合集团', metrics: [{ value: '100%', label: '地区政策覆盖' }, { value: '30%', label: '薪酬核算效率提升' }] },
-    { category: '薪酬合规', img: 17, title: '股权激励方案设计与合规落地', desc: '深圳 · 100-200人 · 金融科技', metrics: [{ value: '95%', label: '方案合规率' }, { value: '60%', label: '核心人才保留率' }] },
-    { category: '薪酬合规', img: 18, title: '灵活用工模式下的税务合规优化', desc: '上海 · 200-500人 · 共享经济', metrics: [{ value: '100%', label: '税务合规达标' }, { value: '22%', label: '综合用工成本降低' }] },
+    { category: '薪酬合规', img: 16, title: '集团型企业多地区薪酬体系统一', desc: '北京 · 1000人以上 · 综合集团', metrics: [{ value: '100%', numValue: 100, suffix: '%', label: '地区政策覆盖' }, { value: '30%', numValue: 30, suffix: '%', label: '薪酬核算效率提升' }] },
+    { category: '薪酬合规', img: 17, title: '股权激励方案设计与合规落地', desc: '深圳 · 100-200人 · 金融科技', metrics: [{ value: '95%', numValue: 95, suffix: '%', label: '方案合规率' }, { value: '60%', numValue: 60, suffix: '%', label: '核心人才保留率' }] },
+    { category: '薪酬合规', img: 18, title: '灵活用工模式下的税务合规优化', desc: '上海 · 200-500人 · 共享经济', metrics: [{ value: '100%', numValue: 100, suffix: '%', label: '税务合规达标' }, { value: '22%', numValue: 22, suffix: '%', label: '综合用工成本降低' }] },
 ]
 
 const filteredCases = computed(() => {
@@ -222,12 +223,63 @@ const animateOnScroll = (el: HTMLElement) => {
 }
 
 const hrSection = ref<HTMLElement>()
+
+// 数字滚动动画指令
+const countUpObserver = ref<IntersectionObserver>()
+
+const vCountUp = {
+    mounted(el: HTMLElement, binding: DirectiveBinding<number>) {
+        if (!countUpObserver.value) {
+            countUpObserver.value = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = entry.target as HTMLElement
+                        const endVal = parseFloat(target.dataset.countTarget || '0')
+                        const duration = 3000
+                        const startTime = performance.now()
+                        const hasComma = target.dataset.countComma === 'true'
+
+                        const formatNum = (n: number) => {
+                            const rounded = Math.round(n)
+                            return hasComma ? rounded.toLocaleString('en-US') : String(rounded)
+                        }
+
+                        const animate = (now: number) => {
+                            const elapsed = now - startTime
+                            const progress = Math.min(elapsed / duration, 1)
+                            const eased = 1 - Math.pow(1 - progress, 3)
+                            target.textContent = formatNum(eased * endVal)
+                            if (progress < 1) {
+                                requestAnimationFrame(animate)
+                            }
+                        }
+                        requestAnimationFrame(animate)
+                        countUpObserver.value?.unobserve(entry.target)
+                    }
+                })
+            }, { threshold: 0.3 })
+        }
+        el.dataset.countTarget = String(binding.value)
+        if (el.textContent?.includes(',')) {
+            el.dataset.countComma = 'true'
+        }
+        countUpObserver.value.observe(el)
+    },
+    unmounted(el: HTMLElement) {
+        countUpObserver.value?.unobserve(el)
+    }
+}
+
 onMounted(() => {
     if (hrSection.value) {
         hrSection.value.querySelectorAll('.hr-animate').forEach(el => {
             animateOnScroll(el as HTMLElement)
         })
     }
+})
+
+onBeforeUnmount(() => {
+    countUpObserver.value?.disconnect()
 })
 </script>
 
@@ -256,28 +308,28 @@ onMounted(() => {
                 <div class="hr-stat-item hr-animate">
                     <img src="/assets/images/hr/banner-icon1.png" alt="" class="hr-stat-icon" />
                     <div>
-                        <strong>12,000+</strong>
+                        <strong><span class="hr-count-number" v-count-up="12000">12,000</span>+</strong>
                         <span>认证HR会员</span>
                     </div>
                 </div>
                 <div class="hr-stat-item hr-animate">
                     <img src="/assets/images/hr/banner-icon2.png" alt="" class="hr-stat-icon" />
                     <div>
-                        <strong>500+</strong>
+                        <strong><span class="hr-count-number" v-count-up="500">500</span>+</strong>
                         <span>服务企业</span>
                     </div>
                 </div>
                 <div class="hr-stat-item hr-animate">
                     <img src="/assets/images/hr/banner-icon3.png" alt="" class="hr-stat-icon" />
                     <div>
-                        <strong>98%</strong>
+                        <strong><span class="hr-count-number" v-count-up="98">98</span>%</strong>
                         <span>客户满意度</span>
                     </div>
                 </div>
                 <div class="hr-stat-item hr-animate">
                     <img src="/assets/images/hr/banner-icon4.png" alt="" class="hr-stat-icon" />
                     <div>
-                        <strong>200+</strong>
+                        <strong><span class="hr-count-number" v-count-up="200">200</span>+</strong>
                         <span>行业合作伙伴</span>
                     </div>
                 </div>
@@ -465,7 +517,11 @@ onMounted(() => {
                             <h3>{{ card.title }}</h3>
                             <p>{{ card.desc }}</p>
                             <div class="hr-case-metrics">
-                                <div v-for="(m, mi) in card.metrics" :key="mi"><strong>{{ m.value }}</strong><span>{{ m.label }}</span></div>
+                                <div v-for="(m, mi) in card.metrics" :key="mi">
+                                    <strong v-if="m.numValue != null"><span class="hr-count-number" v-count-up="m.numValue">{{ m.numValue }}</span><span v-if="m.suffix">{{ m.suffix }}</span></strong>
+                                    <strong v-else>{{ m.value }}</strong>
+                                    <span>{{ m.label }}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -830,6 +886,12 @@ onMounted(() => {
     font-weight: 500;
 }
 
+.hr-count-number {
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    color: inherit !important;
+}
+
 /* ===== 通用 Section ===== */
 .hr-section {
     padding: 100px 0;
@@ -1157,7 +1219,7 @@ onMounted(() => {
     line-height: 1.2;
 }
 
-.hr-case-metrics span {
+.hr-case-metrics > div > span {
     font-size: 12px;
     color: #64748B;
 }
