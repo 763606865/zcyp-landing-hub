@@ -341,21 +341,21 @@ onMounted(() => {
                         <img src="/assets/images/ai_proposition/growth-rate.png" alt="" class="ai-growth-icon" />
                         <div>
                             <strong><span class="ai-count-number" v-count-up="37">37</span><span class="ai-growth-unit">%+</span></strong>
-                            <span>服务客户数平均增长</span>
+                            <span>服务客户数年平均增长</span>
                         </div>
                     </div>
                     <div class="ai-growth-card">
                         <img src="/assets/images/ai_proposition/growth-rate.png" alt="" class="ai-growth-icon" />
                         <div>
                             <strong><span class="ai-count-number" v-count-up="35">35</span><span class="ai-growth-unit">%+</span></strong>
-                            <span>服务考生数平均增长</span>
+                            <span>服务考生数年平均增长</span>
                         </div>
                     </div>
                 </div>
                 <!-- 描述 -->
                 <div class="ai-question-desc ai-animate">
                     <h4>规范化、标准化题库与冷门学科命题技术突破</h4>
-                    <p>尤其是我们拥有考试大类的规范化、标准化考试题库做到了极致，同时攻克了盲文、小语种、民间戏曲等偏门、冷门学科的考试命题与人才测评技术</p>
+                    <p>尤其是我们对有国家统一考试大纲的规范化、标准化、社会统招考试命题做到了极致，同时攻克了盲文、小语种、民间戏曲等偏门、冷门学科的考试命题与人才测评技术。</p>
                 </div>
             </div>
         </section>
