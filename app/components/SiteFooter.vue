@@ -10,6 +10,7 @@
         <NuxtLink to="/hr">HR事务所</NuxtLink>
         <NuxtLink to="/aiproposition">AI命题</NuxtLink>
         <NuxtLink to="/marking">阅卷服务</NuxtLink>
+        <NuxtLink to="/escort">保密押运</NuxtLink>
       </div>
       <div>
         <p class="footer-label">联系我们</p>

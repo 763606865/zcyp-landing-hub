@@ -9,7 +9,7 @@ export interface Product {
   scenarios: string[]
   metric: string
   metricLabel: string
-  contactProduct: 1 | 2 | 3 | 99
+  contactProduct: 1 | 2 | 3 | 4 | 99
 }
 
 export const products: Product[] = [
@@ -51,6 +51,19 @@ export const products: Product[] = [
     metric: '全链路',
     metricLabel: '示例：客户旅程覆盖',
     contactProduct: 3,
+  },
+  {
+    slug: 'escort',
+    eyebrow: '安全交付',
+    name: '保密制卷与安保押运',
+    summary: '从试卷保密印刷、安全押运到阅卷交付的全流程安保服务。',
+    description: '中测高科拥有国家秘密载体印制乙级资质、安保资质和信息安全认证，自有安保团队，在全国建设有8大交付中心，覆盖全国32个省市，保障每一次考试交付的高效安全与公正。',
+    accent: '#0F62FE',
+    features: ['国家乙级涉密资质', '八大交付中心', '全程信息化管控', '警察武装押运'],
+    scenarios: ['人事考试安全交付', '试卷保密印刷押运', '阅卷全流程安保'],
+    metric: '32省市',
+    metricLabel: '全国服务网络覆盖',
+    contactProduct: 4,
   },
 ]
 
