@@ -82,16 +82,19 @@ onMounted(() => {
                 <div class="marking-stats-bar container-marking">
                     <div class="marking-stats-content">
                         <div class="marking-stat-item marking-animate">
-                            <strong><span class="marking-count-number" v-count-up="28000">28,000</span><span class="marking-stat-unit">余套/年</span></strong>
-                            <span>年均命题阅卷全流程</span>
+                            <strong><span class="marking-count-number" v-count-up="28000">28,000</span><span
+                                    class="marking-stat-unit">#</span></strong>
+                            <span>十余年行业沉淀</span>
                         </div>
                         <div class="marking-stat-item marking-animate">
-                            <strong><span class="marking-count-number" v-count-up="2000">2,000</span><span class="marking-stat-unit">万+人次</span></strong>
+                            <strong><span class="marking-count-number" v-count-up="2000">2,000</span><span
+                                    class="marking-stat-unit">万+人次</span></strong>
                             <span>累计服务考生</span>
                         </div>
                         <div class="marking-stat-item marking-animate">
-                            <strong><span class="marking-count-number" v-count-up="300">300</span><span class="marking-stat-unit">%</span></strong>
-                            <span>效率提升</span>
+                            <strong><span class="marking-count-number" v-count-up="300">300</span><span
+                                    class="marking-stat-unit">%</span></strong>
+                            <span>比第二代阅卷效率提升</span>
                         </div>
                     </div>
                 </div>
@@ -115,39 +118,64 @@ onMounted(() => {
                 <div class="marking-section-header marking-section-header-center marking-animate">
                     <span class="marking-section-en">服务介绍</span>
                     <h2>为什么选择中测阅卷服务</h2>
-                    <p class="marking-section-subtitle">
-                        基于大数据处理、计算机视觉、自然语言理解与计算推理引擎，打造垂直领域AI阅卷大模型，全面覆盖客观题、简答题、论述题、作文题、翻译题等全部题型。</p>
+                    <div class="marking-section-subtitle1">人工阅卷+AI辅助</div>
+                    <p class="marking-section-subtitle colorBule">
+                        中测阅卷服务完整移植高考、公务员考试成熟的网上阅卷业务逻辑与质量管控体系，以匿名双评仲裁、全流程保密、大数据质量监控、大规模并发处理为核心，把国家级选拔考试的阅卷标准，转化为可落地的标准化阅卷外包服务。
+                    </p>
                 </div>
-                <!-- 5个服务卡片 -->
-                <div class="marking-service-cards marking-animate">
-                    <div class="marking-service-card">
-                        <img src="/assets/images/marking/service-icon1.png" alt="" class="marking-service-icon" />
-                        <h3>高效性</h3>
-                        <p>大幅提升工作效率与响应速度，一天阅万卷</p>
+                <div class="marking-box marking-animate">
+                    <div class="marking-box-item">
+                        <img src="/assets/images/marking/marking-service1.png" alt="服务介绍" class="marking-service-bg">
+                        <div class="marking-service-content">
+                            <div class="marking-service-content-title">对标国家级 “背靠背双评 + 多评仲裁” 机制，保障评分公正客观</div>
+                            <div class="marking-service-content-text">
+                                复刻高考、公考主观题阅卷规则：答卷题块切割、密号匿名流转，评卷人员看不到考生信息，实行背靠背独立双评；双评分差超出阈值自动触发三评，分歧较大提交专家组长终审仲裁，完整复刻
+                                “双评三评仲裁” 评卷闭环，从流程上压缩人为打分偏差，保证评分尺度统一、结果可追溯。
+                            </div>
+                        </div>
                     </div>
-                    <div class="marking-service-card">
-                        <img src="/assets/images/marking/service-icon2.png" alt="" class="marking-service-icon" />
-                        <h3>公正性</h3>
-                        <p>确保评分过程的透明与一致，消除主观偏差</p>
+                    <div class="marking-box-item">
+                        <img src="/assets/images/marking/marking-service2.png" alt="服务介绍" class="marking-service-bg">
+                        <div class="marking-service-content">
+                            <div class="marking-service-content-title">对标高考公考全流程保密管控，筑牢考试安全底线</div>
+                            <div class="marking-service-content-text">
+                                参照国家级考试保密规范，实现试卷扫描、加密传输、评阅、成绩统计全链路安全管控。答卷以电子密号流转，原始答卷与考生信息隔离；系统操作全程留痕，数据权限分级管控，严防漏题、人情评卷、信息泄露，满足人事考试、大规模选拔考试的保密要求。
+                            </div>
+                        </div>
                     </div>
-                    <div class="marking-service-card">
-                        <img src="/assets/images/marking/service-icon3.png" alt="" class="marking-service-icon" />
-                        <h3>准确性</h3>
-                        <p>提高评分精度与一致性，AI+人工双重保障</p>
+                    <div class="marking-box-item">
+                        <img src="/assets/images/marking/marking-service3.png" alt="服务介绍" class="marking-service-bg">
+                        <div class="marking-service-content">
+                            <div class="marking-service-content-title">高并发分布式技术，适配大规模考试批量处理</div>
+                            <div class="marking-service-content-text">
+                                借鉴高考百万级试卷处理技术架构，中测智阅云采用分布式集群，支持海量试卷同步扫描识别、题块自动切割分发，可承接公考、事业单位招考等大规模集中阅卷任务，客观题机器自动判分，主观题人工
+                                + AI 辅助质检，兼顾处理速度与识别精度，误差控制水平对标国家级考试标准。
+                            </div>
+                        </div>
                     </div>
-                    <div class="marking-service-card">
-                        <img src="/assets/images/marking/service-icon4.png" alt="" class="marking-service-icon" />
-                        <h3>数据分析</h3>
-                        <p>提供个性化教学与精准评估，数据驱动决策</p>
+                    <div class="marking-box-item">
+                        <img src="/assets/images/marking/marking-service4.png" alt="服务介绍" class="marking-service-bg">
+                        <div class="marking-service-content">
+                            <div class="marking-service-content-title">完整质量监控体系，复刻官方阅卷质检模式</div>
+                            <div class="marking-service-content-text">
+                                对标高考、公考阅卷实时质量监测机制：系统实时监控每一位评卷人员打分尺度，横向比对全体评卷者评分分布、纵向跟踪单人打分波动；设置专家组抽检复核、异常答卷自动预警，AI
+                                辅助质检，及时识别打分偏严偏松、雷同卷等问题，全程把控阅卷质量，避免尺度漂移。
+                            </div>
+                        </div>
                     </div>
-                    <div class="marking-service-card">
-                        <img src="/assets/images/marking/service-icon5.png" alt="" class="marking-service-icon" />
-                        <h3>节约成本</h3>
-                        <p>降低人力与物力成本，性价比远超传统模式</p>
+                    <div class="marking-box-item">
+                        <img src="/assets/images/marking/marking-service5.png" alt="服务介绍" class="marking-service-bg">
+                        <div class="marking-service-content">
+                            <div class="marking-service-content-title">全链条一体化交付，适配人事类考试场景</div>
+                            <div class="marking-service-content-text">
+                                区别于普通教育阅卷系统，兼顾公务员、事业单位招考业务特点，提供上门扫描、异地专家评卷、AI
+                                辅助评阅、成绩校验、多维数据分析的一站式服务。既完全对齐高考标准化网上阅卷技术范式，又适配人事选拔考试业务规则，从扫描、评阅到成绩输出闭环落地，无需多方拼凑系统，降低组织方考务管理压力。
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- 关于中测高科 -->
-                <div class="marking-about marking-animate">
+                <!-- <div class="marking-about marking-animate">
                     <img src="/assets/images/marking/bg1.png" alt="关于中测高科" class="marking-about-bg">
                     <div class="marking-about-left">
                         <h3 class="marking-about-title">关于中测高科</h3>
@@ -165,7 +193,8 @@ onMounted(() => {
                     <div class="marking-about-right">
                         <div class="marking-about-stats">
                             <div class="marking-about-stat">
-                                <strong><span class="marking-count-number" v-count-up="300">300</span><span class="marking-about-stat-plus">+</span></strong>
+                                <strong><span class="marking-count-number" v-count-up="300">300</span><span
+                                        class="marking-about-stat-plus">+</span></strong>
                                 <span>专职命题专家</span>
                             </div>
                             <div class="marking-about-stat">
@@ -173,16 +202,18 @@ onMounted(() => {
                                 <span>个专业覆盖</span>
                             </div>
                             <div class="marking-about-stat">
-                                <strong><span class="marking-count-number" v-count-up="20">20</span><span class="marking-about-stat-plus">TB+</span></strong>
+                                <strong><span class="marking-count-number" v-count-up="20">20</span><span
+                                        class="marking-about-stat-plus">TB+</span></strong>
                                 <span>题库文件大小</span>
                             </div>
                             <div class="marking-about-stat">
-                                <strong><span class="marking-count-number" v-count-up="1000">1000</span><span class="marking-about-stat-plus">+</span></strong>
+                                <strong><span class="marking-count-number" v-count-up="1000">1000</span><span
+                                        class="marking-about-stat-plus">+</span></strong>
                                 <span>个细分学科</span>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </section>
 
@@ -190,13 +221,42 @@ onMounted(() => {
         <section id="marking-system" class="marking-section marking-system-section">
             <div class="marking-section-header marking-section-header-center marking-animate">
                 <span class="marking-section-en">阅卷系统</span>
-                <h2>第三代AI智能阅卷系统</h2>
+                <h2>中测高科阅卷系统——中测智阅云阅卷平台介绍</h2>
                 <p class="marking-section-subtitle">技术核心：AI + 大数据 +
-                    云计算。扫描速度是二代的4倍以上，主观题AI阅卷效率较二代系统提高5倍，成本节约三分之二。</p>
+                    基于大数据处理、计算机视觉、自然语言理解与计算推理引擎，打造垂直领域AI阅卷大模型，全面覆盖客观题、简答题、论述题、作文题、翻译题等全部题型。
+                </p>
+            </div>
+            <!-- 5个服务卡片 -->
+            <div class="marking-service-cards marking-animate">
+                <div class="marking-service-card">
+                    <img src="/assets/images/marking/service-icon1.png" alt="" class="marking-service-icon" />
+                    <h3>高效性</h3>
+                    <p>大幅提升工作效率与响应速度，一天阅万卷</p>
+                </div>
+                <div class="marking-service-card">
+                    <img src="/assets/images/marking/service-icon2.png" alt="" class="marking-service-icon" />
+                    <h3>公正性</h3>
+                    <p>确保评分过程的透明与一致，消除主观偏差</p>
+                </div>
+                <div class="marking-service-card">
+                    <img src="/assets/images/marking/service-icon3.png" alt="" class="marking-service-icon" />
+                    <h3>准确性</h3>
+                    <p>提高评分精度与一致性，AI+人工双重保障</p>
+                </div>
+                <div class="marking-service-card">
+                    <img src="/assets/images/marking/service-icon4.png" alt="" class="marking-service-icon" />
+                    <h3>数据分析</h3>
+                    <p>提供个性化教学与精准评估，数据驱动决策</p>
+                </div>
+                <div class="marking-service-card">
+                    <img src="/assets/images/marking/service-icon5.png" alt="" class="marking-service-icon" />
+                    <h3>节约成本</h3>
+                    <p>降低人力与物力成本，性价比远超传统模式</p>
+                </div>
             </div>
             <!-- 系统构成概览 -->
             <div class="marking-overview marking-animate">
-                <img src="/assets/images/marking/bg2.png" alt="系统构成概览" class="marking-overview-bg">
+                <!-- <img src="/assets/images/marking/bg2.png" alt="系统构成概览" class="marking-overview-bg"> -->
                 <h3 class="marking-overview-title">系统构成概览</h3>
                 <div class="marking-overview-grid">
                     <!-- 硬件构成 -->
@@ -265,6 +325,36 @@ onMounted(() => {
                                     <p>全流程实时处理与可视化监控</p>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="marking-advantages marking-animate">
+                <img src="/assets/images/marking/bg5.png" alt="产品优势" class="marking-advantages-bg">
+                <div class="marking-advantages-content">
+                    <h3 class="marking-advantages-title">产品优势</h3>
+                    <div class="marking-advantages-title-r">荣誉资质</div>
+                    <p class="marking-advantages-desc">Al阅卷相较于传统人工阅卷，具有自身的显著优势，中测智阅云系统是AI阅卷的行业标杆和领导品牌，获得同行业广泛认可和好评。</p>
+                    <div class="marking-advantages-grid">
+                        <div class="marking-adv-card">
+                            <div class="marking-adv-card-box"></div>
+                            <div><span>高效性：</span>大幅提升工作效率与响应速度</div>
+                        </div>
+                        <div class="marking-adv-card">
+                            <div class="marking-adv-card-box"></div>
+                            <div><span>公正性：</span>确保评分过程的透明与一致</div>
+                        </div>
+                        <div class="marking-adv-card">
+                            <div class="marking-adv-card-box"></div>
+                            <div><span>准确性：</span>提高评分精度与一致性</div>
+                        </div>
+                        <div class="marking-adv-card">
+                            <div class="marking-adv-card-box"></div>
+                            <div><span>数据收集与分析：</span>提供个性化教学与精准评估</div>
+                        </div>
+                        <div class="marking-adv-card">
+                            <div class="marking-adv-card-box"></div>
+                            <div><span>节约成本：</span>降低人力与物力成本</div>
                         </div>
                     </div>
                 </div>
@@ -344,7 +434,8 @@ onMounted(() => {
                     <p class="marking-gen3-desc">扫描速度是二代的4倍以上，主观题AI阅卷效率较二代系统提高5倍，成本节约三分之二</p>
                 </div>
                 <div class="marking-gen3-rate">
-                    <strong><span class="marking-count-number" v-count-up="300">300</span><span class="marking-gen3-rate-unit">%</span></strong>
+                    <strong><span class="marking-count-number" v-count-up="300">300</span><span
+                            class="marking-gen3-rate-unit">%</span></strong>
                 </div>
             </div>
         </section>
@@ -730,7 +821,21 @@ onMounted(() => {
     font-size: 16px;
     line-height: 1.6;
     margin: 0 auto;
-    max-width: 630px;
+    max-width: 680px;
+}
+
+.colorBule {
+    font-weight: 600;
+    max-width: 900px;
+    color: #0F62FE;
+}
+
+.marking-section-subtitle1 {
+    font-weight: 600;
+    font-size: 20px;
+    color: #1A1A2E;
+    line-height: 27px;
+    margin-bottom: 20px;
 }
 
 .marking-subtitle-light {
@@ -740,15 +845,54 @@ onMounted(() => {
 /* ===== 服务介绍 ===== */
 .marking-service-section {
     padding-top: 44px;
-    padding-bottom: 37px;
+    padding-bottom: 77px;
     background: var(--marking-white);
+}
+
+.marking-box {
+    width: 1168px;
+    margin: 39px auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.marking-box-item {
+    width: 100%;
+    height: 126px;
+    padding: 24px 30px 24px 23px;
+    display: flex;
+    gap: 13px;
+    align-items: center;
+    border-radius: 8px;
+    background: #f3f7ff;
+}
+
+.marking-service-bg {
+    width: 78px;
+    height: 78px;
+}
+
+.marking-service-content-title {
+    font-weight: 600;
+    font-size: 20px;
+    color: #1A1A2E;
+    margin-bottom: 9px;
+}
+
+.marking-service-content-text {
+    font-weight: 400;
+    font-size: 14px;
+    color: #5A5A5A;
+    line-height: 23px;
 }
 
 .marking-service-cards {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 25px;
-    margin-bottom: 37px;
+    margin: 0 auto 35px;
+    max-width: 1200px;
 }
 
 .marking-service-card {
@@ -757,7 +901,7 @@ onMounted(() => {
     align-items: center;
     text-align: center;
     padding: 29px 29px 33px;
-    background: #F8FAFF;
+    background: #fff;
     border-radius: var(--marking-radius);
     border: 1px solid #E8EEFF;
     transition: all 0.3s ease;
@@ -915,12 +1059,12 @@ onMounted(() => {
 
 /* 系统构成概览 */
 .marking-overview {
-    background: #498bfe;
+    background: #0f62fe;
     width: 1440px;
     height: 437px;
     padding: 27px 137px 53px;
     margin: 0 auto;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
     position: relative;
 }
 
@@ -1018,7 +1162,7 @@ onMounted(() => {
 
 /* 四层架构设计 */
 .marking-architecture {
-    margin-bottom: 48px;
+    margin-bottom: 38px;
 }
 
 .marking-architecture-title {
@@ -1084,7 +1228,7 @@ onMounted(() => {
 
 /* 六大功能模块 */
 .marking-functions {
-    margin-top: 60px;
+    margin-top: 38px;
 }
 
 .marking-functions-title {
@@ -1486,5 +1630,87 @@ onMounted(() => {
     .marking-section {
         padding: 60px 0;
     }
+}
+
+.marking-advantages {
+    position: relative;
+    width: 1440px;
+    margin: 0 auto 44px;
+    height: 529px;
+}
+
+.marking-advantages-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1440px;
+    height: 100%;
+    z-index: 1;
+}
+
+.marking-advantages-content {
+    position: relative;
+    z-index: 2;
+    padding: 44px 0 43px;
+    height: 100%;
+}
+
+.marking-advantages-title {
+    color: #1A1A2E;
+    font-size: 24px;
+    line-height: 38px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.marking-advantages-title-r {
+    position: absolute;
+    top: 44px;
+    right: 140px;
+    font-weight: 600;
+    font-size: 24px;
+    color: #1A1A2E;
+    line-height: 38px;
+}
+
+.marking-advantages-desc {
+    font-weight: 400;
+    font-size: 16px;
+    color: #6D7789;
+    line-height: 17px;
+    margin: 0 0 17px;
+    max-width: 512px;
+}
+
+.marking-advantages-grid {
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
+}
+
+.marking-adv-card {
+    width: 384px;
+    height: 56px;
+    background: #fff;
+    padding-left: 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 16px;
+    color: #1A1A2E;
+    line-height: 26px;
+    font-weight: 500;
+    border-radius: 4px 4px 4px 4px;
+}
+
+.marking-adv-card span {
+    font-weight: bold;
+}
+
+.marking-adv-card-box {
+    width: 10px;
+    height: 10px;
+    background: #0F62FE;
+    border-radius: 2px 2px 2px 2px;
 }
 </style>
