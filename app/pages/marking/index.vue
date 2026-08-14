@@ -1651,7 +1651,7 @@ onMounted(() => {
 .marking-advantages-content {
     position: relative;
     z-index: 2;
-    padding: 44px 0 43px;
+    padding: 44px 0 43px 131px;
     height: 100%;
 }
 
