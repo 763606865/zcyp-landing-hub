@@ -7,6 +7,7 @@ const routeProductMap: Record<string, number> = {
   '/aiproposition': 2,
   '/marking': 3,
   '/escort': 4,
+  '/niupai': 5,
 }
 const contactRoute = computed(() => {
   const product = routeProductMap[route.path]
@@ -26,6 +27,7 @@ const contactRoute = computed(() => {
         <NuxtLink to="/aiproposition">AI命题</NuxtLink>
         <NuxtLink to="/marking">阅卷服务</NuxtLink>
         <NuxtLink to="/escort">保密押运</NuxtLink>
+        <NuxtLink to="/niupai">牛派系统</NuxtLink>
       </nav>
       <NuxtLink class="button button-small" :to="contactRoute">获取方案</NuxtLink>
     </div>
