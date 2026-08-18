@@ -12,6 +12,7 @@
         <NuxtLink to="/marking">阅卷服务</NuxtLink>
         <NuxtLink to="/escort">保密押运</NuxtLink>
         <NuxtLink to="/niupai">牛派系统</NuxtLink>
+        <NuxtLink to="/questionBank">题库系统</NuxtLink>
       </div>
       <div>
         <p class="footer-label">联系我们</p>
