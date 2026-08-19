@@ -29,7 +29,7 @@ const contactRoute = computed(() => {
         <NuxtLink to="/marking">阅卷服务</NuxtLink>
         <NuxtLink to="/escort">保密押运</NuxtLink>
         <NuxtLink to="/niupai">牛派系统</NuxtLink>
-        <NuxtLink to="/questionBank">题库系统</NuxtLink>
+        <NuxtLink to="/questionBank">题库中心</NuxtLink>
       </nav>
       <NuxtLink class="button button-small" :to="contactRoute">获取方案</NuxtLink>
     </div>

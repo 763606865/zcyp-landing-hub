@@ -12,7 +12,7 @@ const products = [
   { value: 3 as ProductValue, label: '问卷服务' },
   { value: 4 as ProductValue, label: '保密押运' },
   { value: 5 as ProductValue, label: '牛派系统' },
-  { value: 6 as ProductValue, label: '题库系统' },
+  { value: 6 as ProductValue, label: '题库中心' },
   { value: 99 as ProductValue, label: '其他' },
 ]
 
