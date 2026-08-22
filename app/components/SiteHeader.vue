@@ -9,6 +9,7 @@ const routeProductMap: Record<string, number> = {
   '/escort': 4,
   '/niupai': 5,
   '/questionBank': 6,
+  '/question': 7,
 }
 const contactRoute = computed(() => {
   const product = routeProductMap[route.path]
@@ -30,6 +31,7 @@ const contactRoute = computed(() => {
         <NuxtLink to="/escort">保密押运</NuxtLink>
         <NuxtLink to="/niupai">牛派系统</NuxtLink>
         <NuxtLink to="/questionBank">题库中心</NuxtLink>
+        <NuxtLink to="/question">题库系统</NuxtLink>
       </nav>
       <NuxtLink class="button button-small" :to="contactRoute">获取方案</NuxtLink>
     </div>
