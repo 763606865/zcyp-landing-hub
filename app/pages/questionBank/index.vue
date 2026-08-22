@@ -53,10 +53,10 @@ onMounted(() => {
                 <div class="container-qb qb-stats-content">
                     <div class="qb-stat-item qb-animate">
                         <strong>
-                            <span class="qb-count-number" v-count-up="20">20</span>
-                            <span class="qb-stat-suffix">+</span>
+                            <span class="qb-count-number" v-count-up="10">10</span>
+                            <span class="qb-stat-suffix">余年</span>
                         </strong>
-                        <span>年行业服务经验</span>
+                        <span>行业沉淀</span>
                     </div>
                     <div class="qb-stat-item qb-animate">
                         <strong>
