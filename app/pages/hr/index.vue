@@ -242,9 +242,9 @@ onMounted(() => {
             <div class="hr-banner-content container-hr">
                 <span class="hr-badge">HR 行业一站式赋能平台</span>
                 <h1 class="hr-banner-title">连接每一位<span class="hr-text-green">HR</span><br />的力量</h1>
-                <p class="hr-banner-desc">
-                    我们为HR从业者提供体系化学习进阶与职业发展平台，同时为<br />
-                    缺少HR职能的小微企业提供专业的HR解决方案，让每一个组织<br />
+                <p class="hr-banner-desc comm-indent">
+                    我们为HR从业者提供体系化学习进阶与职业发展平台，同时为
+                    缺少HR职能的小微企业提供专业的HR解决方案，让每一个组织
                     都拥有专业的人力资源支撑。
                 </p>
                 <div class="hr-banner-actions">
@@ -294,7 +294,7 @@ onMounted(() => {
                 </div>
                 <div class="hr-about-grid">
                     <div class="hr-about-left">
-                        <p class="hr-about-text">
+                        <p class="hr-about-text comm-indent">
                             猎才HR事务所隶属于南昌猎才企业管理咨询有限公司，创始团队深耕江西人力沃土二十载，成功运营江西人才人事网、江西猎头网、职业资格培训、中高级人才招聘会、总裁助理、人事考试测评、饿了么、自媒体运营等业务。累计服务企业
                             20,000+ 家，涵盖各行各业，长期作为上市公司、国有企业、民营企业 HR
                             固定合作伙伴。在当前市场环境下，以人力资源服务为纽带，为企业优化人力成本，为企业用工合规保驾护航，同时为求职人员梳理科学、适配的职业发展路径。团队将全力打造猎才HR事务所品牌，立足多元服务生态，致力搭建集工具
@@ -347,7 +347,7 @@ onMounted(() => {
                             <img src="/assets/images/hr/enterprise-icon1.png" alt="" class="hr-ent-icon" />
                             <h3>快速招聘服务</h3>
                         </div>
-                        <p>从岗位需求分析到候选人筛选、面试安排、offer谈判，全流程专业化HR代劳。平均招聘周期缩短40%，人岗匹配准确率提升至 92%。</p>
+                        <p class="comm-indent">从岗位需求分析到候选人筛选、面试安排、offer谈判，全流程专业化HR代劳。平均招聘周期缩短40%，人岗匹配准确率提升至 92%。</p>
                         <div class="hr-ent-tags">
                             <span>JD 撰写</span><span>简历筛选</span><span>面试评估</span><span>背景调查</span>
                         </div>
@@ -357,7 +357,7 @@ onMounted(() => {
                             <img src="/assets/images/hr/enterprise-icon2.png" alt="" class="hr-ent-icon" />
                             <h3>薪酬合规管理</h3>
                         </div>
-                        <p>薪酬结构设计、社保公积金代缴、劳动合同管理、劳动法合规审查。确保企业在用工合规层面无后顾之忧，避免劳动争议风险。</p>
+                        <p class="comm-indent">薪酬结构设计、社保公积金代缴、劳动合同管理、劳动法合规审查。确保企业在用工合规层面无后顾之忧，避免劳动争议风险。</p>
                         <div class="hr-ent-tags">
                             <span>薪酬设计</span><span>社保代缴</span><span>合同管理</span><span>合规审查</span>
                         </div>
@@ -367,7 +367,7 @@ onMounted(() => {
                             <img src="/assets/images/hr/enterprise-icon3.png" alt="" class="hr-ent-icon" />
                             <h3>绩效体系搭建</h3>
                         </div>
-                        <p>根据企业发展阶段定制绩效考核方案，从 KPI 到 OKR，从考核指标设计到绩效面谈辅导，帮助企业建立科学有效的绩效管理体系。</p>
+                        <p class="comm-indent">根据企业发展阶段定制绩效考核方案，从 KPI 到 OKR，从考核指标设计到绩效面谈辅导，帮助企业建立科学有效的绩效管理体系。</p>
                         <div class="hr-ent-tags">
                             <span>KPI/OKR</span><span>考核设计</span><span>绩效面谈</span><span>激励方案</span>
                         </div>
@@ -377,7 +377,7 @@ onMounted(() => {
                             <img src="/assets/images/hr/enterprise-icon4.png" alt="" class="hr-ent-icon" />
                             <h3>组织文化顾问</h3>
                         </div>
-                        <p>企业文化诊断、员工满意度调研、团建活动策划、入职培训体系设计。帮助小微企业打造有凝聚力的团队文化，降低核心人才流失率。</p>
+                        <p class="comm-indent">企业文化诊断、员工满意度调研、团建活动策划、入职培训体系设计。帮助小微企业打造有凝聚力的团队文化，降低核心人才流失率。</p>
                         <div class="hr-ent-tags">
                             <span>文化诊断</span><span>满意度调研</span><span>团建策划</span><span>入职培训</span>
                         </div>
@@ -387,7 +387,7 @@ onMounted(() => {
                             <img src="/assets/images/hr/enterprise-icon5.png" alt="" class="hr-ent-icon" />
                             <h3>办公软件定制</h3>
                         </div>
-                        <p>根据企业实际管理流程，定制开发 OA、CRM、人事管理等办公软件。打通数据孤岛，提升管理效率，让数字化工具真正服务于业务。</p>
+                        <p class="comm-indent">根据企业实际管理流程，定制开发 OA、CRM、人事管理等办公软件。打通数据孤岛，提升管理效率，让数字化工具真正服务于业务。</p>
                         <div class="hr-ent-tags">
                             <span>OA系统</span><span>CRM定制</span><span>流程自动化</span><span>数据打通</span>
                         </div>
@@ -397,7 +397,7 @@ onMounted(() => {
                             <img src="/assets/images/hr/enterprise-icon6.png" alt="" class="hr-ent-icon" />
                             <h3>AI+ 应用深度开发</h3>
                         </div>
-                        <p>将 AI 技术深度融入企业 HR 场景，智能简历解析、AI 面试助手、员工画像分析、智能排班等，帮助企业降本增效，迈入智能化人力资源管理时代。</p>
+                        <p class="comm-indent">将 AI 技术深度融入企业 HR 场景，智能简历解析、AI 面试助手、员工画像分析、智能排班等，帮助企业降本增效，迈入智能化人力资源管理时代。</p>
                         <div class="hr-ent-tags">
                             <span>智能简历解析</span><span>AI面试</span><span>员工画像</span><span>智能排班</span>
                         </div>
@@ -407,7 +407,7 @@ onMounted(() => {
                             <img src="/assets/images/hr/enterprise-icon7.png" alt="" class="hr-ent-icon" />
                             <h3>招考笔面试系统</h3>
                         </div>
-                        <p>提供完整的招考笔面试解决方案，从题库建设、在线笔试、面试评分到录用决策，全流程数字化管理，确保招聘过程公平、高效、可追溯。</p>
+                        <p class="comm-indent">提供完整的招考笔面试解决方案，从题库建设、在线笔试、面试评分到录用决策，全流程数字化管理，确保招聘过程公平、高效、可追溯。</p>
                         <div class="hr-ent-tags">
                             <span>题库建设</span><span>在线笔试</span><span>面试评分</span><span>录用决策</span>
                         </div>
@@ -417,7 +417,7 @@ onMounted(() => {
                             <img src="/assets/images/hr/enterprise-icon8.png" alt="" class="hr-ent-icon" />
                             <h3>人事考试测评</h3>
                         </div>
-                        <p>专业的人事考试与人才测评服务，涵盖职业能力测试、性格测评、岗位适配度评估等，为企业选人用人提供科学、客观的测评数据支撑。</p>
+                        <p class="comm-indent">专业的人事考试与人才测评服务，涵盖职业能力测试、性格测评、岗位适配度评估等，为企业选人用人提供科学、客观的测评数据支撑。</p>
                         <div class="hr-ent-tags">
                             <span>能力测试</span><span>性格测评</span><span>岗位适配</span><span>人才评估</span>
                         </div>
@@ -427,7 +427,7 @@ onMounted(() => {
                             <img src="/assets/images/hr/enterprise-icon9.png" alt="" class="hr-ent-icon" />
                             <h3>更多服务 尽情期待</h3>
                         </div>
-                        <p>HR事务所更多模块化、人力资源解决方案正在开发中，尽情期待...</p>
+                        <p class="comm-indent">HR事务所更多模块化、人力资源解决方案正在开发中，尽情期待...</p>
                         <div class="hr-ent-tags">
                             <span>……</span>
                         </div>
@@ -467,7 +467,9 @@ onMounted(() => {
                             <p>{{ card.desc }}</p>
                             <div class="hr-case-metrics">
                                 <div v-for="(m, mi) in card.metrics" :key="mi">
-                                    <strong v-if="m.numValue != null"><span class="hr-count-number" v-count-up="m.numValue">{{ m.numValue }}</span><span v-if="m.suffix">{{ m.suffix }}</span></strong>
+                                    <strong v-if="m.numValue != null"><span class="hr-count-number"
+                                            v-count-up="m.numValue">{{ m.numValue }}</span><span v-if="m.suffix">{{
+                                            m.suffix }}</span></strong>
                                     <strong v-else>{{ m.value }}</strong>
                                     <span>{{ m.label }}</span>
                                 </div>
@@ -478,7 +480,7 @@ onMounted(() => {
                 <!-- 用户证言 -->
                 <div class="hr-testimonials">
                     <div class="hr-testimonial hr-animate">
-                        <p class="hr-testimonial-text">
+                        <p class="hr-testimonial-text comm-indent">
                             "加入HR平台专业会员半年，我系统完成了薪酬设计、劳动法、组织发展三个模块的学习，顺利通过了认证考试。更难得的是社群里的同行交流，让我少走了很多弯路。"
                         </p>
                         <div class="hr-testimonial-author">
@@ -490,7 +492,7 @@ onMounted(() => {
                         </div>
                     </div>
                     <div class="hr-testimonial hr-animate">
-                        <p class="hr-testimonial-text">
+                        <p class="hr-testimonial-text comm-indent">
                             "我们是一家 30 人的创业公司，之前完全没有HR，通过HR平台的企业方案，从招聘到合同到社保，全部有人专业处理。创始人终于可以把精力放回产品上了。"
                         </p>
                         <div class="hr-testimonial-author">
@@ -547,7 +549,7 @@ onMounted(() => {
                             <div class="hr-article-body">
                                 <span class="hr-article-category">{{ article.category }}</span>
                                 <h3>{{ article.title }}</h3>
-                                <p>{{ article.desc }}</p>
+                                <p class="comm-indent">{{ article.desc }}</p>
                                 <span class="hr-article-meta">{{ article.date }} · {{ article.readTime }}</span>
                             </div>
                         </div>
@@ -556,7 +558,8 @@ onMounted(() => {
                     <div class="hr-resources">
                         <h3>免费资源下载</h3>
                         <div class="hr-resource-list">
-                            <div v-for="(res, idx) in resources" :key="idx" class="hr-resource-item hr-animate" @click="navigateTo('/contact?product=1')">
+                            <div v-for="(res, idx) in resources" :key="idx" class="hr-resource-item hr-animate"
+                                @click="navigateTo('/contact?product=1')">
                                 <img :src="res.icon" :alt="res.name" class="hr-resource-icon" />
                                 <div class="hr-resource-info">
                                     <strong>{{ res.name }}</strong>
@@ -606,6 +609,10 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.comm-indent {
+    text-indent: 2em;
+}
+
 /* ===== 基础变量 ===== */
 .hr-page {
     --hr-green: #00C853;
@@ -1168,7 +1175,7 @@ onMounted(() => {
     line-height: 1.2;
 }
 
-.hr-case-metrics > div > span {
+.hr-case-metrics>div>span {
     font-size: 12px;
     color: #64748B;
 }
@@ -1358,6 +1365,7 @@ onMounted(() => {
     border-bottom: 1px solid var(--hr-border);
     transition: all 0.3s ease;
 }
+
 .hr-article-item:nth-last-child(1) {
     border-bottom: none;
     padding-bottom: 0;

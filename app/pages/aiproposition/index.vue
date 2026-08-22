@@ -68,7 +68,7 @@ onMounted(() => {
             <div class="ai-banner-content container-ai">
                 <span class="ai-badge">中国人事考试安全交付领导品牌</span>
                 <h1 class="ai-banner-title">中测高科<span>命题服务</span></h1>
-                <p class="ai-banner-desc">全国考试命题服务市场占有率、客户满意度遥遥领先的行业<br />头部机构！</p>
+                <p class="ai-banner-desc comm-indent">全国考试命题服务市场占有率、客户满意度遥遥领先的行业<br />头部机构！</p>
                 <div class="ai-banner-actions">
                     <NuxtLink class="ai-banner-btn ai-banner-btn-primary" to="/contact?product=2">
                         联系咨询
@@ -135,8 +135,8 @@ onMounted(() => {
                     <div class="ai-brand-stat-card">
                         <img src="/assets/images/ai_proposition/brand-icon1.png" alt="" class="ai-brand-stat-icon" />
                         <div class="box">
-                            <div class="ai-brand-stat-num"><span class="ai-count-number" v-count-up="2019">2019</span><span class="ai-brand-stat-unit">年成立</span></div>
-                            <div class="ai-brand-stat-desc">多方共同投资成立</div>
+                            <div class="ai-brand-stat-num"><span class="ai-count-number" v-count-up="10">10</span><span class="ai-brand-stat-unit">余年</span></div>
+                            <div class="ai-brand-stat-desc">行业沉淀</div>
                         </div>
 
                     </div>
@@ -165,10 +165,10 @@ onMounted(() => {
                 <!-- 文字 + 图片 -->
                 <div class="ai-brand-content ai-animate">
                     <div class="ai-brand-left">
-                        <p class="ai-brand-text">
+                        <p class="ai-brand-text comm-indent">
                             中测高科由江西聚才人力资源集团、重庆人才大市场集团、武汉人才集团、科锐国际(300662)等多方于2019年共同投资成立，是一家专注于人力资源测评的科技型、学术型人力资源外包服务公司，是我国组织人事考试和人才测评的第三方服务品牌。
                         </p>
-                        <p class="ai-brand-text">
+                        <p class="ai-brand-text comm-indent">
                             中测高科在北京、江西、长沙、重庆、成都、海口、包头、怀化等全国各地成立了人力资源开发研究机构（研究院）、人事考试专家命题服务中心，专为组织人社部门"招才引智"，为机关事业单位、国有企业招聘考试提供人才测评、人事考试命题、考务技术支持。
                         </p>
                         <p class="ai-brand-qual-title">资质认证</p>
@@ -658,6 +658,9 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.comm-indent {
+    text-indent: 2em;
+}
 /* ===== 基础变量 ===== */
 .ai-page {
     --ai-blue: #0F62FE;

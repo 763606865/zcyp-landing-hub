@@ -66,7 +66,7 @@ onMounted(() => {
                 <div class="marking-banner-content container-marking">
                     <span class="marking-badge">全国大赛二等奖 · 第三代阅卷系统</span>
                     <h1 class="marking-banner-title">中测阅卷服务<br /><span style="color: #1A1A2E;">AI智能阅卷云平台</span></h1>
-                    <p class="marking-banner-desc">全国社会化考试AI阅卷云平台，基于垂直领域自有大模型，实现全学科、全题型智能批改，让阅卷更高效、更公正、更准确。</p>
+                    <p class="marking-banner-desc comm-indent">全国社会化考试AI阅卷云平台，基于垂直领域自有大模型，实现全学科、全题型智能批改，让阅卷更高效、更公正、更准确。</p>
                     <div class="marking-banner-actions">
                         <NuxtLink class="marking-banner-btn marking-banner-btn-primary" to="/contact?product=3">
                             <img src="/assets/images/marking/phone-btn.png" alt="" class="marking-btn-icon" />
@@ -128,7 +128,7 @@ onMounted(() => {
                         <img src="/assets/images/marking/marking-service1.png" alt="服务介绍" class="marking-service-bg">
                         <div class="marking-service-content">
                             <div class="marking-service-content-title">对标国家级 “背靠背双评 + 多评仲裁” 机制，保障评分公正客观</div>
-                            <div class="marking-service-content-text">
+                            <div class="marking-service-content-text comm-indent">
                                 复刻高考、公考主观题阅卷规则：答卷题块切割、密号匿名流转，评卷人员看不到考生信息，实行背靠背独立双评；双评分差超出阈值自动触发三评，分歧较大提交专家组长终审仲裁，完整复刻
                                 “双评三评仲裁” 评卷闭环，从流程上压缩人为打分偏差，保证评分尺度统一、结果可追溯。
                             </div>
@@ -138,7 +138,7 @@ onMounted(() => {
                         <img src="/assets/images/marking/marking-service2.png" alt="服务介绍" class="marking-service-bg">
                         <div class="marking-service-content">
                             <div class="marking-service-content-title">对标高考公考全流程保密管控，筑牢考试安全底线</div>
-                            <div class="marking-service-content-text">
+                            <div class="marking-service-content-text comm-indent">
                                 参照国家级考试保密规范，实现试卷扫描、加密传输、评阅、成绩统计全链路安全管控。答卷以电子密号流转，原始答卷与考生信息隔离；系统操作全程留痕，数据权限分级管控，严防漏题、人情评卷、信息泄露，满足人事考试、大规模选拔考试的保密要求。
                             </div>
                         </div>
@@ -147,7 +147,7 @@ onMounted(() => {
                         <img src="/assets/images/marking/marking-service3.png" alt="服务介绍" class="marking-service-bg">
                         <div class="marking-service-content">
                             <div class="marking-service-content-title">高并发分布式技术，适配大规模考试批量处理</div>
-                            <div class="marking-service-content-text">
+                            <div class="marking-service-content-text comm-indent">
                                 借鉴高考百万级试卷处理技术架构，中测智阅云采用分布式集群，支持海量试卷同步扫描识别、题块自动切割分发，可承接公考、事业单位招考等大规模集中阅卷任务，客观题机器自动判分，主观题人工
                                 + AI 辅助质检，兼顾处理速度与识别精度，误差控制水平对标国家级考试标准。
                             </div>
@@ -157,7 +157,7 @@ onMounted(() => {
                         <img src="/assets/images/marking/marking-service4.png" alt="服务介绍" class="marking-service-bg">
                         <div class="marking-service-content">
                             <div class="marking-service-content-title">完整质量监控体系，复刻官方阅卷质检模式</div>
-                            <div class="marking-service-content-text">
+                            <div class="marking-service-content-text comm-indent">
                                 对标高考、公考阅卷实时质量监测机制：系统实时监控每一位评卷人员打分尺度，横向比对全体评卷者评分分布、纵向跟踪单人打分波动；设置专家组抽检复核、异常答卷自动预警，AI
                                 辅助质检，及时识别打分偏严偏松、雷同卷等问题，全程把控阅卷质量，避免尺度漂移。
                             </div>
@@ -167,7 +167,7 @@ onMounted(() => {
                         <img src="/assets/images/marking/marking-service5.png" alt="服务介绍" class="marking-service-bg">
                         <div class="marking-service-content">
                             <div class="marking-service-content-title">全链条一体化交付，适配人事类考试场景</div>
-                            <div class="marking-service-content-text">
+                            <div class="marking-service-content-text comm-indent">
                                 区别于普通教育阅卷系统，兼顾公务员、事业单位招考业务特点，提供上门扫描、异地专家评卷、AI
                                 辅助评阅、成绩校验、多维数据分析的一站式服务。既完全对齐高考标准化网上阅卷技术范式，又适配人事选拔考试业务规则，从扫描、评阅到成绩输出闭环落地，无需多方拼凑系统，降低组织方考务管理压力。
                             </div>
@@ -366,21 +366,21 @@ onMounted(() => {
                     <div class="marking-architecture-grid">
                         <div class="marking-arch-card marking-arch-card-1">
                             <h4>数据集成层</h4>
-                            <p><span class="marking-highlight">高速扫描仪 + OCR技术</span>实现答题数字化，整合内外部数据源并过滤异常</p>
+                            <p class="comm-indent"><span class="marking-highlight">高速扫描仪 + OCR技术</span>实现答题数字化，整合内外部数据源并过滤异常</p>
                         </div>
                         <div class="marking-arch-card marking-arch-card-2">
                             <h4>AI处理层</h4>
-                            <p>通过自研模型并引入<span class="marking-highlight">DeepSeek
+                            <p class="comm-indent">通过自研模型并引入<span class="marking-highlight">DeepSeek
                                     AI大模型</span>等技术，使用NLP模型对主观题答案进行智能评分，支持异常检测与实时接口服务</p>
                         </div>
                         <div class="marking-arch-card marking-arch-card-3">
                             <h4>分布式架构层</h4>
-                            <p>依托<span class="marking-highlight">Spark</span>实现实时处理与并行计算，通过数据汇聚、存储及独立异常检测模块保障高并发性能与系统安全
+                            <p class="comm-indent">依托<span class="marking-highlight">Spark</span>实现实时处理与并行计算，通过数据汇聚、存储及独立异常检测模块保障高并发性能与系统安全
                             </p>
                         </div>
                         <div class="marking-arch-card marking-arch-card-4">
                             <h4>基础设施层</h4>
-                            <p>基于<span class="marking-highlight">云计算</span>与网络优化资源调度，支持混合部署及可视化监控，实现高精度、高可靠的一体化服务</p>
+                            <p class="comm-indent">基于<span class="marking-highlight">云计算</span>与网络优化资源调度，支持混合部署及可视化监控，实现高精度、高可靠的一体化服务</p>
                         </div>
                     </div>
                 </div>
@@ -391,32 +391,32 @@ onMounted(() => {
                         <div class="marking-func-card marking-func-card-1">
                             <h4>智能扫描识别</h4>
                             <NuxtLink class="marking-func-btn" to="/contact?product=3">立即演示</NuxtLink>
-                            <p>依托高速扫描仪与自适应准确识别算法，实现边扫描、边识别、边阅卷三端联动。同步完成图像加密上传、考号OCR精准匹配、客观题智能赋分，各环节耗时压缩至传统流程的1/10。</p>
+                            <p class="comm-indent">依托高速扫描仪与自适应准确识别算法，实现边扫描、边识别、边阅卷三端联动。同步完成图像加密上传、考号OCR精准匹配、客观题智能赋分，各环节耗时压缩至传统流程的1/10。</p>
                         </div>
                         <div class="marking-func-card marking-func-card-2">
                             <h4>AI智能阅卷</h4>
                             <NuxtLink class="marking-func-btn" to="/contact?product=3">立即演示</NuxtLink>
-                            <p>集成CNN、NLP、Transformer及DeepSeek大模型等技术，实现中英文文本、数学公式及图表的精准识别。主观题AI阅卷深度提升80%以上。</p>
+                            <p class="comm-indent">集成CNN、NLP、Transformer及DeepSeek大模型等技术，实现中英文文本、数学公式及图表的精准识别。主观题AI阅卷深度提升80%以上。</p>
                         </div>
                         <div class="marking-func-card marking-func-card-3">
                             <h4>人工阅卷协同</h4>
                             <NuxtLink class="marking-func-btn" to="/contact?product=3">立即演示</NuxtLink>
-                            <p>支持单评、双评、三/四评并行阅卷及仲裁审核模式。双重身份验证保障数据安全，教师可一键跳转至目标试卷界面。</p>
+                            <p class="comm-indent">支持单评、双评、三/四评并行阅卷及仲裁审核模式。双重身份验证保障数据安全，教师可一键跳转至目标试卷界面。</p>
                         </div>
                         <div class="marking-func-card marking-func-card-4">
                             <h4>异常检测预警</h4>
                             <NuxtLink class="marking-func-btn" to="/contact?product=3">立即演示</NuxtLink>
-                            <p>深度融合AI技术与多模态数据分析，精准识别缺考、作弊等异常行为，形成"监测-判定-追溯-纠偏"闭环管理。</p>
+                            <p class="comm-indent">深度融合AI技术与多模态数据分析，精准识别缺考、作弊等异常行为，形成"监测-判定-追溯-纠偏"闭环管理。</p>
                         </div>
                         <div class="marking-func-card marking-func-card-5">
                             <h4>专家复审机制</h4>
                             <NuxtLink class="marking-func-btn" to="/contact?product=3">立即演示</NuxtLink>
-                            <p>AI阅卷完成后，系统自动标记异常并上报专家复核。利用视觉大模型精准评分，支持按得分点打分并判理由，差异超阈值自动触发仲裁。</p>
+                            <p class="comm-indent">AI阅卷完成后，系统自动标记异常并上报专家复核。利用视觉大模型精准评分，支持按得分点打分并判理由，差异超阈值自动触发仲裁。</p>
                         </div>
                         <div class="marking-func-card marking-func-card-6">
                             <h4>成绩分析诊断</h4>
                             <NuxtLink class="marking-func-btn" to="/contact?product=3">立即演示</NuxtLink>
-                            <p>基于自研垂直领域AI大模型，自动生成考试数据分析报告，涵盖试题难度分析、个人成绩剖析等多维度，为岗位胜任力模型构建提供科学依据。</p>
+                            <p class="comm-indent">基于自研垂直领域AI大模型，自动生成考试数据分析报告，涵盖试题难度分析、个人成绩剖析等多维度，为岗位胜任力模型构建提供科学依据。</p>
                         </div>
                     </div>
                 </div>
@@ -497,6 +497,9 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.comm-indent {
+    text-indent: 2em;
+}
 /* ===== 基础变量 ===== */
 .marking-page {
     --marking-blue: #0F62FE;

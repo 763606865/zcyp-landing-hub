@@ -181,7 +181,8 @@ const caseTags = [
                 </div>
                 <div class="container-q q-banner-content">
                     <h1 class="q-banner-title">智能题库系统<br /><span>全流程数字化</span>题库平台</h1>
-                    <p class="q-banner-desc">以AI大模型为底座，覆盖「命题 → 审题 → 组卷 → 阅卷 → 审核 → 管理」全链路，让题库建设从劳动密集型转向智能驱动型。</p>
+                    <p class="q-banner-desc comm-indent">以AI大模型为底座，覆盖「命题 → 审题 → 组卷 → 阅卷 → 审核 →
+                        管理」全链路，让题库建设从劳动密集型转向智能驱动型。</p>
                     <div class="q-banner-actions">
                         <NuxtLink class="q-btn q-btn-primary" :to="contactRoute">
                             申请体验
@@ -243,7 +244,7 @@ const caseTags = [
                                 <h3>{{ card.title }}</h3>
                             </div>
                         </div>
-                        <div class="q-overview-card-desc">{{ card.desc }}</div>
+                        <div class="q-overview-card-desc comm-indent">{{ card.desc }}</div>
                     </div>
                 </div>
             </div>
@@ -291,25 +292,26 @@ const caseTags = [
                 </div>
 
                 <!-- 模块一 -->
+                <div class="q-feature-block1-comm-title q-animate">1、导入即识别 · 一键入库</div>
                 <div class="q-feature-block1 q-animate">
                     <div class="q-feature-block1-left">
                         <div class="q-feature-block1-left-item">
                             <div class="q-feature-title">功能1-双模式导入</div>
-                            <div class="q-feature-content">
+                            <div class="q-feature-content comm-indent">
                                 支持直接编辑和文件导入两种方式：文件导入支持Word、Excel等多种格式上传至AI自动识别题型、题干、选项、答案，并完成结构化对应。</div>
                         </div>
                         <div class="q-feature-block1-left-item">
                             <div class="q-feature-title">功能2-双模式导入</div>
-                            <div class="q-feature-content">系统自动将试题处理成题库所需的标准格式，格式规范可在系统内查看。</div>
+                            <div class="q-feature-content comm-indent">系统自动将试题处理成题库所需的标准格式，格式规范可在系统内查看。</div>
                         </div>
                         <div class="q-feature-block1-left-item">
                             <div class="q-feature-title">功能3-二次校验与属性标定</div>
-                            <div class="q-feature-content">
+                            <div class="q-feature-content comm-indent">
                                 进入下一步前进行二次检查认；设置试题归属的岗位、难度、地区、年份等信息；点击"校验重复"，系统与题库已有试题进行毫秒级比对，重复项自动标红。</div>
                         </div>
                         <div class="q-feature-block1-left-item">
                             <div class="q-feature-title">功能4-提交与审核</div>
-                            <div class="q-feature-content">确认无误后提交，进入本次导入任务的审核流程；支持将试题导出进行线下确认与留痕。</div>
+                            <div class="q-feature-content comm-indent">确认无误后提交，进入本次导入任务的审核流程；支持将试题导出进行线下确认与留痕。</div>
                         </div>
                     </div>
                     <img src="/assets/images/question/example1.png" alt="双模式导入" class="q-feature-img1" />
@@ -387,27 +389,30 @@ const caseTags = [
                 </div>
 
                 <!-- 模块三 -->
+                <div class="q-feature-block3-comm-title q-animate">3、精准筛选 · 发现即修正</div>
                 <div class="q-feature-block3 q-animate">
                     <div>
                         <div class="q-feature-block3-title q-feature-title">功能5-岗位选题</div>
-                        <div class="q-feature-content q-feature-block3-content">
+                        <div class="q-feature-content q-feature-block3-content comm-indent">
                             点击"岗位选题"进入选题页面，根据岗位筛选对应的题目。支持按题型、难度、地区、年份等多维度二次筛选，选中题目可一键加入试题篮，备选。</div>
                         <img src="/assets/images/question/example3.png" alt="岗位选题" class="q-feature-img3-1" />
                     </div>
                     <div>
                         <div class="q-feature-block3-title q-feature-title">功能6-人工纠错</div>
-                        <div class="q-feature-content q-feature-block3-content">
+                        <div class="q-feature-content q-feature-block3-content comm-indent">
                             在选题过程中发现题目错误，支持人工纠错，即时修正，点击"详情"可查看该题目的完整信息（题干、答案、解析、属性标签及使用记录）。</div>
                         <img src="/assets/images/question/example4.png" alt="人工纠错" class="q-feature-img3-2" />
                     </div>
                     <div>
                         <div class="q-feature-block3-title q-feature-title">功能7-试题篮管理</div>
-                        <div class="q-feature-content q-feature-block3-content">选中的题目统一汇入试题篮，支持批量移除或一键清空，灵活调整。</div>
+                        <div class="q-feature-content q-feature-block3-content comm-indent">
+                            选中的题目统一汇入试题篮，支持批量移除或一键清空，灵活调整。</div>
                         <img src="/assets/images/question/example5.png" alt="试题篮管理" class="q-feature-img3-3" />
                     </div>
                 </div>
 
                 <!-- 模块四 -->
+                <div class="q-feature-block4-comm-title q-animate">4、灵活组卷 · 智能随机 · 安全保护</div>
                 <div class="q-feature-block4 q-animate">
                     <div>
                         <div class="q-feature-block4-title q-feature-title">智能组卷</div>
@@ -435,7 +440,8 @@ const caseTags = [
                 <!-- 模块五 -->
                 <div class="q-feature-block5 q-animate">
                     <div class="q-feature-block5-item">
-                        <div style="margin-right: 125px;">
+                        <div style="margin-right: 54px;">
+                            <div class="q-feature-block5-comm-title q-animate">5、双轨题库 · 科学管控</div>
                             <div class="q-feature-block5-title1 q-feature-title">动静态双轨题库
                             </div>
                             <div class="q-feature-content" style="width: 508px;">
@@ -525,6 +531,10 @@ const caseTags = [
 </template>
 
 <style scoped>
+.comm-indent {
+    text-indent: 2em;
+}
+
 /* ===== 基础变量 ===== */
 .q-page {
     --q-blue: #0F62FE;
@@ -1056,7 +1066,7 @@ const caseTags = [
     display: flex;
     gap: 26px;
     justify-content: space-between;
-    margin-bottom: 159px;
+    margin-bottom: 87px;
 }
 
 .q-feature-img2 {
@@ -1072,6 +1082,41 @@ const caseTags = [
     color: #1A1A2E;
     line-height: 45px;
     margin-bottom: 5px;
+}
+
+.q-feature-block1-comm-title {
+    font-weight: 600;
+    font-size: 28px;
+    color: #1A1A2E;
+    line-height: 45px;
+    margin-bottom: 18px;
+    margin-top: 74px;
+}
+
+.q-feature-block3-comm-title {
+    font-weight: 600;
+    font-size: 28px;
+    color: #1A1A2E;
+    line-height: 45px;
+    margin-bottom: 27px;
+    text-align: center;
+}
+
+.q-feature-block4-comm-title {
+    font-weight: 600;
+    font-size: 28px;
+    color: #1A1A2E;
+    line-height: 45px;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.q-feature-block5-comm-title {
+    font-weight: 600;
+    font-size: 28px;
+    color: #1A1A2E;
+    line-height: 1;
+    text-align: left;
 }
 
 .q-feature-block2-right-desc {
@@ -1137,7 +1182,7 @@ const caseTags = [
     display: flex;
     gap: 66px;
     justify-content: space-between;
-    margin-bottom: 157px;
+    margin-bottom: 96px;
 }
 
 .q-feature-block3-title {
@@ -1172,7 +1217,7 @@ const caseTags = [
     display: flex;
     gap: 164px;
     justify-content: space-between;
-    margin-bottom: 121px;
+    margin-bottom: 109px;
 }
 
 .q-feature-block4-title {
@@ -1216,6 +1261,7 @@ const caseTags = [
 .q-feature-img5-1 {
     width: 535px;
     height: 185px;
+    margin-top: 12px;
 }
 
 .q-feature-img5-2 {

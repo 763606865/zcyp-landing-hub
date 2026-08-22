@@ -91,7 +91,7 @@ onMounted(() => {
             <div class="container-qb qb-management-inner">
                 <div class="qb-management-left qb-animate">
                     <h2 class="qb-management-title">题库管理中心，<span>一目了然</span></h2>
-                    <p class="qb-management-desc">从题型管理到安全加密，核心能力集中呈现，让命题与组卷工作更高效、更安全。</p>
+                    <p class="qb-management-desc comm-indent">从题型管理到安全加密，核心能力集中呈现，让命题与组卷工作更高效、更安全。</p>
                 </div>
                 <div class="qb-management-right qb-animate">
                     <div class="qb-mgmt-list">
@@ -158,28 +158,28 @@ onMounted(() => {
                             <img src="/assets/images/question_bank/box2-img1.png" alt="试题管理" />
                             <span class="qb-core-card-label">试题管理</span>
                         </div>
-                        <p>支持单选、多选、判断、填空、问答、录音、组合题七种题型。批量导入 Word / Excel / JSON，手动录入与 AI 智能录入并行。</p>
+                        <p class="comm-indent">支持单选、多选、判断、填空、问答、录音、组合题七种题型。批量导入 Word / Excel / JSON，手动录入与 AI 智能录入并行。</p>
                     </div>
                     <div class="qb-core-card qb-animate">
                         <div class="qb-core-card-img">
                             <img src="/assets/images/question_bank/box2-img2.png" alt="考卷管理" />
                             <span class="qb-core-card-label">考卷管理</span>
                         </div>
-                        <p>支持选题组卷、抽题组卷、随机组卷及综合组卷四种模式。试卷录入、导出、复制全流程管理，灵活适配不同考试场景。</p>
+                        <p class="comm-indent">支持选题组卷、抽题组卷、随机组卷及综合组卷四种模式。试卷录入、导出、复制全流程管理，灵活适配不同考试场景。</p>
                     </div>
                     <div class="qb-core-card qb-animate">
                         <div class="qb-core-card-img">
                             <img src="/assets/images/question_bank/box2-img3.png" alt="审核管理" />
                             <span class="qb-core-card-label">审核管理</span>
                         </div>
-                        <p>试题与考卷双重审核流程。自定义相似度阈值，审核提供预计属性值（难度、标准差、差异系数），确保成卷质量。</p>
+                        <p class="comm-indent">试题与考卷双重审核流程。自定义相似度阈值，审核提供预计属性值（难度、标准差、差异系数），确保成卷质量。</p>
                     </div>
                     <div class="qb-core-card qb-animate">
                         <div class="qb-core-card-img">
                             <img src="/assets/images/question_bank/box2-img4.png" alt="试题查重比对" />
                             <span class="qb-core-card-label">试题查重<br />比对</span>
                         </div>
-                        <p>智能检测试题重复率，维护题库纯净度。支持跨题库比对，自动标记相似试题，辅助命题人员高效去重。</p>
+                        <p class="comm-indent">智能检测试题重复率，维护题库纯净度。支持跨题库比对，自动标记相似试题，辅助命题人员高效去重。</p>
                     </div>
                 </div>
             </div>
@@ -409,7 +409,7 @@ onMounted(() => {
                                 <img src="/assets/images/question_bank/box5-icon1.png" alt=""
                                     class="qb-why-card-icon" />
                             </div>
-                            <p>AI 自动识别题目内容，快速录入试题。一键录入试题、生成试卷，大幅提高录题效率，降低建库成本。</p>
+                            <p class="comm-indent">AI 自动识别题目内容，快速录入试题。一键录入试题、生成试卷，大幅提高录题效率，降低建库成本。</p>
                         </div>
                         <div class="qb-why-card qb-animate">
                             <div class="qb-why-card-top">
@@ -417,7 +417,7 @@ onMounted(() => {
                                 <img src="/assets/images/question_bank/box5-icon2.png" alt=""
                                     class="qb-why-card-icon" />
                             </div>
-                            <p>采用高安全对称加密算法，独有类型解密文件。制卷与命题动作分离、相互隔离，试卷步步审核，确保命题安全。</p>
+                            <p class="comm-indent">采用高安全对称加密算法，独有类型解密文件。制卷与命题动作分离、相互隔离，试卷步步审核，确保命题安全。</p>
                         </div>
                         <div class="qb-why-card qb-animate">
                             <div class="qb-why-card-top">
@@ -425,7 +425,7 @@ onMounted(() => {
                                 <img src="/assets/images/question_bank/box5-icon3.png" alt=""
                                     class="qb-why-card-icon" />
                             </div>
-                            <p>试题采用树状结构全面管理，无限级试题分类与标签体系。标记知识点，可用于生成能力模型，满足高效建设题库需求。</p>
+                            <p class="comm-indent">试题采用树状结构全面管理，无限级试题分类与标签体系。标记知识点，可用于生成能力模型，满足高效建设题库需求。</p>
                         </div>
                     </div>
                 </div>
@@ -435,6 +435,9 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.comm-indent {
+    text-indent: 2em;
+}
 /* ===== 基础变量 ===== */
 .qb-page {
     --qb-blue: #0F62FE;

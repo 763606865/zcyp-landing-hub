@@ -124,7 +124,7 @@ onMounted(() => {
                     <span class="niupai-badge">解决方案 · 数字产品 · 咨询服务</span>
                     <h1 class="niupai-banner-title"><span class="title1">牛派</span> · 中小企业协同办公<br /><span>管理云平台</span>
                     </h1>
-                    <p class="niupai-banner-desc">打通"人、财、物、费"全链路数据，以统一数字化平台实现运营
+                    <p class="niupai-banner-desc comm-indent">打通"人、财、物、费"全链路数据，以统一数字化平台实现运营
                         效率与业务质量的双重提升。凭借20余年行业服务经验，为企业
                         数字化高速成长保驾护航。
                     </p>
@@ -181,7 +181,7 @@ onMounted(() => {
                         <div class="niupai-overview-header">
                             <span class="niupai-section-en">产品与服务简介</span>
                             <h2>一站式全场景<br />数字化解决方案</h2>
-                            <p class="niupai-overview-desc">
+                            <p class="niupai-overview-desc comm-indent">
                                 牛派面向各类企业提供一站式全场景数字化解决方案，涉及行政、财务、项目、客户、营销、资产、合规、业务管理等多元模块，精准满足企业当前核心需求，前瞻性地把握行业未来发展趋势。
                             </p>
                         </div>
@@ -286,7 +286,7 @@ onMounted(() => {
                             <h3>敏捷部署</h3>
                         </div>
                         <div class="niupai-adv-card-line"></div>
-                        <p>SaaS云，私有云部署，因客户需求而定，敏捷快速响应，最短时间完成系统上线。</p>
+                        <p class="comm-indent">SaaS云，私有云部署，因客户需求而定，敏捷快速响应，最短时间完成系统上线。</p>
                     </div>
                     <div class="niupai-adv-card">
                         <div class="niupai-adv-card-box">
@@ -294,7 +294,7 @@ onMounted(() => {
                             <h3>无缝连接</h3>
                         </div>
                         <div class="niupai-adv-card-line"></div>
-                        <p>与ERP、WMS、OA等关键系统无缝集成，打破系统间信息壁垒，实现数据自由流转。</p>
+                        <p class="comm-indent">与ERP、WMS、OA等关键系统无缝集成，打破系统间信息壁垒，实现数据自由流转。</p>
                     </div>
                     <div class="niupai-adv-card">
                         <div class="niupai-adv-card-box">
@@ -302,7 +302,7 @@ onMounted(() => {
                             <h3>弹性组合</h3>
                         </div>
                         <div class="niupai-adv-card-line"></div>
-                        <p>功能模块自由选择、灵活搭配，实现应用可伸缩、可延展，适配不同规模企业需求。</p>
+                        <p class="comm-indent">功能模块自由选择、灵活搭配，实现应用可伸缩、可延展，适配不同规模企业需求。</p>
                     </div>
                     <div class="niupai-adv-card">
                         <div class="niupai-adv-card-box">
@@ -310,7 +310,7 @@ onMounted(() => {
                             <h3>极致体验</h3>
                         </div>
                         <div class="niupai-adv-card-line"></div>
-                        <p>智能化分析、移动端操作，权限分明，提供直观界面与实时数据更新，让管理化繁为简。</p>
+                        <p class="comm-indent">智能化分析、移动端操作，权限分明，提供直观界面与实时数据更新，让管理化繁为简。</p>
                     </div>
                 </div>
             </div>
@@ -338,7 +338,7 @@ onMounted(() => {
                     <div class="niupai-feature-panel" :key="activeFeatureTab">
                         <div class="niupai-feature-left">
                             <h3 class="niupai-feature-title">{{ activeFeature.title }}</h3>
-                            <p class="niupai-feature-desc">{{ activeFeature.desc }}</p>
+                            <p class="niupai-feature-desc comm-indent">{{ activeFeature.desc }}</p>
                             <div class="niupai-feature-items">
                                 <div v-for="(item, iIndex) in activeFeature.items" :key="iIndex"
                                     class="niupai-feature-item">
@@ -375,15 +375,15 @@ onMounted(() => {
                 <div class="niupai-cert-cards niupai-animate">
                     <div class="niupai-cert-card">
                         <h3>国家涉密资质（乙级）</h3>
-                        <p>国家保密局颁发的国家涉密资质（乙级），具备涉密信息系统集成与保密印刷能力，为人事考试数据安全提供国家保障。</p>
+                        <p class="comm-indent">国家保密局颁发的国家涉密资质（乙级），具备涉密信息系统集成与保密印刷能力，为人事考试数据安全提供国家保障。</p>
                     </div>
                     <div class="niupai-cert-card">
                         <h3>信息安全三级等保</h3>
-                        <p>公安部信息系统安全三级等保备案资质，通过严格的安全测评，确保平台在数据存储、传输、访问控制等方面达到国家标准。</p>
+                        <p class="comm-indent">公安部信息系统安全三级等保备案资质，通过严格的安全测评，确保平台在数据存储、传输、访问控制等方面达到国家标准。</p>
                     </div>
                     <div class="niupai-cert-card">
                         <h3>多项软件著作权</h3>
-                        <p>拥有AI阅卷系统、AI命题组卷系统、AI质检系统等多项软件著作权，为业务系统建立一套生产、信息安全三级等保体系护航。</p>
+                        <p class="comm-indent">拥有AI阅卷系统、AI命题组卷系统、AI质检系统等多项软件著作权，为业务系统建立一套生产、信息安全三级等保体系护航。</p>
                     </div>
                 </div>
                 <div class="niupai-cert-badges niupai-animate">
@@ -420,7 +420,7 @@ onMounted(() => {
                         </div>
                         <div class="niupai-case-card-body">
                             <h3>某省级人力资源服务集团</h3>
-                            <p>该集团旗下辖多家分子公司，涵盖各类人群服务数据分析、培训管理优化，通过牛派平台实现集团统一数字化管理，项目成本与营收数据实时汇总，效益效率大幅提升。</p>
+                            <p class="comm-indent">该集团旗下辖多家分子公司，涵盖各类人群服务数据分析、培训管理优化，通过牛派平台实现集团统一数字化管理，项目成本与营收数据实时汇总，效益效率大幅提升。</p>
                             <div class="line1"></div>
                             <div class="niupai-case-stats">
                                 <div><strong>60%</strong><span>管理效率提升</span></div>
@@ -435,7 +435,7 @@ onMounted(() => {
                         </div>
                         <div class="niupai-case-card-body">
                             <h3>某大型人事考试机构</h3>
-                            <p>承担全国性人事考试组织工作，对命题安全、阅卷效率等要求极为严苛。牛派AI智能阅卷与成绩分析系统帮助其实现阅卷效率与数据精准度的双重突破。</p>
+                            <p class="comm-indent">承担全国性人事考试组织工作，对命题安全、阅卷效率等要求极为严苛。牛派AI智能阅卷与成绩分析系统帮助其实现阅卷效率与数据精准度的双重突破。</p>
                             <div class="line1"></div>
                             <div class="niupai-case-stats">
                                 <div><strong>80%</strong><span>阅卷效率提升</span></div>
@@ -449,7 +449,7 @@ onMounted(() => {
                         </div>
                         <div class="niupai-case-card-body">
                             <h3>某科技园区运营管理平台</h3>
-                            <p>园区内企业众多，运营管理涉及资产管理、费用分摊、合同管理等复杂场景。牛派为其搭建统一的数字化运营平台，实现园区资源的高效调配与透明管理。</p>
+                            <p class="comm-indent">园区内企业众多，运营管理涉及资产管理、费用分摊、合同管理等复杂场景。牛派为其搭建统一的数字化运营平台，实现园区资源的高效调配与透明管理。</p>
                             <div class="line1"></div>
                             <div class="niupai-case-stats">
                                 <div><strong>45%</strong><span>运营成本降低</span></div>
@@ -476,6 +476,9 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.comm-indent {
+    text-indent: 2em;
+}
 /* ===== 基础变量 ===== */
 .niupai-page {
     --niupai-blue: #1b3a7e;

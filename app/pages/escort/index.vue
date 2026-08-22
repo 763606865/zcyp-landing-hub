@@ -65,7 +65,7 @@ onMounted(() => {
                 <div class="escort-banner-content container-escort">
                     <span class="escort-badge">国家乙级涉密资质 · 公安部安保认证</span>
                     <h1 class="escort-banner-title">保密制卷<span style="color: #1A1A2E;">与<br />安保押运服务</span></h1>
-                    <p class="escort-banner-desc">
+                    <p class="escort-banner-desc comm-indent">
                         中测高科拥有国家秘密载体印制乙级资质、安保资质和信息安全认证三级等资质与企业级信息安全认证，自有安保团队，提供从试卷保密印刷、安全押运到阅卷交付的全流程服务，在全国建设有8大交付中心，覆盖全国32个省市，保障每一次考试交付的高效安全与公正。
                     </p>
                     <div class="escort-banner-actions">
@@ -135,13 +135,13 @@ onMounted(() => {
                 </div>
                 <div class="escort-qualify-content escort-animate">
                     <div class="escort-qualify-left">
-                        <p class="escort-qualify-text">
+                        <p class="escort-qualify-text comm-indent">
                             中测高科旗下自有安保公司并具有相关的安保资质。公司现有<strong>专职安保员100余人</strong>，并全部持证上岗，参加试卷保密押运的人员全部为政治可靠、品行良好、身体健康，无精神疾病，无吸毒、酗酒、赌博等不良嗜好。运输车辆驾驶员应具有<strong>50000千米和3年以上</strong>的安全驾驶经验，无重大交通责任事故。
                         </p>
-                        <p class="escort-qualify-text">
+                        <p class="escort-qualify-text comm-indent">
                             根据客户要求，中测高科可以提供<strong>专车押运、警察武装押运</strong>等服务。为了保证押运过程的安全，根据具体任务数量、路线、时间、接收方、目的地等涉密信息，并严格控制涉密信息的知悉范围。
                         </p>
-                        <p class="escort-qualify-text">
+                        <p class="escort-qualify-text comm-indent">
                             中测高科全程通过<strong>信息化手段管控押运工作</strong>，安保人员事先不知道目的地，押运员采取随机的方式抽取，押运的保险箱密码通过系统生成，押运人员不掌握，押运人员全部需要签订《保密押运承诺书》，对押运工作承担法律责任。押运出发及回收以后，系统将通知短信告知客户，做到安保押运全过程的监控、人性化和可追溯。
                         </p>
                         <div class="escort-qualify-tags">
@@ -257,7 +257,7 @@ onMounted(() => {
                         </div>
                     </div>
                 </div>
-                <p class="escort-delivery-desc escort-animate">
+                <p class="escort-delivery-desc escort-animate comm-indent">
                     中测高科在全国32个省市设有分子公司及办事处，是国内少数具有全国"一张网"落地服务的人才测评与考试大型服务机构。以南昌为保密制卷与押运总部基地，辐射全国五大分中心，确保快速响应各类考试需求。真正做到规模化、规范化和信息化。
                 </p>
             </div>
@@ -325,7 +325,7 @@ onMounted(() => {
                             <span class="escort-security-num">01</span>
                             <h4>资质完备</h4>
                         </div>
-                        <p>为了满足全国范围内的保密制卷要求，中测高科自建保密印刷车间，并取得了国家保密局颁发的<strong>秘密载体印刷乙级资质</strong>，在全国考试命题测评行业中，中测高科是全行业少数具有研究院、国家保密印刷乙级资质、公安部信息安全三级等保证认证和公安部门保安公司"四资质"交付能力的测评机构。
+                        <p class="comm-indent">为了满足全国范围内的保密制卷要求，中测高科自建保密印刷车间，并取得了国家保密局颁发的<strong>秘密载体印刷乙级资质</strong>，在全国考试命题测评行业中，中测高科是全行业少数具有研究院、国家保密印刷乙级资质、公安部信息安全三级等保证认证和公安部门保安公司"四资质"交付能力的测评机构。
                         </p>
                     </div>
                     <div class="escort-security-card">
@@ -333,7 +333,7 @@ onMounted(() => {
                             <span class="escort-security-num">02</span>
                             <h4>设备齐全</h4>
                         </div>
-                        <p>场地配套设施齐全完备，全城市布设<strong>360度无死角全天候高清监控系统</strong>，全程实现可视化值守管控。严格执行入闸封闭式制卷管理流程，专用安保押运车辆、GPS全套专业防伪印刷设备均落实分级安全防护举措，全流程闭环监管，全方位筑牢保密安全防线。
+                        <p class="comm-indent">场地配套设施齐全完备，全城市布设<strong>360度无死角全天候高清监控系统</strong>，全程实现可视化值守管控。严格执行入闸封闭式制卷管理流程，专用安保押运车辆、GPS全套专业防伪印刷设备均落实分级安全防护举措，全流程闭环监管，全方位筑牢保密安全防线。
                         </p>
                     </div>
                     <div class="escort-security-card">
@@ -341,7 +341,7 @@ onMounted(() => {
                             <span class="escort-security-num">03</span>
                             <h4>人员可靠</h4>
                         </div>
-                        <p>全体从业人员政治可靠、作风严谨，组建稳定专属作业团队，人员固定不临时调配。团队历经各类涉密印刷项目千锤百炼，长期深耕安全保密印刷领域，实操经验丰富，<strong>熟悉全流程保密规范，具备极强风险防控意识</strong>，可稳妥完成各类高标准涉密制卷任务。
+                        <p class="comm-indent">全体从业人员政治可靠、作风严谨，组建稳定专属作业团队，人员固定不临时调配。团队历经各类涉密印刷项目千锤百炼，长期深耕安全保密印刷领域，实操经验丰富，<strong>熟悉全流程保密规范，具备极强风险防控意识</strong>，可稳妥完成各类高标准涉密制卷任务。
                         </p>
                     </div>
                     <div class="escort-security-card">
@@ -349,7 +349,7 @@ onMounted(() => {
                             <span class="escort-security-num">04</span>
                             <h4>机制完备</h4>
                         </div>
-                        <p>各项保密管理制度体系机制完备稳定，自有固定专职作业团队，内部层级管控、风险排查等内控机制完善健全。交付中心实行 <strong>24
+                        <p class="comm-indent">各项保密管理制度体系机制完备稳定，自有固定专职作业团队，内部层级管控、风险排查等内控机制完善健全。交付中心实行 <strong>24
                                 小时专人在岗值班值守制度</strong>，定时开展巡逻巡检，全时段落实安全保密管控，形成闭环管理体系，有效防范各类安全泄密风险。</p>
                     </div>
                 </div>
@@ -436,6 +436,9 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.comm-indent {
+    text-indent: 2em;
+}
 /* ===== 基础变量 ===== */
 .escort-page {
     --escort-blue: #0F62FE;
