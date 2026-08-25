@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+
+// @ts-ignore
 const route = useRoute()
+// @ts-ignore
 const source = useCampaignSource()
 
 const routeProductMap: Record<string, number> = {
@@ -10,6 +14,7 @@ const routeProductMap: Record<string, number> = {
   '/niupai': 5,
   '/questionBank': 6,
   '/question': 7,
+  '/aiInterview': 8,
 }
 const contactRoute = computed(() => {
   const product = routeProductMap[route.path]
@@ -32,6 +37,7 @@ const contactRoute = computed(() => {
         <NuxtLink to="/niupai">牛派系统</NuxtLink>
         <NuxtLink to="/questionBank">题库中心</NuxtLink>
         <NuxtLink to="/question">题库系统</NuxtLink>
+        <NuxtLink to="/aiInterview">AI面试</NuxtLink>
       </nav>
       <NuxtLink class="button button-small" :to="contactRoute">获取方案</NuxtLink>
     </div>

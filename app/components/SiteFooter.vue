@@ -14,6 +14,7 @@
         <NuxtLink to="/niupai">牛派系统</NuxtLink>
         <NuxtLink to="/questionBank">题库中心</NuxtLink>
         <NuxtLink to="/question">题库系统</NuxtLink>
+        <NuxtLink to="/aiInterview">AI面试</NuxtLink>
       </div>
       <div>
         <p class="footer-label">联系我们</p>
