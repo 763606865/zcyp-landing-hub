@@ -154,8 +154,7 @@ const customerCases = [
                     <p class="ai-banner-desc comm-indent">统一用人标准，提升招聘效率。7×24全程AI自动邀约、面试、评估，帮助组织实现"组织智能化"人才战略。</p>
                     <div class="ai-banner-actions">
                         <NuxtLink class="ai-btn ai-btn-primary" :to="contactRoute">免费试用</NuxtLink>
-                        <a class="ai-btn ai-btn-outline" href="javascript:void(0)"
-                            @click.prevent="scrollToSection('product-flow')">预约演示</a>
+                        <NuxtLink class="ai-btn ai-btn-outline" :to="contactRoute">预约演示</NuxtLink>
                     </div>
                     <div class="ai-banner-tags">
                         <span class="ai-tag">多轮面试</span>
