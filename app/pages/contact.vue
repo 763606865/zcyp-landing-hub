@@ -8,7 +8,7 @@ const source = useCampaignSource()
 const contactApiUrl = `${config.public.apiBaseUrl.replace(/\/+$/, '')}/cms/contact-inquiries`
 const products = [
   { value: 1 as ProductValue, label: 'HR事务所' },
-  { value: 2 as ProductValue, label: 'AI命题' },
+  { value: 2 as ProductValue, label: '命题服务' },
   { value: 3 as ProductValue, label: '阅卷服务' },
   { value: 4 as ProductValue, label: '保密押运' },
   { value: 5 as ProductValue, label: '牛派系统' },

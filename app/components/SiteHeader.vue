@@ -31,7 +31,7 @@ const contactRoute = computed(() => {
       <nav aria-label="主导航">
         <NuxtLink to="/">首页</NuxtLink>
         <NuxtLink to="/hr">HR事务所</NuxtLink>
-        <NuxtLink to="/aiproposition">AI命题</NuxtLink>
+        <NuxtLink to="/aiproposition">命题服务</NuxtLink>
         <NuxtLink to="/marking">阅卷服务</NuxtLink>
         <NuxtLink to="/escort">保密押运</NuxtLink>
         <NuxtLink to="/niupai">牛派系统</NuxtLink>
