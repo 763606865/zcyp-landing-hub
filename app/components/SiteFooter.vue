@@ -16,6 +16,7 @@
         <NuxtLink to="/question">题库系统</NuxtLink>
         <NuxtLink to="/aiInterview">AI面试</NuxtLink>
         <NuxtLink to="/computerService">机考服务</NuxtLink>
+        <NuxtLink to="/onlineTest">在线笔试</NuxtLink>
       </div>
       <div>
         <p class="footer-label">联系我们</p>
