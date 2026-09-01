@@ -363,6 +363,7 @@ const customerCases = [
                         </div>
                     </div>
                 </div>
+                <img src="/assets/images/aiInterview/box3-img.png" alt="" class="ai-pain-img ai-animate" />
             </div>
         </section>
 
@@ -1212,7 +1213,7 @@ const customerCases = [
 .ai-pain-section {
     position: relative;
     width: 100%;
-    height: 1031px;
+    height: 1654px;
     padding: 82px 0 90px;
     overflow: hidden;
     background: linear-gradient(125deg, #003399 0%, #0052D9 40%, #1677FF 100%);
@@ -1224,7 +1225,7 @@ const customerCases = [
     left: 50%;
     transform: translateX(-50%);
     width: 1440px;
-    height: 1031px;
+    height: 100%;
     pointer-events: none;
     z-index: 1;
 }
@@ -1295,6 +1296,7 @@ const customerCases = [
     display: flex;
     gap: 8px;
     align-items: stretch;
+    margin-bottom: 46px;
 }
 
 .ai-pain-left,
@@ -1395,6 +1397,11 @@ const customerCases = [
 .ai-pain-vs img {
     width: 56px;
     height: 56px;
+}
+
+.ai-pain-img {
+    width: 1200px;
+    height: 550px;
 }
 
 /* ===== 产品流程区 ===== */
