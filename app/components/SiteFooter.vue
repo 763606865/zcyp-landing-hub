@@ -17,6 +17,7 @@
         <NuxtLink to="/aiInterview">AI面试</NuxtLink>
         <NuxtLink to="/computerService">机考服务</NuxtLink>
         <NuxtLink to="/onlineTest">在线笔试</NuxtLink>
+        <NuxtLink to="/antiCheating">AI防作弊</NuxtLink>
       </div>
       <div>
         <p class="footer-label">联系我们</p>
