@@ -43,7 +43,7 @@ const contactRoute = computed(() => {
         <NuxtLink to="/aiInterview">AI面试</NuxtLink>
         <NuxtLink to="/computerService">机考服务</NuxtLink>
         <NuxtLink to="/onlineTest">在线笔试</NuxtLink>
-        <NuxtLink to="/antiCheating">AI防作弊</NuxtLink>
+        <NuxtLink to="/antiCheating">AI考务安全智能体</NuxtLink>
       </nav>
       <NuxtLink class="button button-small" :to="contactRoute">获取方案</NuxtLink>
     </div>

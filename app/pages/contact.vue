@@ -17,7 +17,7 @@ const products = [
   { value: 8 as ProductValue, label: 'AI面试系统' },
   { value: 9 as ProductValue, label: '机考服务' },
   { value: 10 as ProductValue, label: '在线笔试' },
-  { value: 11 as ProductValue, label: 'AI防作弊系统' },
+  { value: 11 as ProductValue, label: 'AI考务安全智能体' },
   { value: 99 as ProductValue, label: '其他' },
 ]
 

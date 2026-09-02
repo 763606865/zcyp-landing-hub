@@ -8,7 +8,7 @@ const contactRoute = computed(() => getContactRoute(11, source.value))
 
 // @ts-ignore
 useSeoMeta({
-    title: 'AI防作弊系统｜中测高科',
+    title: 'AI考务安全智能体｜中测高科',
     description: '中测高科AI考务安全智能体，面向标准化考试场景的智能化全流程考务管控系统，融合人工智能与视频分析技术，实现从考务组织到结果溯源的全链路闭环管理。',
 })
 
