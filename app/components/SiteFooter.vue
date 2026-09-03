@@ -2,13 +2,13 @@
   <footer class="site-footer">
     <div class="container footer-grid">
       <div>
-        <div class="brand brand-light"><img src="/assets/images/hub-logo1.png" alt="Logo" class="brand-logo"></div>
+        <a class="brand brand-light" href="https://zcyp-web.jxhrm.com" target="_blank" rel="noopener noreferrer" aria-label="中测易聘"><img src="/assets/images/hub-logo1.png" alt="Logo" class="brand-logo"></a>
         <p>为企业提供可靠、易用、可持续演进的数字化产品。</p>
       </div>
       <div class="footer-links">
-        <NuxtLink to="/">首页</NuxtLink>
-        <NuxtLink to="/hr">HR事务所</NuxtLink>
-        <NuxtLink to="/aiproposition">命题服务</NuxtLink>
+        <NuxtLink to="/">命题服务</NuxtLink>
+        <!-- <NuxtLink to="/hr">HR事务所</NuxtLink> -->
+        <!-- <NuxtLink to="/aiproposition">命题服务</NuxtLink> -->
         <NuxtLink to="/marking">阅卷服务</NuxtLink>
         <NuxtLink to="/escort">保密押运</NuxtLink>
         <NuxtLink to="/niupai">牛派系统</NuxtLink>

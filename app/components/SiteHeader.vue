@@ -7,7 +7,7 @@ const route = useRoute()
 const source = useCampaignSource()
 
 const routeProductMap: Record<string, number> = {
-  '/hr': 1,
+  // '/hr': 1,
   '/aiproposition': 2,
   '/marking': 3,
   '/escort': 4,
@@ -28,13 +28,13 @@ const contactRoute = computed(() => {
 <template>
   <header class="site-header">
     <div class="container nav-wrap">
-      <NuxtLink class="brand" to="/" aria-label="产品中心首页">
+      <a class="brand" href="https://zcyp-web.jxhrm.com" target="_blank" rel="noopener noreferrer" aria-label="中测易聘">
         <img src="/assets/images/hub-logo.png" alt="Logo" class="brand-logo">
-      </NuxtLink>
+      </a>
       <nav aria-label="主导航">
-        <NuxtLink to="/">首页</NuxtLink>
-        <NuxtLink to="/hr">HR事务所</NuxtLink>
-        <NuxtLink to="/aiproposition">命题服务</NuxtLink>
+        <NuxtLink to="/">命题服务</NuxtLink>
+        <!-- <NuxtLink to="/hr">HR事务所</NuxtLink> -->
+        <!-- <NuxtLink to="/aiproposition">命题服务</NuxtLink> -->
         <NuxtLink to="/marking">阅卷服务</NuxtLink>
         <NuxtLink to="/escort">保密押运</NuxtLink>
         <NuxtLink to="/niupai">牛派系统</NuxtLink>
