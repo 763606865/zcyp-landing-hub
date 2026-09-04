@@ -28,7 +28,7 @@ const contactRoute = computed(() => {
 const primaryNav = [
   { to: '/', label: '命题服务' },
   { to: '/marking', label: '阅卷服务' },
-  { to: '/escort', label: '保密押运' },
+  { to: '/escort', label: '制卷与押运' },
   { to: '/niupai', label: '牛派系统' },
   { to: '/questionBank', label: '题库共建' },
   { to: '/question', label: '题库系统' },
