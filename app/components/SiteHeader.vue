@@ -18,6 +18,7 @@ const routeProductMap: Record<string, number> = {
   '/computerService': 9,
   '/onlineTest': 10,
   '/antiCheating': 11,
+  '/paperlessInterview': 13,
 }
 const contactRoute = computed(() => {
   const product = routeProductMap[route.path]
@@ -38,6 +39,7 @@ const moreNav = [
   { to: '/computerService', label: '机考服务' },
   { to: '/onlineTest', label: '在线笔试' },
   { to: '/antiCheating', label: 'AI考务安全智能体' },
+  { to: '/paperlessInterview', label: '无纸化面试评分' },
 ]
 
 const moreOpen = ref(false)
