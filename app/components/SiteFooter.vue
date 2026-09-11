@@ -29,3 +29,17 @@
     <div class="container copyright">© {{ new Date().getFullYear() }} 产品中心 · 保留所有权利</div>
   </footer>
 </template>
+
+<style scoped>
+/* 移动端页脚优化（仅 ≤560px 生效，桌面端不受影响）
+   全局 .footer-grid 已在 main.css 处理为单列，此处仅将长链接列改为两列更紧凑 */
+@media (max-width: 560px) {
+  .footer-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 16px;
+  }
+  .footer-links a { font-size: 13px; }
+  .copyright { font-size: 11px; line-height: 1.6; }
+}
+</style>

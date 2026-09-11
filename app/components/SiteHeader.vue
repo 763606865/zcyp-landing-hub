@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
+import { computed, ref, watch, onMounted, onBeforeUnmount } from 'vue'
 
 // @ts-ignore
 const route = useRoute()
@@ -52,6 +52,19 @@ const moreActive = computed(() => moreNav.some(i => i.to === route.path))
 const onDocClick = () => { moreOpen.value = false }
 onMounted(() => { document.addEventListener('click', onDocClick) })
 onBeforeUnmount(() => { document.removeEventListener('click', onDocClick) })
+
+// ===== 移动端抽屉导航（仅移动端使用，桌面端汉堡与抽屉均 display:none，不受影响）=====
+const mobileOpen = ref(false)
+// 抽屉打开时锁定背景滚动
+watch(mobileOpen, (open) => {
+  if (typeof document === 'undefined') return
+  document.documentElement.style.overflow = open ? 'hidden' : ''
+})
+// 路由切换后自动关闭抽屉
+watch(() => route.path, () => { mobileOpen.value = false })
+onBeforeUnmount(() => {
+  if (typeof document !== 'undefined') document.documentElement.style.overflow = ''
+})
 </script>
 
 <template>
@@ -100,7 +113,52 @@ onBeforeUnmount(() => { document.removeEventListener('click', onDocClick) })
         </div>
         <NuxtLink class="button button-small" :to="contactRoute">获取方案</NuxtLink>
       </div>
+      <button
+        type="button"
+        class="nav-burger"
+        :class="{ open: mobileOpen }"
+        :aria-expanded="mobileOpen"
+        aria-label="打开菜单"
+        @click="mobileOpen = !mobileOpen"
+      >
+        <span></span><span></span><span></span>
+      </button>
     </div>
+
+    <!-- 移动端抽屉导航：Teleport 到 body，规避 .site-header 的 backdrop-filter 对 fixed 定位的包含块影响 -->
+    <Teleport to="body">
+      <div class="nav-drawer-mask" :class="{ show: mobileOpen }" @click="mobileOpen = false"></div>
+      <aside class="nav-drawer" :class="{ open: mobileOpen }" aria-label="移动端导航">
+        <div class="nav-drawer-head">
+          <span>导航菜单</span>
+          <button type="button" class="nav-drawer-close" aria-label="关闭菜单" @click="mobileOpen = false">&times;</button>
+        </div>
+        <nav class="nav-drawer-list">
+          <NuxtLink
+            v-for="item in primaryNav"
+            :key="item.to"
+            :to="item.to"
+            :class="{ 'nav-drawer-active': item.to === route.path }"
+            @click="mobileOpen = false"
+          >{{ item.label }}</NuxtLink>
+          <span class="nav-drawer-label">更多</span>
+          <NuxtLink
+            v-for="item in moreNav"
+            :key="item.to"
+            :to="item.to"
+            :class="{ 'nav-drawer-active': item.to === route.path }"
+            @click="mobileOpen = false"
+          >{{ item.label }}</NuxtLink>
+        </nav>
+        <div class="nav-drawer-foot">
+          <a class="nav-drawer-tel" href="tel:400-825-1513">
+            <img src="/assets/images/link-phone.png" alt="" width="22" height="22">
+            <span>400-825-1513</span>
+          </a>
+          <NuxtLink class="button nav-drawer-cta" :to="contactRoute" @click="mobileOpen = false">获取方案</NuxtLink>
+        </div>
+      </aside>
+    </Teleport>
   </header>
 </template>
 
@@ -170,5 +228,93 @@ onBeforeUnmount(() => { document.removeEventListener('click', onDocClick) })
 @media (max-width: 560px) {
   .site-header .nav-wrap nav { gap: 8px; font-size: 12px; }
   .nav-more-panel { min-width: 160px; }
+}
+
+/* ===== 移动端汉堡按钮 + 右侧抽屉 =====
+   默认（桌面端）全部隐藏，不影响 web 端任何样式与行为 */
+.nav-burger { display: none; }
+.nav-drawer-mask { display: none; }
+.nav-drawer { display: none; }
+
+@media (max-width: 768px) {
+  /* 隐藏横排导航与右侧操作区，改用汉堡 */
+  .site-header .nav-wrap nav { display: none; }
+  .nav-actions { display: none; }
+
+  .nav-burger {
+    display: inline-flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 5px; width: 44px; height: 44px; padding: 0; margin-right: -6px;
+    border: 0; background: transparent; cursor: pointer;
+  }
+  .nav-burger span {
+    display: block; width: 22px; height: 2px; border-radius: 2px;
+    background: var(--ink); transition: transform .28s ease, opacity .2s ease;
+  }
+  .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-burger.open span:nth-child(2) { opacity: 0; }
+  .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* 半透明遮罩 */
+  .nav-drawer-mask {
+    display: block; position: fixed; inset: 0; z-index: 60;
+    background: rgba(16, 25, 21, .45);
+    opacity: 0; visibility: hidden;
+    transition: opacity .3s ease, visibility .3s;
+  }
+  .nav-drawer-mask.show { opacity: 1; visibility: visible; }
+
+  /* 右侧滑入面板 */
+  .nav-drawer {
+    display: flex; flex-direction: column;
+    position: fixed; top: 0; right: 0; bottom: 0; z-index: 70;
+    width: min(82vw, 340px);
+    background: #f6f7f2;
+    box-shadow: -12px 0 40px rgba(16, 25, 21, .18);
+    transform: translateX(100%);
+    transition: transform .32s cubic-bezier(.4, 0, .2, 1);
+    overflow-y: auto; -webkit-overflow-scrolling: touch;
+  }
+  .nav-drawer.open { transform: translateX(0); }
+
+  .nav-drawer-head {
+    display: flex; align-items: center; justify-content: space-between;
+    flex: none; padding: 18px 20px;
+    border-bottom: 1px solid rgba(23, 34, 30, .08);
+    font-size: 15px; font-weight: 800; color: var(--ink);
+  }
+  .nav-drawer-close {
+    width: 32px; height: 32px; border: 0; border-radius: 8px;
+    background: transparent; font-size: 26px; line-height: 1;
+    color: var(--muted); cursor: pointer;
+  }
+  .nav-drawer-close:active { background: rgba(23, 34, 30, .06); }
+
+  .nav-drawer-list {
+    display: flex; flex-direction: column; gap: 2px;
+    flex: 1; padding: 12px 12px 20px;
+  }
+  .nav-drawer-list a {
+    padding: 13px 14px; border-radius: 10px;
+    font-size: 15px; font-weight: 600; color: var(--ink);
+    transition: background .15s ease, color .15s ease;
+  }
+  .nav-drawer-list a:active { background: rgba(14, 124, 102, .1); }
+  .nav-drawer-list a.nav-drawer-active { color: var(--green); background: rgba(14, 124, 102, .08); }
+  .nav-drawer-label {
+    margin: 14px 14px 4px; font-size: 12px; font-weight: 700;
+    letter-spacing: .1em; color: var(--muted);
+  }
+
+  .nav-drawer-foot {
+    display: flex; flex-direction: column; gap: 14px; flex: none;
+    padding: 16px 20px calc(20px + env(safe-area-inset-bottom));
+    border-top: 1px solid rgba(23, 34, 30, .08);
+  }
+  .nav-drawer-tel {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 17px; font-weight: 700; color: #3370FF;
+  }
+  .nav-drawer-tel img { width: 22px; height: 22px; object-fit: contain; display: block; }
+  .nav-drawer-cta { width: 100%; }
 }
 </style>
