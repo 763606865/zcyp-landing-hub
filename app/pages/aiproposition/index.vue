@@ -56,6 +56,51 @@ onMounted(() => {
         })
     }
 })
+
+// ===================== 移动端（≤1024px）专用逻辑 =====================
+// web 端根节点 .ai-page 的模板 / 样式 / 脚本保持零改动；
+// 以下状态与副作用仅供移动根节点 .aim-page 使用，与桌面端互不干扰。
+const aimSection = ref<HTMLElement>()
+const aimNavRef = ref<HTMLElement>()
+const aimActiveNav = ref('brand')
+
+// 滚动时高亮当前区块，并把激活的导航 tab 自动滚入横向可视区
+const aimHandleScroll = () => {
+    let current = navTabs[0]?.target ?? 'brand'
+    const y = window.scrollY + 140
+    for (let i = navTabs.length - 1; i >= 0; i--) {
+        const tab = navTabs[i]
+        const el = tab ? document.getElementById(`aim-${tab.target}`) : null
+        if (tab && el && el.getBoundingClientRect().top + window.scrollY <= y) {
+            current = tab.target
+            break
+        }
+    }
+    if (aimActiveNav.value !== current) {
+        aimActiveNav.value = current
+        nextTick(() => {
+            const activeTab = aimNavRef.value?.querySelector('.aim-nav-tab-active') as HTMLElement | null
+            activeTab?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+        })
+    }
+}
+
+onMounted(() => {
+    window.addEventListener('scroll', aimHandleScroll, { passive: true })
+    if (aimSection.value) {
+        const aimObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('aim-visible')
+                    aimObserver.unobserve(entry.target)
+                }
+            })
+        }, { threshold: 0.1 })
+        aimSection.value.querySelectorAll('.aim-animate').forEach(el => {
+            aimObserver.observe(el as HTMLElement)
+        })
+    }
+})
 </script>
 
 <template>
@@ -651,6 +696,330 @@ onMounted(() => {
                         </div>
                     </div>
                     <img src="/assets/images/ai_proposition/custom-service-icon.png" alt="人工客服" class="ai-qa-service" />
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ========== 移动端版本（≤1024px 生效，与 web 端零耦合）========== -->
+    <!-- ============================================================ -->
+    <div ref="aimSection" class="aim-page">
+        <!-- ========== Banner ========== -->
+        <section class="aim-banner">
+            <div class="aim-banner-bg">
+                <img src="/assets/images/ai_proposition/banner-bg.png" alt="" />
+            </div>
+            <div class="aim-banner-content aim-container">
+                <span class="aim-badge">中国人事考试安全交付领导品牌</span>
+                <h1 class="aim-banner-title">中测高科<span>命题服务</span></h1>
+                <p class="aim-banner-desc">全国考试命题服务市场占有率、客户满意度遥遥领先的行业头部机构！</p>
+                <div class="aim-banner-actions">
+                    <NuxtLink class="aim-btn-primary" to="/contact?product=2">联系咨询</NuxtLink>
+                    <NuxtLink class="aim-btn-ghost" to="/contact?product=2">了解更多</NuxtLink>
+                </div>
+            </div>
+            <!-- 2×2 统计卡（毛玻璃，常规流不再绝对定位） -->
+            <div class="aim-stats aim-container">
+                <div class="aim-stat-card aim-animate">
+                    <img src="/assets/images/ai_proposition/banner-icon1.png" alt="" />
+                    <div>
+                        <strong><span class="aim-count" v-count-up="28000">28000</span>+</strong>
+                        <span>年均出库套数</span>
+                    </div>
+                </div>
+                <div class="aim-stat-card aim-animate">
+                    <img src="/assets/images/ai_proposition/banner-icon2.png" alt="" />
+                    <div>
+                        <strong><span class="aim-count" v-count-up="18000">18000</span>+</strong>
+                        <span>年均笔试套数</span>
+                    </div>
+                </div>
+                <div class="aim-stat-card aim-animate">
+                    <img src="/assets/images/ai_proposition/banner-icon3.png" alt="" />
+                    <div>
+                        <strong><span class="aim-count" v-count-up="9000">9000</span>+</strong>
+                        <span>年均面试套数</span>
+                    </div>
+                </div>
+                <div class="aim-stat-card aim-animate">
+                    <img src="/assets/images/ai_proposition/banner-icon4.png" alt="" />
+                    <div>
+                        <strong><span class="aim-count" v-count-up="1000">1000</span>+</strong>
+                        <span>年均其他</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 锚点导航（横滑 sticky + 滚动高亮） ========== -->
+        <nav class="aim-nav" ref="aimNavRef">
+            <a v-for="tab in navTabs" :key="tab.target" class="aim-nav-tab"
+                :class="{ 'aim-nav-tab-active': aimActiveNav === tab.target }" :href="`#aim-${tab.target}`">
+                {{ tab.label }}
+            </a>
+        </nav>
+
+        <!-- ========== 品牌优势 ========== -->
+        <section id="aim-brand" class="aim-section aim-brand">
+            <div class="aim-container">
+                <div class="aim-head aim-animate">
+                    <span class="aim-en">BRAND ADVANTAGE</span>
+                    <h2>品牌优势</h2>
+                    <p>国企、上市公司背景，专注人力资源测评的科技型、学术型服务品牌</p>
+                </div>
+                <div class="aim-brand-stats aim-animate">
+                    <div class="aim-brand-stat">
+                        <img src="/assets/images/ai_proposition/brand-icon1.png" alt="" />
+                        <div class="aim-brand-stat-num"><span class="aim-count" v-count-up="10">10</span><em>余年</em></div>
+                        <div class="aim-brand-stat-desc">行业沉淀</div>
+                    </div>
+                    <div class="aim-brand-stat">
+                        <img src="/assets/images/ai_proposition/brand-icon2.png" alt="" />
+                        <div class="aim-brand-stat-num"><span class="aim-count" v-count-up="5000">5000</span><em>家/年</em></div>
+                        <div class="aim-brand-stat-desc">年服务客户数量</div>
+                    </div>
+                    <div class="aim-brand-stat">
+                        <img src="/assets/images/ai_proposition/brand-icon3.png" alt="" />
+                        <div class="aim-brand-stat-num"><span class="aim-count" v-count-up="800">800</span><em>万人次</em></div>
+                        <div class="aim-brand-stat-desc">年均服务考生</div>
+                    </div>
+                    <div class="aim-brand-stat">
+                        <img src="/assets/images/ai_proposition/brand-icon4.png" alt="" />
+                        <div class="aim-brand-stat-num"><span class="aim-count" v-count-up="3500">3500</span><em>万人次</em></div>
+                        <div class="aim-brand-stat-desc">近五年累计服务考生</div>
+                    </div>
+                </div>
+                <div class="aim-brand-body aim-animate">
+                    <p class="aim-indent">中测高科由江西聚才人力资源集团、重庆人才大市场集团、武汉人才集团、科锐国际(300662)等多方于2019年共同投资成立，是一家专注于人力资源测评的科技型、学术型人力资源外包服务公司，是我国组织人事考试和人才测评的第三方服务品牌。</p>
+                    <p class="aim-indent">中测高科在北京、江西、长沙、重庆、成都、海口、包头、怀化等全国各地成立了人力资源开发研究机构（研究院）、人事考试专家命题服务中心，专为组织人社部门"招才引智"，为机关事业单位、国有企业招聘考试提供人才测评、人事考试命题、考务技术支持。</p>
+                    <img class="aim-brand-img" src="/assets/images/ai_proposition/brand-img.png" alt="品牌优势" />
+                    <p class="aim-qual-title">资质认证</p>
+                    <div class="aim-qual-tags">
+                        <span class="aim-qual-tag"><img src="/assets/images/ai_proposition/brand-qual-icon.png" alt="" />国家科技部高新技术企业认证</span>
+                        <span class="aim-qual-tag"><img src="/assets/images/ai_proposition/brand-qual-icon.png" alt="" />公安部国家信息安全等级保护三级认证</span>
+                        <span class="aim-qual-tag"><img src="/assets/images/ai_proposition/brand-qual-icon.png" alt="" />软件企业认证</span>
+                        <span class="aim-qual-tag"><img src="/assets/images/ai_proposition/brand-qual-icon.png" alt="" />ISO9001质量管理体系认证</span>
+                        <span class="aim-qual-tag"><img src="/assets/images/ai_proposition/brand-qual-icon.png" alt="" />涉密印刷许可证</span>
+                        <span class="aim-qual-tag"><img src="/assets/images/ai_proposition/brand-qual-icon.png" alt="" />国家乙级保密资质认证</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 服务网点 ========== -->
+        <section id="aim-network" class="aim-section aim-network">
+            <div class="aim-container">
+                <div class="aim-head aim-animate">
+                    <span class="aim-en">NETWORK COVERAGE</span>
+                    <h2>服务网点</h2>
+                    <p>考试测评行业全国头部品牌，全国"一张网"落地服务体系</p>
+                </div>
+                <div class="aim-network-map aim-animate">
+                    <img src="/assets/images/ai_proposition/service-map.png" alt="服务网点地图" />
+                </div>
+                <div class="aim-network-data aim-animate">
+                    <div class="aim-data-card">
+                        <strong><span class="aim-count" v-count-up="30">30</span><em>家</em></strong>
+                        <span>分子公司</span>
+                    </div>
+                    <div class="aim-data-card">
+                        <strong><span class="aim-count" v-count-up="850">850</span><em>+</em></strong>
+                        <span>落地团队</span>
+                    </div>
+                    <div class="aim-data-card">
+                        <strong><span class="aim-count" v-count-up="32">32</span><em>个</em></strong>
+                        <span>省市覆盖</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 学术力量 ========== -->
+        <section id="aim-academic" class="aim-section aim-academic">
+            <div class="aim-sec-bg"><img src="/assets/images/ai_proposition/bg1.png" alt="" /></div>
+            <div class="aim-container aim-academic-inner">
+                <div class="aim-head aim-animate">
+                    <span class="aim-en aim-en-light">ACADEMIC STRENGTH</span>
+                    <h2 class="aim-h2-light">学术力量</h2>
+                    <p class="aim-sub-light">覆盖全国的学术队伍，多智能体协同命题，人工命题经验模型化</p>
+                </div>
+                <div class="aim-block aim-animate">
+                    <h3 class="aim-block-title">全国研究院布局</h3>
+                    <p class="aim-block-desc">先后创办多家学术机构，集合全国各地学术资源，服务全国社会化考试和人才选拔工作</p>
+                    <div class="aim-institute-list">
+                        <div class="aim-institute-card"><img src="/assets/images/ai_proposition/address-icon.png" alt="" /><span>江西省人力资源开发研究院</span></div>
+                        <div class="aim-institute-card"><img src="/assets/images/ai_proposition/address-icon.png" alt="" /><span>重庆西部人力资源开发研究院</span></div>
+                        <div class="aim-institute-card"><img src="/assets/images/ai_proposition/address-icon.png" alt="" /><span>包头现代人力资源开发研究院</span></div>
+                        <div class="aim-institute-card"><img src="/assets/images/ai_proposition/address-icon.png" alt="" /><span>湖南省人力资源研究中心</span></div>
+                        <div class="aim-institute-card"><img src="/assets/images/ai_proposition/address-icon.png" alt="" /><span>湖南聚才人力资源开发研究院</span></div>
+                        <div class="aim-institute-card"><img src="/assets/images/ai_proposition/address-icon.png" alt="" /><span>怀化市聚汇人力资源研究院</span></div>
+                    </div>
+                </div>
+                <div class="aim-block aim-animate">
+                    <h3 class="aim-block-title">专家团队实力</h3>
+                    <div class="aim-expert-stats">
+                        <div class="aim-expert-stat"><strong><span class="aim-count" v-count-up="300">300</span><em>人</em></strong><span>全职研究员</span></div>
+                        <div class="aim-expert-stat"><strong><span class="aim-count" v-count-up="160">160</span><em>+</em></strong><span>南昌专职队伍</span></div>
+                        <div class="aim-expert-stat"><strong><span class="aim-count" v-count-up="6">6</span><em>人</em></strong><span>博士学历</span></div>
+                        <div class="aim-expert-stat"><strong><span class="aim-count" v-count-up="88">88</span><em>人</em></strong><span>硕士学历</span></div>
+                        <div class="aim-expert-stat"><strong><span class="aim-count" v-count-up="24">24</span><em>人</em></strong><span>高级职称</span></div>
+                        <div class="aim-expert-stat"><strong><span class="aim-count" v-count-up="65">65</span><em>%</em></strong><span>入职3年以上占比</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 题库资源 ========== -->
+        <section id="aim-question" class="aim-section aim-question">
+            <div class="aim-sec-bg"><img src="/assets/images/ai_proposition/bg2.png" alt="" /></div>
+            <div class="aim-container aim-question-inner">
+                <div class="aim-head aim-animate">
+                    <span class="aim-en">QUESTION BANK</span>
+                    <h2>题库资源</h2>
+                    <p>庞大的题库资源体系，覆盖285个专业、20TB+试题文件、1000+细分学科</p>
+                </div>
+                <div class="aim-question-stats aim-animate">
+                    <div class="aim-qstat-card"><strong><span class="aim-count" v-count-up="285">285</span><em>项</em></strong><span>专业覆盖</span></div>
+                    <div class="aim-qstat-card"><strong><span class="aim-count" v-count-up="20">20</span><em>TB+</em></strong><span>题库文件大小</span></div>
+                    <div class="aim-qstat-card"><strong><span class="aim-count" v-count-up="1000">1000</span><em>项</em></strong><span>细分学科</span></div>
+                    <div class="aim-qstat-card"><strong><span class="aim-count" v-count-up="54">54</span><em>+</em></strong><span>类用人单位</span></div>
+                </div>
+                <div class="aim-growth aim-animate">
+                    <div class="aim-growth-card">
+                        <img src="/assets/images/ai_proposition/growth-rate.png" alt="" />
+                        <div>
+                            <strong><span class="aim-count" v-count-up="37">37</span><em>%+</em></strong>
+                            <span>服务客户数年平均增长</span>
+                        </div>
+                    </div>
+                    <div class="aim-growth-card">
+                        <img src="/assets/images/ai_proposition/growth-rate.png" alt="" />
+                        <div>
+                            <strong><span class="aim-count" v-count-up="35">35</span><em>%+</em></strong>
+                            <span>服务考生数年平均增长</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="aim-question-desc aim-animate">
+                    <h4>规范化、标准化题库与冷门学科命题技术突破</h4>
+                    <p>尤其是我们对有国家统一考试大纲的规范化、标准化、社会统招考试命题做到了极致，同时攻克了盲文、小语种、民间戏曲等偏门、冷门学科的考试命题与人才测评技术。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 核心优势 ========== -->
+        <section id="aim-advantage" class="aim-section aim-advantage">
+            <div class="aim-container">
+                <div class="aim-head aim-animate">
+                    <span class="aim-en">CORE ADVANTAGES</span>
+                    <h2>核心优势</h2>
+                    <p>高效率、高质量、高安全保密，三位一体的考试交付体系</p>
+                </div>
+                <div class="aim-adv-card aim-animate">
+                    <div class="aim-adv-head">
+                        <img src="/assets/images/ai_proposition/advantage-icon1.png" alt="" />
+                        <div><h3>高效率</h3><p>人机协同，全天候应急交付</p></div>
+                    </div>
+                    <div class="aim-adv-line"></div>
+                    <div class="aim-adv-items">
+                        <div class="aim-adv-item"><span class="aim-adv-num">01</span><div><strong>庞大的题库资源</strong><p>20TB的题库文件，上千个科目分类，数万的知识点点分布，为高效交付提供坚实基础。</p></div></div>
+                        <div class="aim-adv-item"><span class="aim-adv-num">02</span><div><strong>人机协同高效交付</strong><p>AI命题、AI查重、AI组卷、AI成绩分析与试卷评价，全流程智能化赋能。</p></div></div>
+                        <div class="aim-adv-item"><span class="aim-adv-num">03</span><div><strong>流水作业效率高</strong><p>命题与组卷分离，专业化分工协作，大幅提升交付效率。</p></div></div>
+                        <div class="aim-adv-item"><span class="aim-adv-num">04</span><div><strong>全天候应急交付</strong><p>7×24小时值班制度，确保紧急任务快速响应、准时交付。</p></div></div>
+                    </div>
+                </div>
+                <div class="aim-adv-card aim-animate">
+                    <div class="aim-adv-head">
+                        <img src="/assets/images/ai_proposition/advantage-icon2.png" alt="" />
+                        <div><h3>高质量</h3><p>专家团队把关，全流程质量管控</p></div>
+                    </div>
+                    <div class="aim-adv-line"></div>
+                    <div class="aim-adv-items">
+                        <div class="aim-adv-item"><span class="aim-adv-num">01</span><div><strong>试题质量严格管控</strong><p>命题 → 一审 → 二审 → 专家把关 → 质检 → 试考 → 印刷审核 → AI分析查重，八道关确保试题质量。</p></div></div>
+                        <div class="aim-adv-item"><span class="aim-adv-num">02</span><div><strong>专业细化分类</strong><p>专业的人做专业的事，根据命题老师的专业与特长分配任务杜绝非专业人员命题，流水化作业保障每个环节精益求精。</p></div></div>
+                        <div class="aim-adv-item"><span class="aim-adv-num">03</span><div><strong>分类交付能力</strong><p>根据难度、层次、岗位调研等进行定制化交付，满足不同客户需求。</p></div></div>
+                        <div class="aim-adv-item"><span class="aim-adv-num">04</span><div><strong>专家团队300+</strong><p>全职300+研究员，博士6人，硕士88人，高级职称24人，保障学术交付品质。</p></div></div>
+                    </div>
+                </div>
+                <div class="aim-adv-card aim-animate">
+                    <div class="aim-adv-head">
+                        <img src="/assets/images/ai_proposition/advantage-icon3.png" alt="" />
+                        <div><h3>高安全保密</h3><p>同行业唯一自有涉密印刷资质+自有安保团队</p></div>
+                    </div>
+                    <div class="aim-adv-line"></div>
+                    <div class="aim-adv-items">
+                        <div class="aim-adv-item"><span class="aim-adv-num">01</span><div><strong>涉密印刷资质+安保团队</strong><p>自有涉密乙级资质+公安部门安保认证备案。</p></div></div>
+                        <div class="aim-adv-item"><span class="aim-adv-num">02</span><div><strong>入闱式命题</strong><p>360度无死角监控+三道安检措施，确保命题过程安全可控。</p></div></div>
+                        <div class="aim-adv-item"><span class="aim-adv-num">03</span><div><strong>内控复核机制</strong><p>阅卷→双评 → 命题组卷分离 → 试题双审 → 客观题组卷双控 → 主观题阅卷双审 → AI纠错。</p></div></div>
+                        <div class="aim-adv-item"><span class="aim-adv-num">04</span><div><strong>技术保密措施</strong><p>三级等保+信息安全认证+保密专网命题+加密传输+上网行为监管，全方位技术保障。</p></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 联系我们 ========== -->
+        <section id="aim-contact" class="aim-section aim-contact">
+            <div class="aim-sec-bg"><img src="/assets/images/ai_proposition/bg3.png" alt="" /></div>
+            <div class="aim-container aim-contact-inner">
+                <div class="aim-head aim-animate">
+                    <span class="aim-en">CONTACT US</span>
+                    <h2>联系我们</h2>
+                    <p>全国各分子公司联系方式，欢迎垂询合作</p>
+                </div>
+                <div class="aim-hq aim-animate">
+                    <h3 class="aim-hq-title">总部联系方式</h3>
+                    <div class="aim-hq-item">
+                        <strong>聚才总部</strong>
+                        <p><span class="aim-hq-label">北京</span></p>
+                        <p>电话：<a href="tel:13970941607">139-7094-1607</a></p>
+                        <p>地址：北京市朝阳区朝阳门南大街10号科锐国际</p>
+                    </div>
+                    <div class="aim-hq-item">
+                        <strong>运营总部</strong>
+                        <p><span class="aim-hq-label">南昌</span></p>
+                        <p>电话：<a href="tel:15982262694">159-8226-2694</a></p>
+                        <p>地址：南昌市红谷滩区九龙湖绿地卢塞恩小镇7栋</p>
+                    </div>
+                    <div class="aim-hq-item">
+                        <strong>公司全称</strong>
+                        <p><span class="aim-hq-label">中测高科（北京）人才测评中心有限公司</span></p>
+                    </div>
+                </div>
+                <div class="aim-region-grid aim-animate">
+                    <div class="aim-region-card"><strong>安徽</strong><a href="tel:17355193960">173-5519-3960</a><p class="aim-region-desc">安徽省合肥市包河区九华山路世纪阳光大厦4楼</p></div>
+                    <div class="aim-region-card"><strong>天津</strong><a href="tel:18088139892">180-8813-9892</a><p class="aim-region-desc">邮箱：<a href="mailto:3053595705@qq.com">3053595705@qq.com</a></p></div>
+                    <div class="aim-region-card"><strong>云南</strong><a href="tel:18190734837">181-9073-4837</a><p class="aim-region-desc">云南省昆明市五华区人民中路48号5楼506</p></div>
+                    <div class="aim-region-card"><strong>包头</strong><a href="tel:15044707575">150-4470-7575</a><p class="aim-region-desc">内蒙古包头市九原区稀土大街人和大厦四楼412</p></div>
+                    <div class="aim-region-card"><strong>河北</strong><a href="tel:15533676686">155-3367-6686</a><p class="aim-region-desc">石家庄市高新区裕华东路453号创新大厦A座6楼603室</p></div>
+                    <div class="aim-region-card"><strong>河南</strong><a href="tel:18610501296">186-1050-1296</a><p class="aim-region-desc">郑州市金水区红专路109号金成商务大厦7楼</p></div>
+                    <div class="aim-region-card"><strong>贵州</strong><a href="tel:18275244122">182-7524-4122</a><p class="aim-region-desc">贵州省贵阳市观山湖区贵阳国际人才城3楼中测高科贵州分公司</p></div>
+                    <div class="aim-region-card"><strong>江西</strong><a href="tel:15347914736">153-4791-4736</a><p class="aim-region-desc">江西省南昌市红谷滩新区卢塞恩小镇7栋</p></div>
+                    <div class="aim-region-card"><strong>永州</strong><a href="tel:18610502291">186-1050-2291</a><p class="aim-region-desc">湖南省永州市经济技术开发区管理委员会 一楼办公大楼</p></div>
+                    <div class="aim-region-card"><strong>甘肃（宁夏、青海）</strong><a href="tel:19909446154">199-0944-6154</a><p class="aim-region-desc">甘肃省兰州市城关区雁南路18号创新大厦B区1016室</p></div>
+                    <div class="aim-region-card"><strong>广西</strong><a href="tel:18610501713">186-1050-1713</a><p class="aim-region-desc">广西南宁市青秀区金洲路25号太平洋世纪广场A座1701号</p></div>
+                    <div class="aim-region-card"><strong>山东</strong><a href="tel:18702596019">187-0259-6019</a><p class="aim-region-desc">济南人力资源服务产业园燕山园区济南市历下区解放路22号燕山大厦602室</p></div>
+                    <div class="aim-region-card"><strong>山西</strong><a href="tel:17535150676">175-3515-0676</a><p class="aim-region-desc">太原市迎泽区建设南路太原人力资源产业园4楼</p></div>
+                    <div class="aim-region-card"><strong>新疆</strong><a href="tel:19938050886">199-3805-0886</a><p class="aim-region-desc">新疆维吾尔自治区乌鲁木齐市新市区三工街道兵团第十二师人才大厦411</p></div>
+                    <div class="aim-region-card"><strong>黑龙江</strong><a href="tel:18610501510">186-1050-1510</a><p class="aim-region-desc">黑龙江省哈尔滨市南岗区大成街188</p></div>
+                    <div class="aim-region-card"><strong>海南</strong><a href="tel:15008965891">150-0896-5891</a><p class="aim-region-desc">海南省海口市龙华区龙昆北路华银大厦688室</p></div>
+                    <div class="aim-region-card"><strong>福建</strong><a href="tel:18106057998">181-0605-7998</a><p class="aim-region-desc">福州市仓山区鸿博创业园B509</p></div>
+                    <div class="aim-region-card"><strong>湖南</strong><a href="tel:15974295041">159-7429-5041</a><p class="aim-region-desc">长沙市雨花区金海路128号长沙国际研创中心A2栋1001</p></div>
+                    <div class="aim-region-card"><strong>陕西</strong><a href="tel:18066851081">180-6685-1081</a><p class="aim-region-desc">陕西省西安市雁塔区团结南路11号中晶科技广场A栋8楼</p></div>
+                    <div class="aim-region-card"><strong>吉林</strong><a href="tel:17600296373">176-0029-6373</a><p class="aim-region-desc">吉林省长春市朝阳区卫星路远创国际</p></div>
+                    <div class="aim-region-card"><strong>辽宁</strong><a href="tel:18610508248">186-1050-8248</a><p class="aim-region-desc">辽宁省沈阳市沈河区青年北大街16号沈阳市人才市场</p></div>
+                </div>
+            </div>
+            <!-- 底部疑问区 -->
+            <div class="aim-qa">
+                <div class="aim-container aim-qa-inner">
+                    <h3>对AI命题系统还有疑问？立即留言为你解答疑惑</h3>
+                    <p>给我们留言，我们将会为您解答所有问题。</p>
+                    <div class="aim-qa-btns">
+                        <NuxtLink class="aim-qa-btn aim-qa-btn-white" to="/contact?product=2">申请体验</NuxtLink>
+                        <NuxtLink class="aim-qa-btn aim-qa-btn-outline" to="/contact?product=2">在线留言</NuxtLink>
+                    </div>
+                    <img class="aim-qa-service" src="/assets/images/ai_proposition/custom-service-icon.png" alt="人工客服" />
                 </div>
             </div>
         </section>
@@ -1863,5 +2232,898 @@ onMounted(() => {
     .ai-brand-section {
         padding-top: 80px;
     }
+}
+
+/* ============================================================
+   移动端版本样式（≤1024px 生效）
+   · web 根 .ai-page 与以上全部桌面样式零改动
+   · 桌面（>1024px）隐藏移动根；≤1024px 隐藏桌面根、显示移动根
+   · 所有移动样式限定在 .aim-page 作用域内，class 前缀 aim-
+   · 不给 .aim-page 设 overflow:hidden，避免破坏 .aim-nav 的 sticky
+   ============================================================ */
+.aim-page { display: none; }
+
+@media (max-width: 1024px) {
+    .ai-page { display: none; }
+    .aim-page { display: block; }
+}
+
+/* ===== 移动根变量与基础 ===== */
+.aim-page {
+    --aim-blue: #0F62FE;
+    --aim-ink: #161616;
+    --aim-muted: #6F6F6F;
+    --aim-bg: #f4f7fa;
+    --aim-white: #fff;
+    --aim-border: #e2e8f0;
+    --aim-radius: 12px;
+    font-family: Inter, "SF Pro Display", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    color: var(--aim-ink);
+    background: var(--aim-white);
+}
+
+.aim-container {
+    width: min(100% - 32px, 720px);
+    margin: 0 auto;
+}
+
+/* 入场动画（移动独立 observer 命中后加 .aim-visible） */
+.aim-animate {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .6s ease, transform .6s ease;
+}
+
+.aim-animate.aim-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 数字动画：后缀继承父级字号/颜色 */
+.aim-count {
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    color: inherit !important;
+}
+
+.aim-section em {
+    font-style: normal;
+}
+
+/* ===== Banner ===== */
+.aim-banner {
+    position: relative;
+    padding: 40px 0 0;
+    background: linear-gradient(113deg, #0A1628 0%, #0E2C64 35.58%, #1B3A6B 70%, #1E4D8C 100%);
+    overflow: hidden;
+}
+
+.aim-banner-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.aim-banner-bg img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.aim-banner-content {
+    position: relative;
+    z-index: 2;
+}
+
+.aim-badge {
+    position: relative;
+    display: inline-block;
+    padding: 6px 14px 6px 26px;
+    margin-bottom: 18px;
+    border-radius: 999px;
+    background: rgba(15, 98, 254, .18);
+    border: 1px solid rgba(15, 98, 254, .3);
+    color: #A8C8FF;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .03em;
+}
+
+.aim-badge::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #0FFEFA;
+}
+
+.aim-banner-title {
+    margin: 0 0 12px;
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 1px;
+    color: #fff;
+}
+
+.aim-banner-title span { color: #0FFEFA; }
+
+.aim-banner-desc {
+    margin: 0 0 24px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, .92);
+}
+
+.aim-banner-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.aim-btn-primary,
+.aim-btn-ghost {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 20px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+}
+
+.aim-btn-primary {
+    background: #0F62FE;
+    color: #fff;
+}
+
+.aim-btn-primary::before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    background: url('/assets/images/ai_proposition/banner-phone.png') no-repeat center / contain;
+}
+
+.aim-btn-ghost {
+    background: transparent;
+    color: #fff;
+    border: 1.5px solid rgba(255, 255, 255, .35);
+}
+
+/* Banner 底部 2×2 毛玻璃统计卡 */
+.aim-stats {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding-bottom: 24px;
+}
+
+.aim-stat-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, .12);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, .16);
+}
+
+.aim-stat-card img {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+}
+
+.aim-stat-card strong {
+    display: block;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: #fff;
+}
+
+.aim-stat-card>div>span {
+    font-size: 12px;
+    color: rgba(255, 255, 255, .6);
+}
+
+/* ===== 锚点导航（横滑 sticky）===== */
+.aim-nav {
+    position: sticky;
+    top: 76px;
+    z-index: 15;
+    display: flex;
+    gap: 4px;
+    padding: 0 12px;
+    background: #EDF5FF;
+    border-bottom: 1px solid var(--aim-border);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.aim-nav::-webkit-scrollbar { display: none; }
+
+.aim-nav-tab {
+    position: relative;
+    flex-shrink: 0;
+    padding: 14px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #161616;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.aim-nav-tab-active {
+    color: #0F62FE;
+    font-weight: 700;
+}
+
+.aim-nav-tab-active::after {
+    content: '';
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 6px;
+    height: 3px;
+    border-radius: 2px 2px 0 0;
+    background: #0F62FE;
+}
+
+/* ===== 通用 section / 标题 ===== */
+.aim-section {
+    position: relative;
+    padding: 44px 0;
+    scroll-margin-top: 130px;
+}
+
+.aim-sec-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.aim-sec-bg img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.aim-head {
+    text-align: center;
+    margin-bottom: 26px;
+}
+
+.aim-en {
+    display: block;
+    margin-bottom: 6px;
+    color: #0F62FE;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .12em;
+}
+
+.aim-en-light { color: #fff; }
+
+.aim-head h2 {
+    margin: 0 0 10px;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: 1px;
+    color: #161616;
+}
+
+.aim-h2-light { color: #fff !important; }
+
+.aim-head p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--aim-muted);
+}
+
+.aim-sub-light { color: rgba(255, 255, 255, .78) !important; }
+
+.aim-academic-inner,
+.aim-question-inner,
+.aim-contact-inner {
+    position: relative;
+    z-index: 2;
+}
+
+/* ===== 品牌优势 ===== */
+.aim-brand { background: var(--aim-white); }
+
+.aim-brand-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.aim-brand-stat {
+    padding: 18px 16px;
+    text-align: center;
+    background: #F8FAFF;
+    border: 1px solid #E8EEFF;
+    border-radius: var(--aim-radius);
+}
+
+.aim-brand-stat img {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 8px;
+}
+
+.aim-brand-stat-num {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #0F62FE;
+}
+
+.aim-brand-stat-num em {
+    margin-left: 2px;
+    font-size: 13px;
+    font-weight: 400;
+    color: #8D8D8D;
+}
+
+.aim-brand-stat-desc {
+    margin-top: 2px;
+    font-size: 13px;
+    color: #111827;
+}
+
+.aim-indent {
+    margin: 0 0 16px;
+    text-indent: 2em;
+    font-size: 14px;
+    line-height: 1.8;
+    color: #525252;
+}
+
+.aim-brand-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 4px 0 20px;
+    border-radius: var(--aim-radius);
+}
+
+.aim-qual-title {
+    margin: 0 0 10px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #161616;
+}
+
+.aim-qual-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.aim-qual-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: #EDF5FF;
+    border: 1px solid #D0E2FF;
+    color: #0043CE;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.aim-qual-tag img { width: 14px; height: 14px; }
+
+/* ===== 服务网点 ===== */
+.aim-network { background: var(--aim-bg); }
+
+.aim-network-map img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.aim-network-data {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.aim-data-card {
+    padding: 16px 8px;
+    text-align: center;
+    background: var(--aim-white);
+    border: 1px solid var(--aim-border);
+    border-radius: var(--aim-radius);
+}
+
+.aim-data-card strong {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: #0F62FE;
+}
+
+.aim-data-card strong em {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.aim-data-card>span {
+    font-size: 12px;
+    color: #6F6F6F;
+}
+
+/* ===== 学术力量 ===== */
+.aim-academic {
+    background: var(--aim-blue);
+    padding-bottom: 48px;
+}
+
+.aim-block { margin-bottom: 28px; }
+
+.aim-block:last-child { margin-bottom: 0; }
+
+.aim-block-title {
+    margin: 0 0 8px;
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.aim-block-desc {
+    margin: 0 0 16px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, .72);
+}
+
+.aim-institute-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.aim-institute-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, .96);
+    border-radius: 10px;
+}
+
+.aim-institute-card img {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+}
+
+.aim-institute-card span {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--aim-blue);
+}
+
+.aim-expert-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.aim-expert-stat {
+    padding: 16px 8px;
+    text-align: center;
+    background: #fff;
+    border-radius: 8px;
+}
+
+.aim-expert-stat strong {
+    display: block;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #0F62FE;
+}
+
+.aim-expert-stat strong em {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.aim-expert-stat>span {
+    font-size: 11px;
+    font-weight: 500;
+    color: #111827;
+}
+
+/* ===== 题库资源 ===== */
+.aim-question { background: #f4f7fa; }
+
+.aim-question-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.aim-qstat-card {
+    padding: 20px 12px;
+    text-align: center;
+    background: var(--aim-white);
+    border: 1px solid var(--aim-border);
+    border-radius: var(--aim-radius);
+}
+
+.aim-qstat-card strong {
+    display: block;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #0F62FE;
+}
+
+.aim-qstat-card strong em {
+    font-size: 15px;
+    font-weight: 600;
+    color: #4C9DFF;
+}
+
+.aim-qstat-card>span {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--aim-muted);
+}
+
+.aim-growth {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.aim-growth-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+    background: var(--aim-white);
+    border: 1px solid var(--aim-border);
+    border-radius: var(--aim-radius);
+}
+
+.aim-growth-card img {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+}
+
+.aim-growth-card strong {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #198038;
+}
+
+.aim-growth-card strong em {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.aim-growth-card>div>span {
+    font-size: 13px;
+    color: #6F6F6F;
+}
+
+.aim-question-desc {
+    padding: 20px;
+    background: var(--aim-white);
+    border: 1px solid var(--aim-border);
+    border-radius: var(--aim-radius);
+}
+
+.aim-question-desc h4 {
+    margin: 0 0 8px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #161616;
+}
+
+.aim-question-desc p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #6F6F6F;
+}
+
+/* ===== 核心优势 ===== */
+.aim-advantage { background: var(--aim-white); }
+
+.aim-adv-card {
+    padding: 22px 18px;
+    margin-bottom: 16px;
+    background: var(--aim-white);
+    border: 1px solid var(--aim-border);
+    border-radius: 14px;
+}
+
+.aim-adv-card:last-child { margin-bottom: 0; }
+
+.aim-adv-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.aim-adv-head img {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+}
+
+.aim-adv-head h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #161616;
+}
+
+.aim-adv-head p {
+    margin: 2px 0 0;
+    font-size: 12px;
+    color: #6F6F6F;
+}
+
+.aim-adv-line {
+    height: 1px;
+    margin: 16px 0 18px;
+    background: #F0F0F0;
+}
+
+.aim-adv-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.aim-adv-item {
+    display: flex;
+    gap: 12px;
+    padding: 16px;
+    background: #F8FAFF;
+    border: 1px solid #EEF2FF;
+    border-radius: 10px;
+}
+
+.aim-adv-num {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    background: rgba(15, 98, 254, .08);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--aim-blue);
+}
+
+.aim-adv-item strong {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1a2e;
+}
+
+.aim-adv-item p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--aim-muted);
+}
+
+/* ===== 联系我们 ===== */
+.aim-contact {
+    background: #f5f8fa;
+    padding-bottom: 0;
+}
+
+.aim-hq {
+    padding: 18px;
+    margin-bottom: 16px;
+    background: rgba(255, 255, 255, .75);
+    border: 1px solid #F0F0F0;
+    border-radius: 10px;
+}
+
+.aim-hq-title {
+    margin: 0 0 12px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #161616;
+}
+
+.aim-hq-item {
+    padding: 12px 0;
+    border-top: 1px dashed #E5E5E5;
+}
+
+.aim-hq-item:first-of-type {
+    padding-top: 0;
+    border-top: none;
+}
+
+.aim-hq-item strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #0F62FE;
+}
+
+.aim-hq-item p {
+    margin: 0 0 3px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #6F6F6F;
+}
+
+.aim-hq-item a {
+    color: #0F62FE;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.aim-hq-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #161616;
+}
+
+.aim-region-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding-bottom: 28px;
+}
+
+.aim-region-card {
+    padding: 14px;
+    background: #fff;
+    border: 1px solid #F0F0F0;
+    border-radius: 8px;
+}
+
+.aim-region-card strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #161616;
+}
+
+.aim-region-card>a {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #0F62FE;
+    text-decoration: none;
+}
+
+.aim-region-desc {
+    margin: 0;
+    font-size: 11px;
+    line-height: 1.45;
+    color: #8D8D8D;
+}
+
+.aim-region-desc a {
+    color: #0F62FE;
+    text-decoration: none;
+    word-break: break-all;
+}
+
+/* ===== 底部疑问区 ===== */
+.aim-qa {
+    position: relative;
+    z-index: 2;
+    padding: 32px 0 36px;
+    text-align: center;
+    background: linear-gradient(91deg, #106DF5 0%, #3D85ED 64.12%, #106DF5 100%);
+}
+
+.aim-qa h3 {
+    margin: 0 0 12px;
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #fff;
+}
+
+.aim-qa p {
+    margin: 0 0 20px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, .92);
+}
+
+.aim-qa-btns {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.aim-qa-btn {
+    flex: 1;
+    max-width: 160px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    border-radius: 30px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+}
+
+.aim-qa-btn-white {
+    background: rgba(255, 255, 255, .94);
+    color: #055AE1;
+}
+
+.aim-qa-btn-outline {
+    background: transparent;
+    color: #fff;
+    border: 1.5px solid rgba(255, 255, 255, .55);
+}
+
+.aim-qa-service {
+    display: block;
+    width: 120px;
+    height: auto;
+    margin: 24px auto 0;
+}
+
+/* ===== 手机级微调 ===== */
+@media (max-width: 560px) {
+    .aim-nav { top: 66px; }
+    .aim-section { scroll-margin-top: 120px; }
+}
+
+@media (max-width: 480px) {
+    .aim-banner-title { font-size: 30px; }
+    .aim-head h2 { font-size: 23px; }
+    .aim-banner-actions { flex-direction: column; }
 }
 </style>
