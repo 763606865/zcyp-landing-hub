@@ -176,6 +176,42 @@ const bottomLines = [
     '兼容 Office 2016 及以上，导出 Word 图表图片不丢失',
     '异常数据友好展示，空数据以「—」填充，不出现 NaN 等代码字符',
 ]
+
+// ===== 移动端（sam- 前缀）独立逻辑：纯新增，不改动 web 端任何逻辑 =====
+// 复用上方已导入的 ref/onMounted/onUnmounted 及 navTabs 数据，不新增 import
+const samSection = ref<HTMLElement>()
+const samActiveNav = ref('sa-why')
+
+const samHandleScroll = () => {
+    const scrollY = window.scrollY + 140
+    for (let i = navTabs.length - 1; i >= 0; i--) {
+        const tab = navTabs[i]
+        if (!tab) continue
+        const sec = document.getElementById(`sam-${tab.target}`)
+        if (sec && sec.offsetTop <= scrollY) {
+            samActiveNav.value = tab.target
+            break
+        }
+    }
+}
+
+onMounted(() => {
+    window.addEventListener('scroll', samHandleScroll, { passive: true })
+    if (!samSection.value) return
+    const samObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('sam-visible')
+                samObserver.unobserve(entry.target)
+            }
+        })
+    }, { threshold: 0.12 })
+    samSection.value.querySelectorAll('.sam-animate').forEach(el => samObserver.observe(el as HTMLElement))
+})
+
+onUnmounted(() => {
+    window.removeEventListener('scroll', samHandleScroll)
+})
 </script>
 
 <template>
@@ -420,6 +456,238 @@ const bottomLines = [
                         @click.prevent="scrollToSection('sa-report')">查看分析报告演示</a>
                     <a class="sa-btn sa-btn-ghost" href="javascript:void(0)"
                         @click.prevent="scrollToSection('sa-feat')">了解功能特点</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ========== 移动端（sam- 前缀）：纯新增兄弟根，web 端零改动 ========== -->
+    <div ref="samSection" class="sam-page">
+        <!-- Banner -->
+        <section class="sam-banner">
+            <div class="sam-container sam-banner-inner">
+                <div class="sam-banner-copy sam-animate">
+                    <p class="sam-banner-eyebrow">考试测评 · 考务数据智能分析平台</p>
+                    <h1>中测成绩分析系统<br>让每一份成绩<em>都经得起检验</em></h1>
+                    <p class="sam-banner-desc">成绩分析系统面向考试测评机构与事业单位公开招聘考务，提供<b>科目成绩防作弊嫌疑判定</b>与<b>岗位成绩自动化研判</b>一体化能力——导入成绩数据、配置规则参数，即可自动产出统计指标、预警清单与可视化分析报告。</p>
+                    <div class="sam-banner-actions">
+                        <a class="sam-btn sam-btn-primary" href="#sam-sa-report">查看分析报告演示</a>
+                        <a class="sam-btn sam-btn-ghost" href="#sam-sa-feat">了解功能特点</a>
+                    </div>
+                </div>
+                <img src="/assets/images/scoreAnalysis/banner-bg.png" alt="" class="sam-banner-art sam-animate">
+            </div>
+            <!-- 数据栏 -->
+            <div class="sam-stats-bar">
+                <div class="sam-container sam-stats-inner">
+                    <div v-for="(stat, i) in bannerStats" :key="i" class="sam-stat-item sam-animate">
+                        <strong class="sam-stat-num">
+                            <span v-if="stat.decimals" v-count-decimal="stat.value">{{ stat.value.toFixed(2) }}</span>
+                            <span v-else v-count-up="stat.value">{{ stat.value }}</span>
+                            <i v-if="stat.suffix">{{ stat.suffix }}</i>
+                        </strong>
+                        <span class="sam-stat-label">{{ stat.label }}</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 内容导航 -->
+        <nav class="sam-nav-bar">
+            <div class="sam-nav-scroll">
+                <a v-for="tab in navTabs" :key="tab.target" class="sam-nav-tab"
+                    :class="{ 'sam-nav-tab-active': samActiveNav === tab.target }" :href="`#sam-${tab.target}`">
+                    {{ tab.label }}
+                </a>
+            </div>
+        </nav>
+
+        <!-- 产品意义 -->
+        <section id="sam-sa-why" class="sam-section sam-why">
+            <div class="sam-container">
+                <div class="sam-section-head sam-animate">
+                    <p class="sam-eyebrow">产品意义 · WHY</p>
+                    <h2>考后数据分析，不该靠人工硬扛</h2>
+                    <p class="sam-section-desc">每一次考试结束后，成绩校验、作弊排查、岗位研判、报告整理都压在考务人员肩上。成绩分析系统把这段最耗时、最易错、最需要客观依据的环节，交给规则引擎自动完成。</p>
+                </div>
+                <h3 class="sam-sub-title sam-sub-red sam-animate">考务人员面临的真实困境</h3>
+                <div class="sam-pain-grid">
+                    <div v-for="pain in pains" :key="pain.title" class="sam-pain-card sam-animate">
+                        <div class="sam-pain-head">
+                            <b>{{ pain.title }}</b>
+                            <img src="/assets/images/scoreAnalysis/box1-icon1.png" alt="" class="sam-pain-icon">
+                        </div>
+                        <p>{{ pain.desc }}</p>
+                    </div>
+                </div>
+                <div class="sam-answer-col sam-animate">
+                    <h3 class="sam-sub-title sam-sub-blue">系统的回答：让分析成为流程，而非负担</h3>
+                    <div class="sam-flow-box">
+                        <p>把「人盯数据」变成「规则盯数据」，把「结论靠拍脑袋」变成「每一条结论都有据可查」。</p>
+                        <div class="sam-flow-steps">
+                            <template v-for="(step, i) in flowSteps" :key="step.title">
+                                <div class="sam-flow-step">
+                                    <b>{{ step.title }}</b>
+                                    <span>{{ step.desc }}</span>
+                                </div>
+                                <img v-if="i < flowSteps.length - 1" src="/assets/images/scoreAnalysis/box1-icon2.png"
+                                    alt="" class="sam-flow-arrow">
+                            </template>
+                        </div>
+                    </div>
+                </div>
+                <div class="sam-answer-col sam-animate">
+                    <h3 class="sam-sub-title sam-sub-blue">从「事后补救」到「事前预警」</h3>
+                    <div class="sam-warn-box">
+                        <p>成绩分析系统用规则引擎替代人工比对，把考务人员从繁琐的核对与整理中解放出来，把时间还给决策本身。</p>
+                        <div class="sam-warn-card">
+                            <div class="sam-warn-card-box">
+                                <img src="/assets/images/scoreAnalysis/box1-icon3.png" alt="" class="sam-warn-card-icon">
+                                <b>守住公平底线，也守住考务效率</b>
+                            </div>
+                            <p>作弊预警「只出线索、人工复核」，既守住公平，又不误伤；岗位研判提前暴露竞争与递补风险，让每一次招考决策都有数据支撑。</p>
+                        </div>
+                        <div class="sam-warn-trace">
+                            <img src="/assets/images/scoreAnalysis/box1-icon4.png" alt="" class="sam-warn-trace-icon">
+                            <div>
+                                <b>可追溯、可复核</b>
+                                <span>每条预警都附带触发规则、计算数据与原始作答片段</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 核心优势 -->
+        <section id="sam-sa-adv" class="sam-section sam-adv">
+            <div class="sam-container">
+                <div class="sam-section-head sam-animate">
+                    <p class="sam-eyebrow sam-light">核心优势 · ADVANTAGES</p>
+                    <h2 class="sam-title-light">四个理由，让考务分析值得交给系统</h2>
+                    <p class="sam-section-desc sam-desc-light">不止是「把表格变成图表」，而是把考后分析的每个环节做成可依赖、可审计的标准流程。</p>
+                </div>
+                <div class="sam-adv-grid">
+                    <div v-for="card in advCards" :key="card.title" class="sam-adv-card sam-animate">
+                        <img :src="card.icon" alt="" class="sam-adv-icon">
+                        <b>{{ card.title }}</b>
+                        <p>{{ card.desc }}</p>
+                        <span class="sam-adv-tag">{{ card.tag }}</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 功能特点 -->
+        <section id="sam-sa-feat" class="sam-section sam-feat">
+            <div class="sam-container">
+                <div class="sam-section-head sam-animate">
+                    <p class="sam-eyebrow">功能特点 · FEATURES</p>
+                    <h2>两大分析场景，一套系统闭环</h2>
+                    <p class="sam-section-desc">科目成绩分析与岗位成绩分析共用一套数据底座与规则引擎，分别服务「成绩公平」与「招考决策」两类考务命题。</p>
+                </div>
+                <div class="sam-tabs sam-animate">
+                    <button v-for="(tab, i) in featureTabs" :key="tab.name" type="button" class="sam-tab"
+                        :class="{ 'sam-tab-active': activeTab === i }" @click="activeTab = i">
+                        <img :src="tab.icon" alt="">
+                        <div>
+                            <b>{{ tab.name }}</b>
+                            <span>{{ tab.sub }}</span>
+                        </div>
+                    </button>
+                </div>
+                <div :key="activeTab" class="sam-feat-content">
+                    <div class="sam-feat-lead">
+                        <span class="sam-feat-pill">{{ currentTab.pill }}</span>
+                        <h3>{{ currentTab.name }}</h3>
+                        <p>{{ currentTab.desc }}</p>
+                        <div class="sam-feat-num">
+                            <b>{{ currentTab.num }}</b>
+                            <span>{{ currentTab.numLabel }}</span>
+                        </div>
+                    </div>
+                    <div class="sam-feat-grid">
+                        <div v-for="card in currentTab.cards" :key="card.title" class="sam-feat-card">
+                            <img :src="card.icon" alt="" class="sam-feat-icon">
+                            <b>{{ card.title }}</b>
+                            <p>{{ card.desc }}</p>
+                            <span v-if="card.output" class="sam-feat-output">输出：{{ card.output }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 分析报告 -->
+        <section id="sam-sa-report" class="sam-section sam-report">
+            <div class="sam-container">
+                <div class="sam-section-head sam-animate">
+                    <p class="sam-eyebrow sam-light">分析报告展示 · REPORT</p>
+                    <h2 class="sam-title-light">一份报告，讲清整场考试</h2>
+                    <p class="sam-section-desc sam-desc-light">在线预览完整报告效果，统计指标、可视化图表、明细表格逐项呈现，确认无误后再导出文档。</p>
+                </div>
+                <div class="sam-report-grid">
+                    <div v-for="report in reports" :key="report.caption" class="sam-report-col sam-animate">
+                        <div class="sam-report-card">
+                            <div class="sam-report-head">
+                                <span class="dot dot-red"></span>
+                                <span class="dot dot-yellow"></span>
+                                <span class="dot dot-green"></span>
+                                <b>成绩分析报告 · 在线预览</b>
+                            </div>
+                            <div class="sam-report-body">
+                                <img :src="report.img" alt="">
+                            </div>
+                            <div class="sam-report-foot">完整报告可一键导出 Word · 完整版 / 精简版</div>
+                        </div>
+                        <p class="sam-report-caption">{{ report.caption }}</p>
+                        <p v-if="report.note" class="sam-report-note">{{ report.note }}</p>
+                    </div>
+                </div>
+                <div class="sam-report-tip sam-animate">报告全文较长，以上为省略图</div>
+            </div>
+        </section>
+
+        <!-- 参数配置 -->
+        <section id="sam-sa-config" class="sam-section sam-config">
+            <div class="sam-config-bg"><img src="/assets/images/scoreAnalysis/bg1.png" alt=""></div>
+            <div class="sam-container sam-config-inner">
+                <div class="sam-section-head sam-animate">
+                    <p class="sam-eyebrow">参数配置 · CONFIGURATION</p>
+                    <h2>全部阈值可配置，一套系统适配所有考试</h2>
+                    <p class="sam-section-desc">分析参数独立成模块，按考试规模、科目属性、题型占比灵活调整；报告附录自动写入参数快照，便于溯源。</p>
+                </div>
+                <div class="sam-config-grid">
+                    <div v-for="card in configCards" :key="card.title" class="sam-config-card sam-animate">
+                        <span class="sam-config-cat">{{ card.cat }}</span>
+                        <b>{{ card.title }}</b>
+                        <p>{{ card.desc }}</p>
+                        <span class="sam-config-pill">{{ card.pill }}</span>
+                    </div>
+                </div>
+                <div class="sam-bottom-line sam-animate">
+                    <b>考务数据的底线，系统一并守住</b>
+                    <div class="sam-bottom-grid">
+                        <div v-for="text in bottomLines" :key="text" class="sam-bottom-item">
+                            <svg width="16" height="18" viewBox="0 0 16 18" fill="none" aria-hidden="true">
+                                <path d="M8 1L15 3.5V8.5C15 12.6 12 16 8 17C4 16 1 12.6 1 8.5V3.5L8 1Z" stroke="#0E9F8A"
+                                    stroke-width="1.4" stroke-linejoin="round" />
+                            </svg>
+                            {{ text }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 收尾 CTA -->
+        <section class="sam-cta">
+            <div class="sam-container sam-cta-inner sam-animate">
+                <h2>把考后分析的几天，压缩成几分钟</h2>
+                <p>成绩分析系统让每一次考试都有据可查、有图可看、有报告可交付。导入成绩，点击分析，剩下的交给系统。</p>
+                <div class="sam-cta-actions">
+                    <a class="sam-btn sam-btn-primary" href="#sam-sa-report">查看分析报告演示</a>
+                    <a class="sam-btn sam-btn-ghost" href="#sam-sa-feat">了解功能特点</a>
                 </div>
             </div>
         </section>
@@ -1566,5 +1834,970 @@ const bottomLines = [
         font-size: 28px;
         line-height: 38px;
     }
+}
+
+/* ============================================================ */
+/* ===== 移动端（sam- 前缀）样式：纯新增，限定在 .sam-page 作用域 ===== */
+/* ============================================================ */
+
+/* 默认隐藏移动根；≤1024px 隐藏桌面根、显示移动根（web 端 >1024px 零影响） */
+.sam-page {
+    display: none;
+    --sam-blue: #0F62FE;
+    --sam-ink: #1A1A2E;
+    font-family: Inter, "SF Pro Display", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    color: var(--sam-ink);
+    background: #fff;
+}
+
+@media (max-width: 1024px) {
+    .sa-page {
+        display: none !important;
+    }
+
+    .sam-page {
+        display: block;
+    }
+}
+
+.sam-container {
+    width: 100%;
+    padding: 0 16px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.sam-section {
+    position: relative;
+    padding: 44px 0;
+    scroll-margin-top: 130px;
+}
+
+@media (max-width: 560px) {
+    .sam-section {
+        scroll-margin-top: 118px;
+    }
+}
+
+/* 入场动画（移动独立 observer：.sam-animate → .sam-visible） */
+.sam-animate {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .6s ease, transform .6s ease;
+}
+
+.sam-animate.sam-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 通用区块标题 */
+.sam-section-head {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.sam-eyebrow {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    color: var(--sam-blue);
+}
+
+.sam-light {
+    color: #fff !important;
+}
+
+.sam-section-head h2 {
+    margin: 10px 0 0;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 32px;
+    color: var(--sam-ink);
+}
+
+.sam-title-light {
+    color: #fff !important;
+}
+
+.sam-section-desc {
+    margin: 12px auto 0;
+    font-size: 14px;
+    line-height: 24px;
+    color: #5A6178;
+}
+
+.sam-desc-light {
+    color: rgba(255, 255, 255, .65);
+}
+
+.sam-sub-title {
+    margin: 28px 0 14px;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 26px;
+}
+
+.sam-sub-red {
+    color: #F04A4A;
+}
+
+.sam-sub-blue {
+    color: var(--sam-blue);
+}
+
+/* 按钮 */
+.sam-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.sam-btn-primary {
+    background: var(--sam-blue);
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(15, 98, 254, .35);
+}
+
+.sam-btn-ghost {
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .35);
+    color: #fff;
+}
+
+/* ===== Banner ===== */
+.sam-banner {
+    position: relative;
+    padding: 40px 0 0;
+    background: radial-gradient(39.21% 39.3% at 8% 110%, rgba(0, 96, 194, 0.5) 0%, rgba(29, 78, 128, 0) 60%),
+        radial-gradient(44.11% 50.53% at 82% -10%, rgba(228, 87, 46, 0.16) 0%, rgba(228, 87, 46, 0) 60%),
+        linear-gradient(135deg, #031A3F 0%, #06255D 100%);
+}
+
+.sam-banner-inner {
+    position: relative;
+    z-index: 2;
+}
+
+.sam-banner-eyebrow {
+    margin: 0;
+    font-weight: bold;
+    font-size: 12px;
+    color: #0FDAFE;
+    line-height: 20px;
+    letter-spacing: 2px;
+}
+
+.sam-banner-copy h1 {
+    margin: 16px 0 0;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 42px;
+    color: #fff;
+}
+
+.sam-banner-copy h1 em {
+    font-style: normal;
+    color: #0FDAFE;
+}
+
+.sam-banner-desc {
+    margin: 12px 0 0;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 24px;
+    color: #C7D2DF;
+}
+
+.sam-banner-desc b {
+    font-weight: 600;
+    color: #fff;
+}
+
+.sam-banner-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.sam-banner-art {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-top: 24px;
+}
+
+/* 数据栏 */
+.sam-stats-bar {
+    position: relative;
+    z-index: 3;
+    margin-top: 8px;
+    background: rgba(255, 255, 255, .1);
+    border-top: 1px solid rgba(255, 255, 255, .08);
+}
+
+.sam-stats-inner {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 0;
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+.sam-stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+}
+
+.sam-stat-num {
+    display: flex;
+    align-items: baseline;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+}
+
+.sam-stat-num i {
+    margin-left: 2px;
+    font-style: normal;
+    font-size: 14px;
+    font-weight: 700;
+    color: #25C0F0;
+}
+
+.sam-stat-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, .6);
+}
+
+/* ===== 内容导航 ===== */
+.sam-nav-bar {
+    position: sticky;
+    top: 76px;
+    z-index: 15;
+    background: #F4F7FB;
+    border-bottom: 1px solid #ECEFF3;
+}
+
+@media (max-width: 560px) {
+    .sam-nav-bar {
+        top: 66px;
+    }
+}
+
+.sam-nav-scroll {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 8px;
+    scrollbar-width: none;
+}
+
+.sam-nav-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.sam-nav-tab {
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    text-decoration: none;
+    padding: 13px 10px;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+}
+
+.sam-nav-tab-active {
+    color: var(--sam-blue);
+    border-bottom-color: var(--sam-blue);
+}
+
+/* ===== 产品意义 ===== */
+.sam-why {
+    background: #fff;
+}
+
+.sam-pain-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+@media (min-width: 600px) {
+    .sam-pain-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.sam-pain-card {
+    padding: 14px 16px 20px;
+    border-radius: 12px;
+    background: #F9F9F9;
+}
+
+.sam-pain-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.sam-pain-head b {
+    font-weight: bold;
+    font-size: 15px;
+    color: #14263C;
+    line-height: 24px;
+}
+
+.sam-pain-icon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    flex: none;
+}
+
+.sam-pain-card p {
+    margin: 6px 0 0;
+    font-size: 14px;
+    color: #51565D;
+    line-height: 22px;
+}
+
+.sam-answer-col {
+    margin-top: 8px;
+}
+
+.sam-flow-box,
+.sam-warn-box {
+    box-sizing: border-box;
+    padding: 20px 16px;
+    background: #fff;
+    box-shadow: 0 12px 32px -18px rgba(14, 42, 71, .28);
+    border-radius: 12px;
+    border: 1px solid #9DB2E9;
+}
+
+.sam-flow-box>p,
+.sam-warn-box>p {
+    margin: 0;
+    font-size: 13px;
+    color: #6B7A8C;
+    line-height: 22px;
+}
+
+.sam-flow-steps {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-top: 14px;
+}
+
+.sam-flow-step {
+    padding: 16px 12px;
+    text-align: center;
+    background: #F4F7FB;
+    border-radius: 8px;
+    border: 1px solid #9DB2E9;
+}
+
+.sam-flow-step b {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #0E2A47;
+}
+
+.sam-flow-step span {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+    line-height: 19px;
+    color: #6B7A8C;
+}
+
+.sam-flow-arrow {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    align-self: center;
+    transform: rotate(90deg);
+    margin: 4px 0;
+}
+
+.sam-warn-card {
+    margin-top: 10px;
+    padding: 12px 14px 14px;
+    border-radius: 8px;
+    background: var(--sam-blue);
+}
+
+.sam-warn-card-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sam-warn-card-icon {
+    width: 18px;
+    height: 20px;
+    object-fit: contain;
+    flex: none;
+}
+
+.sam-warn-card b {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.sam-warn-card p {
+    margin: 8px 0 0;
+    font-size: 13px;
+    color: rgba(255, 255, 255, .8);
+    line-height: 20px;
+}
+
+.sam-warn-trace {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.sam-warn-trace-icon {
+    width: 34px;
+    height: 36px;
+    object-fit: contain;
+    flex: none;
+}
+
+.sam-warn-trace b {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: #0E2A47;
+}
+
+.sam-warn-trace span {
+    display: block;
+    font-size: 12px;
+    color: #6B7A8C;
+    line-height: 18px;
+}
+
+/* ===== 核心优势 ===== */
+.sam-adv {
+    background: linear-gradient(149deg, #070E1A 0%, #00296F 70.28%, #122244 100%);
+}
+
+.sam-adv-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+}
+
+@media (min-width: 600px) {
+    .sam-adv-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.sam-adv-card {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 16px;
+    background: rgba(255, 255, 255, .2);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, .12);
+}
+
+.sam-adv-icon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.sam-adv-card b {
+    margin-top: 12px;
+    font-weight: 600;
+    font-size: 17px;
+    color: #fff;
+    line-height: 24px;
+}
+
+.sam-adv-card p {
+    margin: 8px 0 14px;
+    font-size: 14px;
+    color: #fff;
+    line-height: 23px;
+}
+
+.sam-adv-tag {
+    margin-top: auto;
+    align-self: flex-start;
+    padding: 5px 16px;
+    border: 1px solid rgba(255, 255, 255, .45);
+    border-radius: 999px;
+    font-size: 12px;
+    color: #fff;
+}
+
+/* ===== 功能特点 ===== */
+.sam-feat {
+    background: #f7f8fa;
+}
+
+.sam-tabs {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    border-bottom: 1px solid #E5E8EF;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.sam-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.sam-tab {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 6px 12px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    text-align: left;
+    flex: 0 0 auto;
+}
+
+.sam-tab img {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+}
+
+.sam-tab b {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: #333;
+}
+
+.sam-tab span {
+    display: block;
+    margin-top: 2px;
+    font-size: 11px;
+    color: #8C93A8;
+}
+
+.sam-tab-active b {
+    color: var(--sam-blue);
+}
+
+.sam-tab-active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    background: var(--sam-blue);
+}
+
+.sam-feat-content {
+    margin-top: 16px;
+    animation: sam-fade .45s ease;
+}
+
+@keyframes sam-fade {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.sam-feat-lead {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 18px 24px;
+    border-radius: 14px;
+    background: linear-gradient(145deg, #0F62FE 0%, #8488FF 100%);
+}
+
+.sam-feat-pill {
+    align-self: flex-start;
+    padding: 3px 12px;
+    background: rgba(255, 255, 255, .12);
+    border-radius: 20px;
+    border: 1px solid #fff;
+    font-size: 11px;
+    color: #fff;
+}
+
+.sam-feat-lead h3 {
+    margin: 14px 0 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.sam-feat-lead>p {
+    margin: 10px 0 0;
+    font-size: 13px;
+    line-height: 22px;
+    color: rgba(255, 255, 255, .85);
+}
+
+.sam-feat-num {
+    margin-top: 16px;
+}
+
+.sam-feat-num b {
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+}
+
+.sam-feat-num span {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, .75);
+}
+
+.sam-feat-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 14px;
+}
+
+@media (min-width: 600px) {
+    .sam-feat-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.sam-feat-card {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #E0DACB;
+}
+
+.sam-feat-icon {
+    width: 76px;
+    height: 46px;
+    object-fit: contain;
+}
+
+.sam-feat-card b {
+    margin-top: 6px;
+    font-size: 16px;
+    color: #0E2A47;
+    line-height: 24px;
+    font-weight: 700;
+}
+
+.sam-feat-card p {
+    margin: 8px 0 12px;
+    font-size: 14px;
+    color: #51565D;
+    line-height: 22px;
+}
+
+.sam-feat-output {
+    margin-top: auto;
+    padding: 7px 12px;
+    background: #F8F8F8;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--sam-blue);
+}
+
+/* ===== 分析报告 ===== */
+.sam-report {
+    background: linear-gradient(137deg, #070E1A 0%, #00296F 57.21%, #122244 100%);
+}
+
+.sam-report-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+.sam-report-col {
+    text-align: center;
+}
+
+.sam-report-card {
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 18px 44px rgba(3, 12, 32, .35);
+}
+
+.sam-report-head {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 14px;
+    background: #F0F5FC;
+}
+
+.sam-report-head .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+}
+
+.sam-report-head .dot-red {
+    background: #E4532F;
+}
+
+.sam-report-head .dot-yellow {
+    background: #C9A03A;
+}
+
+.sam-report-head .dot-green {
+    background: #2E9E7B;
+}
+
+.sam-report-head b {
+    margin-left: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    color: #333;
+}
+
+.sam-report-body {
+    display: flex;
+    justify-content: center;
+    padding: 14px;
+    background: #fff;
+}
+
+.sam-report-body img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.sam-report-foot {
+    padding: 11px 10px;
+    border-top: 1px dashed #C9D8F0;
+    background: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--sam-blue);
+}
+
+.sam-report-caption {
+    margin: 14px 0 0;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    color: #fff;
+}
+
+.sam-report-note {
+    margin: 6px 0 0;
+    font-size: 12px;
+    color: rgba(255, 255, 255, .55);
+}
+
+.sam-report-tip {
+    margin: 28px auto 0;
+    max-width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, .3);
+    font-size: 14px;
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+/* ===== 参数配置 ===== */
+.sam-config {
+    background: #EAF2FC;
+}
+
+.sam-config-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.sam-config-bg img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.sam-config-inner {
+    position: relative;
+    z-index: 2;
+}
+
+.sam-config-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+@media (min-width: 600px) {
+    .sam-config-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.sam-config-card {
+    padding: 18px 16px 20px;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #E0DACB;
+    box-shadow: 0 1px 0 0 rgba(20, 38, 60, .04);
+}
+
+.sam-config-cat {
+    font-size: 12px;
+    color: var(--sam-blue);
+    line-height: 18px;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.sam-config-card b {
+    display: block;
+    margin-top: 6px;
+    font-weight: 600;
+    font-size: 16px;
+    color: #0E2A47;
+    line-height: 24px;
+}
+
+.sam-config-card p {
+    margin: 10px 0 14px;
+    font-size: 13px;
+    color: #6B7A8C;
+    line-height: 20px;
+}
+
+.sam-config-pill {
+    display: inline-block;
+    padding: 2px 10px;
+    background: rgba(14, 42, 71, .06);
+    border-radius: 4px;
+    font-size: 12px;
+    color: #16406B;
+    line-height: 18px;
+}
+
+.sam-bottom-line {
+    margin-top: 28px;
+    padding: 28px 16px 24px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    background: url('/assets/images/scoreAnalysis/bg2.png') center / cover no-repeat;
+    text-align: center;
+}
+
+.sam-bottom-line b {
+    font-weight: 600;
+    font-size: 18px;
+    color: #fff;
+    line-height: 26px;
+}
+
+.sam-bottom-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.sam-bottom-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 14px;
+    border-radius: 4px;
+    background: #fff;
+    font-size: 13px;
+    color: #0E2A47;
+    line-height: 20px;
+    text-align: left;
+}
+
+.sam-bottom-item svg {
+    flex: none;
+}
+
+/* ===== 收尾 CTA ===== */
+.sam-cta {
+    padding: 48px 0;
+    background: radial-gradient(80.41% 42.11% at 50% 0%, rgba(228, 87, 46, .18) 0%, rgba(228, 87, 46, 0) 65%),
+        linear-gradient(180deg, #16265E 0%, #0E1F4C 100%);
+}
+
+.sam-cta-inner {
+    text-align: center;
+}
+
+.sam-cta h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 32px;
+}
+
+.sam-cta p {
+    margin: 14px auto 0;
+    font-size: 14px;
+    line-height: 24px;
+    color: rgba(255, 255, 255, .65);
+}
+
+.sam-cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 22px;
 }
 </style>
