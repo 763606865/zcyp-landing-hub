@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 
 const source = useCampaignSource()
 const contactRoute = computed(() => getContactRoute(7, source.value))
@@ -169,6 +169,49 @@ const caseTags = [
     '国有企业招聘考试',
     '民营企业人才测评',
 ]
+
+// ===================== 移动端（≤1024px）专用逻辑 =====================
+// web 端根节点 .q-page 的模板 / 样式 / 脚本保持零改动；
+// 以下状态与副作用仅供移动根节点 .qm-page 使用，与桌面端互不干扰。
+const qmSection = ref<HTMLElement>()
+const qmActiveNav = ref('overview')
+const qmNavTabs = navTabs // 复用同一组锚点标签（overview/architecture/features/cases）
+
+// 滚动时高亮当前区块（原生锚点 + scroll-margin-top，不依赖 scrollToSection）
+const qmHandleScroll = () => {
+    const scrollY = window.scrollY + 120
+    let current = qmNavTabs[0]!.target
+    for (let i = qmNavTabs.length - 1; i >= 0; i--) {
+        const tab = qmNavTabs[i]
+        if (!tab) continue
+        const el = document.getElementById(`qm-${tab.target}`)
+        if (el && el.getBoundingClientRect().top + window.scrollY <= scrollY) {
+            current = tab.target
+            break
+        }
+    }
+    qmActiveNav.value = current
+}
+
+onMounted(() => {
+    window.addEventListener('scroll', qmHandleScroll, { passive: true })
+    if (qmSection.value) {
+        // 入场动画（移动独立 observer 命中后加 .qm-visible，不复用桌面 .q-animate）
+        const qmObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('qm-visible')
+                    qmObserver.unobserve(entry.target)
+                }
+            })
+        }, { threshold: 0.12 })
+        qmSection.value.querySelectorAll('.qm-animate').forEach(el => qmObserver.observe(el as HTMLElement))
+    }
+})
+
+onUnmounted(() => {
+    window.removeEventListener('scroll', qmHandleScroll)
+})
 </script>
 
 <template>
@@ -524,6 +567,282 @@ const caseTags = [
                 </div>
                 <div class="q-cases-tags q-animate">
                     <span v-for="tag in caseTags" :key="tag" class="q-case-tag">{{ tag }}</span>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ===================== 移动端根节点（qm- 前缀，≤1024px 生效，web 端零改动） ===================== -->
+    <div ref="qmSection" class="qm-page">
+        <!-- Banner -->
+        <section class="qm-banner">
+            <div class="qm-banner-bg">
+                <img src="/assets/images/question/banner-bg.png" alt="" />
+            </div>
+            <div class="qm-container qm-banner-content">
+                <h1 class="qm-banner-title">智能题库系统<br /><span>全流程数字化</span>题库平台</h1>
+                <p class="qm-banner-desc qm-indent">以AI大模型为底座，覆盖「命题 → 审题 → 组卷 → 阅卷 → 审核 →
+                    管理」全链路，让题库建设从劳动密集型转向智能驱动型。</p>
+                <div class="qm-banner-actions">
+                    <NuxtLink class="qm-btn qm-btn-primary" :to="contactRoute">
+                        申请体验
+                        <img src="/assets/images/question_bank/banner-btn1.png" alt="" class="qm-btn-icon" />
+                    </NuxtLink>
+                    <a class="qm-btn qm-btn-link" href="#qm-features">了解核心功能</a>
+                </div>
+                <div class="qm-banner-stats">
+                    <div class="qm-stat-item qm-animate">
+                        <strong><span class="qm-count-number" v-count-up="10000">10,000</span></strong>
+                        <span>累计服务考试场次</span>
+                    </div>
+                    <div class="qm-stat-item qm-animate">
+                        <strong><span class="qm-count-number" v-count-up="50">50</span><i>+</i></strong>
+                        <span>全国服务网点</span>
+                    </div>
+                    <div class="qm-stat-item qm-animate">
+                        <strong><span class="qm-count-number" v-count-up="6">6</span></strong>
+                        <span>命题研发中心</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 导航标签 -->
+        <nav class="qm-nav">
+            <div class="qm-nav-scroll">
+                <a v-for="tab in qmNavTabs" :key="tab.target" class="qm-nav-tab"
+                    :class="{ 'qm-nav-tab-active': qmActiveNav === tab.target }" :href="`#qm-${tab.target}`">
+                    {{ tab.label }}
+                </a>
+            </div>
+        </nav>
+
+        <!-- 产品概述 -->
+        <section id="qm-overview" class="qm-section qm-overview">
+            <div class="qm-overview-bg">
+                <img src="/assets/images/question/example-bg1.png" alt="" />
+            </div>
+            <div class="qm-container">
+                <div class="qm-sec-head qm-animate">
+                    <h2 class="qm-sec-title">智能题库系统</h2>
+                    <p class="qm-sec-desc">智能题库系统作为全流程数字化命题管理平台，打通<span
+                            class="qm-highlight">试题入库</span>、<span class="qm-highlight">题库维护</span>、<span
+                            class="qm-highlight">命题组卷</span>、<span class="qm-highlight">考试实施</span>、<span
+                            class="qm-highlight">阅卷评分</span>、<span class="qm-highlight">数据分析</span>、<span
+                            class="qm-highlight">安全管控</span>全业务链条，实现命题工作标准化、数字化、规范化。核心作用如下：</p>
+                </div>
+                <div class="qm-overview-grid">
+                    <div v-for="(card, idx) in overviewCards" :key="idx" class="qm-overview-card qm-animate">
+                        <div class="qm-overview-card-box">
+                            <div class="qm-overview-card-num">{{ card.num }}</div>
+                            <h3>{{ card.title }}</h3>
+                        </div>
+                        <div class="qm-overview-card-desc qm-indent">{{ card.desc }}</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 优势亮点 - 产品架构 -->
+        <section id="qm-architecture" class="qm-section qm-arch">
+            <div class="qm-container">
+                <div class="qm-sec-head qm-animate">
+                    <span class="qm-sec-label">产品架构</span>
+                    <h2 class="qm-sec-title">六层架构，支撑全流程智能命题</h2>
+                    <p class="qm-sec-desc">业务层覆盖命题全链路，服务层提供核心能力引擎，基础设施层保障稳定运行</p>
+                </div>
+                <div class="qm-arch-card qm-animate">
+                    <h3 class="qm-arch-card-title">智能题库系统 · 产品架构全景</h3>
+                    <p class="qm-arch-card-desc">覆盖“导题 → 命题 → 选题 → 组卷 → 审核 → 管理”全链路，以AI大模型为底座，让题库建设从劳动密集型转向智能驱动型。</p>
+                    <div class="qm-arch-divider"></div>
+                    <div class="qm-arch-layers">
+                        <div v-for="(layer, idx) in archLayers" :key="idx" class="qm-arch-layer"
+                            :style="{ borderColor: layer.borderColor }">
+                            <div class="qm-arch-layer-label" :style="{ background: layer.bgColor }">{{ layer.label }}</div>
+                            <div class="qm-arch-layer-content">
+                                <div v-for="(item, iidx) in layer.items" :key="iidx" class="qm-arch-layer-item"
+                                    :style="{ background: layer.contentBg, borderColor: layer.contentBorder }">{{ item }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="qm-arch-footer qm-animate">系统采用分层解耦架构，业务层聚焦命题流程闭环，服务层以微服务方式提供可复用能力，基础设施层确保高可用与数据安全。三层协同，支撑大规模并发命题场景下的稳定运行与灵活扩展。</p>
+            </div>
+        </section>
+
+        <!-- 核心功能 - 六大模块 -->
+        <section id="qm-features" class="qm-section qm-features">
+            <div class="qm-container">
+                <div class="qm-sec-head qm-animate">
+                    <span class="qm-sec-label">核心功能</span>
+                    <h2 class="qm-sec-title">六大功能模块，覆盖命题全场景</h2>
+                    <p class="qm-sec-desc">每个环节都经过精心设计，让命题工作更高效、更规范、更安全</p>
+                </div>
+
+                <!-- 模块一 -->
+                <div class="qm-feat-block qm-animate">
+                    <div class="qm-feat-comm-title">1、导入即识别 · 一键入库</div>
+                    <div class="qm-feat-item">
+                        <div class="qm-feat-title">功能1-双模式导入</div>
+                        <div class="qm-feat-content qm-indent">支持直接编辑和文件导入两种方式：文件导入支持Word、Excel等多种格式上传至AI自动识别题型、题干、选项、答案，并完成结构化对应。</div>
+                    </div>
+                    <div class="qm-feat-item">
+                        <div class="qm-feat-title">功能2-双模式导入</div>
+                        <div class="qm-feat-content qm-indent">系统自动将试题处理成题库所需的标准格式，格式规范可在系统内查看。</div>
+                    </div>
+                    <div class="qm-feat-item">
+                        <div class="qm-feat-title">功能3-二次校验与属性标定</div>
+                        <div class="qm-feat-content qm-indent">进入下一步前进行二次检查认；设置试题归属的岗位、难度、地区、年份等信息；点击“校验重复”，系统与题库已有试题进行毫秒级比对，重复项自动标红。</div>
+                    </div>
+                    <div class="qm-feat-item">
+                        <div class="qm-feat-title">功能4-提交与审核</div>
+                        <div class="qm-feat-content qm-indent">确认无误后提交，进入本次导入任务的审核流程；支持将试题导出进行线下确认与留痕。</div>
+                    </div>
+                    <img src="/assets/images/question/example1.png" alt="双模式导入" class="qm-feat-img" />
+                </div>
+
+                <!-- 模块二 -->
+                <div class="qm-feat-block qm-animate">
+                    <div class="qm-feat-comm-title">2、自定义模板 · 一键生成命题卡</div>
+                    <img src="/assets/images/question/example2.png" alt="自定义模板" class="qm-feat-img" />
+                    <div class="qm-feat-content qm-feat-content-gap">无需手动排版，AI自动生成标准化试题；支持按岗位模板生成知识点提示，辅助命题人快速出题。</div>
+                    <div class="qm-steps">
+                        <div class="qm-step">
+                            <div class="qm-step-box">
+                                <img src="/assets/images/question/example-icon1.png" alt="" class="qm-step-icon" />
+                                <div class="qm-step-title">选择岗位</div>
+                            </div>
+                            <div class="qm-step-desc">确定本次命题对应的岗位类别</div>
+                        </div>
+                        <img src="/assets/images/question/arrow-d.png" alt="" class="qm-step-arrow" />
+                        <div class="qm-step">
+                            <div class="qm-step-box">
+                                <img src="/assets/images/question/example-icon2.png" alt="" class="qm-step-icon" />
+                                <div class="qm-step-title">设置模板</div>
+                            </div>
+                            <div class="qm-step-desc">自定义本次试题模版 各题型配置所需数量</div>
+                        </div>
+                        <img src="/assets/images/question/arrow-d.png" alt="" class="qm-step-arrow" />
+                        <div class="qm-step">
+                            <div class="qm-step-box">
+                                <img src="/assets/images/question/example-icon3.png" alt="" class="qm-step-icon" />
+                                <div class="qm-step-title">一键生成</div>
+                            </div>
+                            <div class="qm-step-desc">点击生成，系统自动生成对应的空白题目位置</div>
+                        </div>
+                        <img src="/assets/images/question/arrow-d.png" alt="" class="qm-step-arrow" />
+                        <div class="qm-step">
+                            <div class="qm-step-box">
+                                <img src="/assets/images/question/example-icon4.png" alt="" class="qm-step-icon" />
+                                <div class="qm-step-title">在线编辑</div>
+                            </div>
+                            <div class="qm-step-desc">在对应位置进行题目、选项、答案的编辑录入</div>
+                        </div>
+                        <img src="/assets/images/question/arrow-d.png" alt="" class="qm-step-arrow" />
+                        <div class="qm-step">
+                            <div class="qm-step-box">
+                                <img src="/assets/images/question/example-icon5.png" alt="" class="qm-step-icon" />
+                                <div class="qm-step-title">提交审核</div>
+                            </div>
+                            <div class="qm-step-desc">编辑完成后，直接提交进入审核环节</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 模块三 -->
+                <div class="qm-feat-block qm-animate">
+                    <div class="qm-feat-comm-title">3、精准筛选 · 发现即修正</div>
+                    <div class="qm-feat-item">
+                        <div class="qm-feat-title">功能5-岗位选题</div>
+                        <div class="qm-feat-content qm-indent">点击“岗位选题”进入选题页面，根据岗位筛选对应的题目。支持按题型、难度、地区、年份等多维度二次筛选，选中题目可一键加入试题篮，备选。</div>
+                        <img src="/assets/images/question/example3.png" alt="岗位选题" class="qm-feat-img" />
+                    </div>
+                    <div class="qm-feat-item">
+                        <div class="qm-feat-title">功能6-人工纠错</div>
+                        <div class="qm-feat-content qm-indent">在选题过程中发现题目错误，支持人工纠错，即时修正，点击“详情”可查看该题目的完整信息（题干、答案、解析、属性标签及使用记录）。</div>
+                        <img src="/assets/images/question/example4.png" alt="人工纠错" class="qm-feat-img" />
+                    </div>
+                    <div class="qm-feat-item">
+                        <div class="qm-feat-title">功能7-试题篮管理</div>
+                        <div class="qm-feat-content qm-indent">选中的题目统一汇入试题篮，支持批量移除或一键清空，灵活调整。</div>
+                        <img src="/assets/images/question/example5.png" alt="试题篮管理" class="qm-feat-img" />
+                    </div>
+                </div>
+
+                <!-- 模块四 -->
+                <div class="qm-feat-block qm-animate">
+                    <div class="qm-feat-comm-title">4、灵活组卷 · 智能随机 · 安全保护</div>
+                    <div class="qm-feat-item">
+                        <div class="qm-feat-title">智能组卷</div>
+                        <div class="qm-feat-content">1.选择试题对应的岗位；<br />2.选择模版（题型+题量），系统从题库中随机取对应数量的试题；<br />3.确认无误后加入试题篮，进入组卷中心。</div>
+                        <img src="/assets/images/question/example6.png" alt="智能组卷" class="qm-feat-img" />
+                    </div>
+                    <div class="qm-feat-item">
+                        <div class="qm-feat-title">组卷中心</div>
+                        <div class="qm-feat-content">分数设置：快速设置每题分数，自动统计总分；<br />试卷保护期：设置保护时间，期间其他人在选题界面不可见该试卷内容；<br />试卷模版：支持A3/A4纸型选择。<br />封面选择：从模版库中选择试卷封面<br />题目乱序：按需求打乱题目顺序，防止作弊<br />确认无误后提交试卷</div>
+                        <img src="/assets/images/question/example7.png" alt="组卷中心" class="qm-feat-img" />
+                    </div>
+                </div>
+
+                <!-- 模块五 -->
+                <div class="qm-feat-block qm-animate">
+                    <div class="qm-feat-comm-title">5、双轨题库 · 科学管控</div>
+                    <div class="qm-feat-item">
+                        <div class="qm-feat-title">动静态双轨题库</div>
+                        <div class="qm-feat-content">动态原创池：存放新命且未被使用的试题，保障首创性；<br />静态复用池：存放历次使用过的试题，并展示每道题的历史使用次数；</div>
+                        <img src="/assets/images/question/example8.png" alt="动静态双轨题库" class="qm-feat-img" />
+                    </div>
+                    <div class="qm-feat-item">
+                        <div class="qm-feat-title">试卷管理</div>
+                        <div class="qm-feat-content">通过率设置：自定义试卷合格分数线；<br />曝光地区：设置试卷的曝光地区策略；<br />保护题库：组卷中心设置了保护期的试卷自动进入保护题库</div>
+                        <img src="/assets/images/question/example9.png" alt="试卷管理" class="qm-feat-img" />
+                    </div>
+                </div>
+
+                <!-- 模块六 -->
+                <div class="qm-feat-block qm-animate">
+                    <div class="qm-feat-comm-title">6、流程自定义 · 权限精细化</div>
+                    <div class="qm-feat-item">
+                        <div class="qm-feat-title">自定义审核流程</div>
+                        <div class="qm-feat-content">1.审核流程可根据企业实际情况自定义配置（如初审→复审→终审）<br />2.每一步支持一键导出纸质校对稿，方便线下用笔圈改、签名留痕，所有修改意见及时间戳自动回传系统，审批状态实时同步；若某一步被打回，系统自动回溯到对应责任人并生成待办提醒</div>
+                        <img src="/assets/images/question/example10.png" alt="流程自定义" class="qm-feat-img" />
+                    </div>
+                    <div class="qm-feat-item">
+                        <div class="qm-feat-title">岗位要素与权限管理</div>
+                        <div class="qm-feat-content">岗位与面试要素导入：下载模版填写后上传即可批量添加；<br />用户管理：对用户进行新增、禁用、删除等操作；<br />角色权限：按部门与角色精细化分配系统操作权限；<br />系统设置：支持修改下载文件密码、自定义上传组卷中心封面模版</div>
+                        <img src="/assets/images/question/example11.png" alt="岗位要素与权限管理" class="qm-feat-img" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 服务案例 -->
+        <section id="qm-cases" class="qm-section qm-cases">
+            <div class="qm-cases-bg">
+                <img src="/assets/images/question/example-bg2.png" alt="" />
+            </div>
+            <div class="qm-container">
+                <div class="qm-sec-head qm-animate">
+                    <span class="qm-sec-label">服务案例</span>
+                    <h2 class="qm-sec-title">覆盖多行业、多场景的考试命题服务</h2>
+                    <p class="qm-sec-desc">截至目前，已为国内众多政府机关、事业单位、国有企业提供了上万场次的考试命题服务</p>
+                </div>
+                <div class="qm-cases-stats qm-animate">
+                    <div class="qm-cases-stat">
+                        <strong><span class="qm-count-number" v-count-up="9975">9,975</span><i>+</i></strong>
+                        <span>累计考试命题服务场次</span>
+                    </div>
+                    <div class="qm-cases-stat">
+                        <strong><span class="qm-count-number" v-count-up="29">29</span><i>+</i></strong>
+                        <span>服务省份与地区</span>
+                    </div>
+                    <div class="qm-cases-stat">
+                        <strong><span class="qm-count-number" v-count-up="6">6</span></strong>
+                        <span>核心服务行业领域</span>
+                    </div>
+                </div>
+                <div class="qm-cases-tags qm-animate">
+                    <span v-for="tag in caseTags" :key="tag" class="qm-case-tag">{{ tag }}</span>
                 </div>
             </div>
         </section>
@@ -1391,5 +1710,136 @@ const caseTags = [
 .q-case-tag:hover {
     border-color: var(--q-blue);
     color: var(--q-blue);
+}
+
+/* ============================================================
+   移动端版本（qm- 前缀，≤1024px 生效，web 端 DOM/CSS/script 零改动）
+   · 桌面（>1024px）隐藏移动根；≤1024px 隐藏桌面根、显示移动根
+   · 所有移动样式限定在 .qm-page 作用域内
+   · 不给 .qm-page 设 overflow:hidden，避免破坏 .qm-nav 的 sticky
+   ============================================================ */
+.qm-page { display: none; }
+
+@media (max-width: 1024px) {
+    .q-page { display: none; }
+    .qm-page { display: block; }
+}
+
+/* ===== 移动根变量与基础 ===== */
+.qm-page {
+    --qm-blue: #0F62FE;
+    --qm-blue-dark: #0043CE;
+    --qm-ink: #1A1A2E;
+    --qm-muted: #5A6578;
+    font-family: Inter, "SF Pro Display", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    color: var(--qm-ink);
+}
+
+.qm-container { width: calc(100% - 32px); margin: 0 auto; }
+.qm-indent { text-indent: 2em; }
+.qm-highlight { color: var(--qm-blue); font-weight: 500; }
+
+/* 入场动画（移动独立 observer 命中后加 .qm-visible） */
+.qm-animate { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+.qm-animate.qm-visible { opacity: 1; transform: translateY(0); }
+
+/* 通用 section / 标题 */
+.qm-section { position: relative; scroll-margin-top: 130px; }
+.qm-sec-head { text-align: center; margin-bottom: 26px; }
+.qm-sec-label { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: var(--qm-blue); font-weight: 500; margin-bottom: 12px; }
+.qm-sec-label::before { content: ''; width: 7px; height: 7px; background: var(--qm-blue); border-radius: 50%; }
+.qm-sec-title { font-size: 24px; font-weight: 600; color: #111827; line-height: 1.35; margin: 0 0 12px; }
+.qm-sec-desc { font-size: 14px; color: #6B7280; line-height: 1.75; margin: 0; }
+.qm-count-number { font-size: inherit !important; font-weight: inherit !important; color: inherit !important; }
+
+/* ===== Banner ===== */
+.qm-banner { position: relative; background: #ecf1f9; overflow: hidden; }
+.qm-banner-bg { position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; }
+.qm-banner-bg img { display: block; width: 100%; height: auto; }
+.qm-banner-content { position: relative; z-index: 2; padding: 44px 0 32px; }
+.qm-banner-title { font-size: 28px; font-weight: 700; color: var(--qm-ink); line-height: 1.35; margin: 0 0 14px; letter-spacing: 1px; }
+.qm-banner-title span { color: var(--qm-blue); }
+.qm-banner-desc { font-size: 14px; color: var(--qm-muted); line-height: 1.8; margin: 0 0 22px; }
+.qm-banner-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin-bottom: 26px; }
+.qm-btn { display: inline-flex; align-items: center; gap: 7px; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 500; text-decoration: none; line-height: 1; }
+.qm-btn-primary { background: var(--qm-blue); color: #fff; }
+.qm-btn-link { color: var(--qm-blue); padding: 12px 0; }
+.qm-btn-icon { width: 15px; height: 15px; flex-shrink: 0; }
+.qm-banner-stats { display: flex; gap: 28px; flex-wrap: wrap; }
+.qm-stat-item { display: flex; flex-direction: column; gap: 4px; }
+.qm-stat-item strong { display: flex; align-items: baseline; font-size: 26px; font-weight: 700; color: var(--qm-blue); line-height: 1.1; }
+.qm-stat-item strong i { font-style: normal; font-size: 14px; font-weight: 500; margin-left: 2px; }
+.qm-stat-item span { font-size: 12px; color: #6B7280; font-weight: 500; }
+
+/* ===== 导航 ===== */
+.qm-nav { position: sticky; top: 76px; z-index: 15; width: 100%; background: #F4F7FB; border-bottom: 1px solid #E8ECF2; box-shadow: 0 2px 8px rgba(0, 0, 0, .04); }
+.qm-nav-scroll { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.qm-nav-scroll::-webkit-scrollbar { display: none; }
+.qm-nav-tab { flex: 1 0 auto; scroll-snap-align: center; text-align: center; padding: 14px 18px; font-size: 14px; font-weight: 500; color: #161616; text-decoration: none; white-space: nowrap; position: relative; transition: color .25s ease; }
+.qm-nav-tab-active { color: var(--qm-blue); font-weight: 600; }
+.qm-nav-tab-active::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 24px; height: 3px; background: var(--qm-blue); border-radius: 2px 2px 0 0; }
+
+/* ===== 产品概述 ===== */
+.qm-overview { background: #fff; padding: 40px 0; overflow: hidden; }
+.qm-overview-bg { position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; opacity: .5; }
+.qm-overview-bg img { display: block; width: 100%; height: auto; }
+.qm-overview .qm-container { position: relative; z-index: 2; }
+.qm-overview-grid { display: flex; flex-direction: column; gap: 14px; }
+.qm-overview-card { padding: 18px 18px 16px; background: #fff; border: 1px solid #E5E7EB; border-radius: 12px; }
+.qm-overview-card-box { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.qm-overview-card-num { width: 28px; height: 28px; flex-shrink: 0; background: var(--qm-blue); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+.qm-overview-card h3 { font-size: 17px; font-weight: 600; color: #111827; margin: 0; line-height: 1.4; }
+.qm-overview-card-desc { font-size: 13px; color: #5A6178; line-height: 1.9; margin: 0; }
+
+/* ===== 产品架构 ===== */
+.qm-arch { background: #fbfcfd; padding: 40px 0; }
+.qm-arch-card { background: #fff; border: 1px solid #E5E7EB; border-radius: 14px; box-shadow: 0 4px 16px rgba(0, 0, 0, .06); padding: 20px 16px 24px; }
+.qm-arch-card-title { font-size: 16px; font-weight: 600; color: #111827; text-align: center; margin: 0 0 10px; }
+.qm-arch-card-desc { font-size: 13px; color: #6B7280; text-align: center; line-height: 1.7; margin: 0 0 16px; }
+.qm-arch-divider { height: 1px; background: #E5E7EB; margin-bottom: 18px; }
+.qm-arch-layers { display: flex; flex-direction: column; gap: 10px; border: 1px solid #045B96; border-radius: 12px; padding: 14px; background: #F8FAFB; }
+.qm-arch-layer { border: 1px solid; border-radius: 8px; padding: 10px; background: #fff; }
+.qm-arch-layer-label { display: inline-block; color: #fff; font-size: 12px; padding: 3px 12px; border-radius: 4px; margin-bottom: 10px; }
+.qm-arch-layer-content { display: flex; flex-wrap: wrap; gap: 8px; }
+.qm-arch-layer-item { border: 1px solid; border-radius: 6px; font-size: 12px; color: #2B3D4F; padding: 5px 10px; }
+.qm-arch-footer { text-align: center; font-size: 13px; color: #6A6A6A; line-height: 1.8; margin: 20px 0 0; }
+
+/* ===== 核心功能 ===== */
+.qm-features { background: #fafbfc; padding: 40px 0; }
+.qm-feat-block { margin-bottom: 34px; }
+.qm-feat-block:last-child { margin-bottom: 0; }
+.qm-feat-comm-title { font-size: 20px; font-weight: 600; color: #1A1A2E; line-height: 1.5; margin: 0 0 16px; text-align: center; }
+.qm-feat-item { margin-bottom: 22px; }
+.qm-feat-item:last-child { margin-bottom: 0; }
+.qm-feat-title { font-size: 16px; font-weight: 600; color: #000; line-height: 1.6; margin: 0 0 8px; }
+.qm-feat-content { font-size: 14px; color: #5A6178; line-height: 1.9; margin: 0; }
+.qm-feat-content-gap { margin: 14px 0 18px; }
+.qm-feat-img { display: block; width: 100%; height: auto; border-radius: 8px; margin-top: 14px; }
+
+/* 步骤流（竖向单列） */
+.qm-steps { display: flex; flex-direction: column; align-items: stretch; }
+.qm-step { background: #F4F7FB; border-radius: 10px; padding: 12px 14px; }
+.qm-step-box { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.qm-step-icon { width: 34px; height: 34px; flex-shrink: 0; }
+.qm-step-title { font-size: 15px; font-weight: 500; color: var(--qm-blue); }
+.qm-step-desc { font-size: 13px; color: #5A6178; line-height: 1.6; padding-left: 2px; }
+.qm-step-arrow { display: block; width: 20px; height: 14px; margin: 4px auto; object-fit: contain; }
+
+/* ===== 服务案例 ===== */
+.qm-cases { background: #fff; padding: 40px 0; overflow: hidden; }
+.qm-cases-bg { position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; }
+.qm-cases-bg img { display: block; width: 100%; height: auto; }
+.qm-cases .qm-container { position: relative; z-index: 2; }
+.qm-cases-stats { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+.qm-cases-stat { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 22px 16px; background: #fff; border: 1px solid #E5E7EB; border-radius: 12px; }
+.qm-cases-stat strong { display: flex; align-items: baseline; font-size: 32px; font-weight: 700; color: var(--qm-blue); line-height: 1; }
+.qm-cases-stat strong i { font-style: normal; font-size: 20px; font-weight: 500; margin-left: 2px; }
+.qm-cases-stat span { font-size: 13px; color: #6A6A6A; font-weight: 500; }
+.qm-cases-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.qm-case-tag { padding: 9px 16px; background: #fff; border: 1px solid #E8EEFF; border-radius: 8px; font-size: 13px; color: #111827; font-weight: 500; }
+
+@media (max-width: 560px) {
+    .qm-nav { top: 66px; }
+    .qm-section { scroll-margin-top: 120px; }
 }
 </style>

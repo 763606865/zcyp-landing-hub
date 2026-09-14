@@ -3,8 +3,8 @@ import { ref, onMounted, onUnmounted } from 'vue'
 
 // @ts-ignore
 useSeoMeta({
-    title: '共享题库中心服务｜中测高科',
-    description: '共享题库中心面向各级人事考试机构、人才集团、企事业单位开放合作，以五大共享模式与智能化命题技术平台，赋能各级考试机构建立自有可控的命题基地。',
+    title: '题库共建服务｜中测高科',
+    description: '题库共建面向各级人事考试机构、人才集团、企事业单位开放合作，以五大共享模式与智能化命题技术平台，赋能各级考试机构建立自有可控的命题基地。',
 })
 
 // ===== 内容导航 =====
@@ -262,7 +262,7 @@ onUnmounted(() => {
                 <img src="/assets/images/question_bank1/banner-bg.png" alt="" />
             </div>
             <div class="container-qbc qbc-banner-content">
-                <h1 class="qbc-banner-title"><span>共享题库中心</span>服务</h1>
+                <h1 class="qbc-banner-title"><span>题库共建</span>服务</h1>
                 <p class="qbc-banner-subtitle">面向各级人事考试机构、人才集团、企事业单位开放合作</p>
                 <p class="qbc-banner-desc">通过全国考试头部智库机构——中测高科赋能助力各级考试机构建立自有可控优质高校的命题基地</p>
             </div>
@@ -304,12 +304,12 @@ onUnmounted(() => {
                 <div class="qbc-pain-left qbc-animate">
                     <h2 class="qbc-pain-title">为什么需要共享题库</h2>
                     <p class="qbc-pain-sub">人事考试命题的四道<br />现实难关</p>
-                    <p class="qbc-pain-desc">多数考试机构并非不够专业，而是在命题资源、工具与机制上"单打独斗"。共享题库中心存在的意义，就是把这套能力变成你的底座。</p>
+                    <p class="qbc-pain-desc">多数考试机构并非不够专业，而是在命题资源、工具与机制上"单打独斗"。题库共建存在的意义，就是把这套能力变成你的底座。</p>
                     <div class="qbc-pain-card">
                         <img src="/assets/images/question_bank1/box1-img.png" alt="" />
                         <div class="qbc-pain-card-inner">
                             <p class="qbc-pain-quote">命题的事，交给专业的人；考试的主导权，始终在你手里。</p>
-                            <span class="qbc-pain-quote-from">—— 共享题库中心合作理念</span>
+                            <span class="qbc-pain-quote-from">—— 题库共建合作理念</span>
                         </div>
                     </div>
                 </div>
@@ -492,7 +492,7 @@ onUnmounted(() => {
                 </div>
                 <div class="qb-why-header qbc-animate">合作实践</div>
                 <div class="qb-why-subTitle qbc-animate">他⁠们⁠已⁠经⁠在⁠用⁠共⁠享⁠题⁠库⁠</div>
-                <div class="qb-why-desc qbc-animate">从省级考试机构到人才集团、央企集团，共享题库中心以不同模式支撑各类命题业务落地。</div>
+                <div class="qb-why-desc qbc-animate">从省级考试机构到人才集团、央企集团，题库共建以不同模式支撑各类命题业务落地。</div>
                 <div class="qb-why-box">
                     <div class="qb-why-card qbc-animate" v-for="(card, i) in qbcData" :key="i"
                         :style="{ transitionDelay: i * 0.12 + 's' }">
@@ -516,7 +516,7 @@ onUnmounted(() => {
                 <img src="/assets/images/question_bank1/banner-bg.png" alt="" />
             </div>
             <div class="qbm-container qbm-banner-content">
-                <h1 class="qbm-banner-title"><span>共享题库中心</span>服务</h1>
+                <h1 class="qbm-banner-title"><span>题库共建</span>服务</h1>
                 <p class="qbm-banner-subtitle">面向各级人事考试机构、人才集团、企事业单位开放合作</p>
                 <p class="qbm-banner-desc">通过全国考试头部智库机构——中测高科赋能助力各级考试机构建立自有可控优质高校的命题基地</p>
             </div>
@@ -558,13 +558,13 @@ onUnmounted(() => {
                 <div class="qbm-pain-intro qbm-animate">
                     <h2 class="qbm-pain-title">为什么需要共享题库</h2>
                     <p class="qbm-pain-sub">人事考试命题的四道现实难关</p>
-                    <p class="qbm-pain-desc">多数考试机构并非不够专业，而是在命题资源、工具与机制上“单打独斗”。共享题库中心存在的意义，就是把这套能力变成你的底座。</p>
+                    <p class="qbm-pain-desc">多数考试机构并非不够专业，而是在命题资源、工具与机制上“单打独斗”。题库共建存在的意义，就是把这套能力变成你的底座。</p>
                 </div>
                 <div class="qbm-pain-card qbm-animate">
                     <img src="/assets/images/question_bank1/box1-img.png" alt="" />
                     <div class="qbm-pain-card-inner">
                         <p class="qbm-pain-quote">命题的事，交给专业的人；考试的主导权，始终在你手里。</p>
-                        <span class="qbm-pain-quote-from">—— 共享题库中心合作理念</span>
+                        <span class="qbm-pain-quote-from">—— 题库共建合作理念</span>
                     </div>
                 </div>
                 <div class="qbm-pain-list">
@@ -745,7 +745,7 @@ onUnmounted(() => {
             <div class="qbm-container qbm-cases-inner">
                 <div class="qbm-cases-head qbm-animate">合作实践</div>
                 <div class="qbm-cases-subtitle qbm-animate">他们已经在用共享题库</div>
-                <div class="qbm-cases-desc qbm-animate">从省级考试机构到人才集团、央企集团，共享题库中心以不同模式支撑各类命题业务落地。</div>
+                <div class="qbm-cases-desc qbm-animate">从省级考试机构到人才集团、央企集团，题库共建以不同模式支撑各类命题业务落地。</div>
                 <div class="qbm-cases-box">
                     <div class="qbm-cases-card qbm-animate" v-for="(card, i) in qbcData" :key="i"
                         :style="{ transitionDelay: i * 0.1 + 's' }">
