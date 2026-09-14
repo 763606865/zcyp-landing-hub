@@ -223,6 +223,28 @@ const cases: CaseItem[] = [
         ],
     },
 ]
+
+// ===================== 移动端（≤1024px）专用逻辑 =====================
+// web 端根节点 .pi-page 的模板 / 样式 / 脚本保持零改动；
+// 以下状态与副作用仅供移动根节点 .pim-page 使用，与桌面端互不干扰。
+// 复用已导入的 ref / onMounted，不新增任何 import；
+// 数据数组（introCards/introBoxes/advCards/cores/scoreBars/modules/certs/cases）与 vCountDecimal 指令直接复用。
+const pimPage = ref<HTMLElement>()
+
+onMounted(() => {
+    if (!pimPage.value) return
+    const pimObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('pim-visible')
+                pimObserver.unobserve(entry.target)
+            }
+        })
+    }, { threshold: 0.12 })
+    pimPage.value.querySelectorAll('.pim-animate').forEach(el => {
+        pimObserver.observe(el as HTMLElement)
+    })
+})
 </script>
 
 <template>
@@ -416,6 +438,199 @@ const cases: CaseItem[] = [
                                         <span v-else :class="{ 'pi-case-tag-green': item.green }">{{ stat.static
                                             }}</span>
                                         <i v-if="stat.suffix" :class="{ 'pi-case-tag-green': item.green }">{{
+                                            stat.suffix }}</i>
+                                    </b>
+                                    <small>{{ stat.label }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ============================================================
+         移动端版本（pim- 前缀，≤1024px 显示）
+         · web 端 .pi-page 的 DOM / CSS / script 零改动，以下均为纯新增
+         · 复用 web 端全部数据数组、文案、图片与配色，仅重排布局
+         ============================================================ -->
+    <div ref="pimPage" class="pim-page">
+        <!-- Banner -->
+        <section class="pim-banner">
+            <div class="pim-container pim-banner-inner">
+                <div class="pim-banner-copy pim-animate">
+                    <h1>无纸化面试<br>评分管理系统<small>（面试指挥系统）</small></h1>
+                    <p class="pim-banner-sub">一站式智能面试管理平台</p>
+                    <p class="pim-banner-desc">智能化、高效化、规范化的面试管理解决方案，专为公务员招录、事业单位招聘、企业面试设计的全流程数字化管理系统。</p>
+                    <div class="pim-banner-actions">
+                        <NuxtLink class="pim-btn pim-btn-primary" :to="contactRoute">
+                            <img src="/assets/images/paperlessInterview/btn-l.png" alt="" class="pim-btn-icon">申请体验
+                        </NuxtLink>
+                        <NuxtLink class="pim-btn pim-btn-ghost" :to="contactRoute">
+                            <img src="/assets/images/paperlessInterview/btn-r.png" alt="" class="pim-btn-icon">预约演示
+                        </NuxtLink>
+                    </div>
+                </div>
+                <div class="pim-video-wrap pim-animate">
+                    <img src="/assets/images/paperlessInterview/video-bg.png" alt="" class="pim-video-bg">
+                    <video class="pim-video"
+                        src="https://1319357645.vod-qcloud.com/2c0a6b8evodcq1319357645/bf04365b5001834818841015544/zMaKIUkyDfEA.mp4"
+                        controls autoplay preload="metadata" playsinline muted />
+                </div>
+            </div>
+            <svg class="pim-banner-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M0,66 C220,96 430,16 720,36 C1000,55 1240,24 1440,46 L1440,90 L0,90 Z" fill="#ffffff" />
+            </svg>
+        </section>
+
+        <!-- 产品介绍 -->
+        <section class="pim-section pim-intro">
+            <div class="pim-container">
+                <div class="pim-section-head pim-animate">
+                    <h2>产品介绍</h2>
+                    <p>介绍无纸化面试评分管理系统的优点</p>
+                    <span class="pim-divider" />
+                </div>
+                <h3 class="pim-sub-title pim-sub-orange pim-animate">为什么要使用无纸化面试评分系统?</h3>
+                <div class="pim-intro-grid pim-animate">
+                    <div v-for="(card, i) in introCards" :key="i" class="pim-intro-card">
+                        <div class="pim-intro-card-head">
+                            <div class="pim-intro-title">
+                                <span v-for="(line, li) in card.title" :key="li">{{ line }}</span>
+                            </div>
+                            <img :src="card.icon" alt="" class="pim-intro-icon">
+                        </div>
+                        <p>{{ card.text }}</p>
+                    </div>
+                </div>
+                <h3 class="pim-sub-title pim-sub-blue pim-animate">中测高科无纸化面试评分系统（面试指挥系统）介绍</h3>
+                <div class="pim-intro-boxes pim-animate">
+                    <div v-for="box in introBoxes" :key="box.num" class="pim-intro-box">
+                        <div class="pim-intro-box-head"><b>{{ box.title }}</b><span>{{ box.num }}</span></div>
+                        <p>{{ box.text }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 产品优势亮点 -->
+        <section class="pim-adv">
+            <img src="/assets/images/paperlessInterview/bg1.png" alt="" class="pim-adv-bg">
+            <div class="pim-container pim-adv-inner">
+                <div class="pim-section-head pim-animate">
+                    <h2>产品优势亮点</h2>
+                    <p>针对传统面试痛点，提供全方位的数字化解决方案</p>
+                    <span class="pim-divider" />
+                </div>
+                <div class="pim-adv-grid pim-animate">
+                    <div v-for="(card, i) in advCards" :key="i" class="pim-adv-card">
+                        <img :src="card.icon" alt="" class="pim-adv-icon">
+                        <b>{{ card.title }}</b>
+                        <p>{{ card.text }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 五个核心能力 -->
+        <section class="pim-section pim-core">
+            <div class="pim-container">
+                <div v-for="(core, i) in cores" :key="i" class="pim-core-row pim-animate">
+                    <div class="pim-core-text">
+                        <span class="pim-core-pill"><img :src="core.icon" alt="">核心能力</span>
+                        <h3>{{ core.title }}</h3>
+                        <p>{{ core.text }}</p>
+                    </div>
+                    <div class="pim-core-visual">
+                        <img v-if="core.img" :src="core.img" alt="" class="pim-core-img">
+                        <div v-else class="pim-score-card">
+                            <div class="pim-score-head"><b>评分要素配置</b><span>自定义</span></div>
+                            <div v-for="bar in scoreBars" :key="bar.label" class="pim-score-row">
+                                <div class="pim-score-line">
+                                    <span>{{ bar.label }}</span>
+                                    <b :class="{ orange: bar.orange }">{{ bar.value }}%</b>
+                                </div>
+                                <div class="pim-score-track"><i :class="{ orange: bar.orange }"
+                                        :style="{ width: bar.width }" /></div>
+                            </div>
+                            <div class="pim-score-warn">
+                                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                                    <path d="M8 1.5L15 14H1L8 1.5Z" stroke="#FF8800" stroke-width="1.4"
+                                        stroke-linejoin="round" />
+                                    <path d="M8 6.2V9.6" stroke="#FF8800" stroke-width="1.4" stroke-linecap="round" />
+                                    <circle cx="8" cy="11.6" r="0.8" fill="#FF8800" />
+                                </svg>
+                                异常分数预警已开启：偏离阈值 ±15%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 七大系统模块 -->
+        <section class="pim-section pim-modules">
+            <div class="pim-container">
+                <div class="pim-section-head pim-animate">
+                    <h2>七大系统模块</h2>
+                    <p>覆盖面试管理全生命周期的一站式解决方案</p>
+                    <span class="pim-divider" />
+                </div>
+                <div class="pim-modules-grid pim-animate">
+                    <div v-for="(item, i) in modules" :key="i" class="pim-module-card">
+                        <div class="pim-module-head">
+                            <img :src="item.icon" alt="" class="pim-module-icon">
+                            <b>{{ item.title }}</b>
+                        </div>
+                        <p>{{ item.text }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 资质证书（横向滑动相册） -->
+        <section class="pim-cert">
+            <img src="/assets/images/paperlessInterview/bg2.png" alt="" class="pim-cert-bg">
+            <div class="pim-container">
+                <div class="pim-section-head pim-animate">
+                    <h2>资质证书</h2>
+                    <p>权威认证背书，值得信赖的第三方测评服务品牌</p>
+                    <span class="pim-divider" />
+                </div>
+            </div>
+            <div class="pim-cert-scroll pim-animate">
+                <div v-for="(cert, i) in certs" :key="i" class="pim-cert-item">
+                    <img :src="cert.img" alt="">
+                </div>
+            </div>
+            <p class="pim-cert-hint">← 左右滑动查看更多证书 →</p>
+        </section>
+
+        <!-- 服务案例 -->
+        <section class="pim-section pim-cases">
+            <div class="pim-container">
+                <div class="pim-section-head pim-animate">
+                    <h2>服务案例</h2>
+                    <p>覆盖各类人才选拔场景，助力组织实现面试环节的数字化升级</p>
+                    <span class="pim-divider" />
+                </div>
+                <div class="pim-cases-grid pim-animate">
+                    <div v-for="(item, i) in cases" :key="i" class="pim-case-card">
+                        <img :src="item.img" alt="" class="pim-case-img">
+                        <div class="pim-case-body">
+                            <span class="pim-case-tag">{{ item.tag }}</span>
+                            <h4>{{ item.title }}</h4>
+                            <p>{{ item.text }}</p>
+                            <div class="pim-case-stats">
+                                <div v-for="(stat, si) in item.stats" :key="si" class="pim-case-stat">
+                                    <b>
+                                        <span v-if="stat.n" v-count-up="stat.n"
+                                            :class="{ 'pim-case-green': item.green }">{{ stat.n }}</span>
+                                        <span v-else-if="stat.d" v-count-decimal="stat.d"
+                                            :class="{ 'pim-case-green': item.green }">{{ stat.d }}</span>
+                                        <span v-else :class="{ 'pim-case-green': item.green }">{{ stat.static }}</span>
+                                        <i v-if="stat.suffix" :class="{ 'pim-case-green': item.green }">{{
                                             stat.suffix }}</i>
                                     </b>
                                     <small>{{ stat.label }}</small>
@@ -1225,6 +1440,755 @@ const cases: CaseItem[] = [
 
     .pi-banner-copy h1 {
         font-size: 32px;
+    }
+}
+
+/* ============================================================
+   移动端版本样式（pim- 前缀，≤1024px 生效）
+   · 桌面（>1024px）隐藏移动根；≤1024px 隐藏桌面根、显示移动根
+   · web 端 .pi-page 的样式与媒体查询保持零改动（以下均为纯新增）
+   · 所有移动样式限定在 .pim-page 作用域内
+   · 不给 .pim-page 设 overflow，避免破坏内部定位与平滑滚动
+   ============================================================ */
+.pim-page {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .pi-page {
+        display: none;
+    }
+
+    .pim-page {
+        display: block;
+    }
+}
+
+/* ===== 移动根基础 ===== */
+.pim-page {
+    --pim-blue: #216efe;
+    --pim-ink: #1A1A2E;
+    --pim-muted: #5A6178;
+    background: #fff;
+}
+
+.pim-container {
+    width: calc(100% - 32px);
+    margin: 0 auto;
+}
+
+/* 滚动进入动效（移动独立 observer 驱动） */
+.pim-animate {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity .6s ease, transform .6s ease;
+}
+
+.pim-animate.pim-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 通用区块标题 */
+.pim-section-head {
+    text-align: center;
+}
+
+.pim-section-head h2 {
+    font-weight: 600;
+    font-size: 24px;
+    color: var(--pim-ink);
+    line-height: 34px;
+    margin: 0;
+}
+
+.pim-section-head p {
+    margin-top: 8px;
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--pim-muted);
+    line-height: 23px;
+}
+
+.pim-divider {
+    position: relative;
+    display: block;
+    width: 36px;
+    height: 4px;
+    margin: 16px auto 0;
+    border-radius: 2px;
+    background: var(--pim-blue);
+}
+
+.pim-divider::after {
+    content: '';
+    position: absolute;
+    right: -9px;
+    top: 0;
+    width: 5px;
+    height: 4px;
+    border-radius: 2px;
+    background: #ff8800;
+}
+
+.pim-sub-title {
+    margin: 30px 0 12px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 30px;
+}
+
+.pim-sub-orange {
+    color: #ff6b00;
+}
+
+.pim-sub-blue {
+    color: var(--pim-blue);
+    margin-top: 38px;
+}
+
+.pim-section {
+    padding: 44px 0 52px;
+}
+
+/* ===== Banner ===== */
+.pim-banner {
+    position: relative;
+    background: linear-gradient(114deg, #1A5CFF 0%, #0052D9 50%, #003C9E 100%);
+    padding: 40px 0 84px;
+}
+
+.pim-banner-inner {
+    position: relative;
+    z-index: 2;
+}
+
+.pim-banner-copy h1 {
+    font-size: 28px;
+    line-height: 1.3;
+    font-weight: 600;
+    color: #fff;
+    margin: 0;
+}
+
+.pim-banner-copy h1 small {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.pim-banner-sub {
+    margin-top: 14px;
+    font-size: 17px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.pim-banner-desc {
+    margin-top: 10px;
+    font-weight: 400;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 23px;
+}
+
+.pim-banner-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 26px;
+}
+
+.pim-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 11px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.pim-btn-icon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+}
+
+.pim-btn-primary {
+    background: linear-gradient(90deg, #ff9a2e 0%, #fe8102 100%);
+    color: #fff;
+    box-shadow: 0 6px 16px rgba(254, 129, 2, .35);
+}
+
+.pim-btn-ghost {
+    background: rgba(255, 255, 255, .12);
+    border: 1px solid rgba(255, 255, 255, .38);
+    color: #fff;
+}
+
+/* 视频框：保留装饰边框，按 web 端 587×362 内边距比例等比全宽缩放 */
+.pim-video-wrap {
+    position: relative;
+    margin-top: 30px;
+    width: 100%;
+    aspect-ratio: 587 / 362;
+    padding: 6.47% 6.81% 6.13%;
+}
+
+.pim-video-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.pim-video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+    background: #0b1e46;
+    position: relative;
+    z-index: 2;
+}
+
+.pim-banner-wave {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    width: 100%;
+    height: 44px;
+}
+
+/* ===== 产品介绍 ===== */
+.pim-intro {
+    background: #fff;
+}
+
+.pim-intro-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+}
+
+.pim-intro-card {
+    padding: 22px 18px 20px;
+    border-radius: 12px;
+    background: #F4F7FB;
+}
+
+.pim-intro-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.pim-intro-title {
+    display: flex;
+    flex-direction: column;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.55;
+    color: #17233d;
+}
+
+.pim-intro-icon {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    flex: none;
+}
+
+.pim-intro-card p {
+    margin-top: 14px;
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--pim-muted);
+    line-height: 24px;
+    text-align: justify;
+}
+
+.pim-intro-boxes {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+}
+
+.pim-intro-box {
+    padding: 20px 18px 16px;
+    background: #FFFFFF;
+    border-radius: 12px;
+    border: 1px solid #0F62FE;
+}
+
+.pim-intro-box-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.pim-intro-box-head b {
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 24px;
+    color: var(--pim-ink);
+}
+
+.pim-intro-box-head span {
+    font-weight: 600;
+    font-size: 20px;
+    color: #0F62FE;
+    line-height: 30px;
+    flex: none;
+}
+
+.pim-intro-box p {
+    margin-top: 8px;
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--pim-muted);
+    line-height: 23px;
+    text-align: justify;
+}
+
+/* ===== 产品优势亮点 =====
+   web 端 bg1.png 为 1440×636 固定高居中裁剪；
+   移动端去固定高，改背景色兜底 + 图 width:100% 顶部对齐 */
+.pim-adv {
+    position: relative;
+    background: #fff;
+    padding: 44px 0 52px;
+    overflow: hidden;
+}
+
+.pim-adv-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    display: block;
+    pointer-events: none;
+}
+
+.pim-adv-inner {
+    position: relative;
+    z-index: 2;
+}
+
+.pim-adv-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-top: 30px;
+}
+
+.pim-adv-card {
+    padding: 22px 18px 24px;
+    background: #FFFFFF;
+    border-radius: 12px;
+    border: 1px solid #E8ECF4;
+    box-shadow: 0 8px 24px rgba(23, 35, 61, .06);
+    text-align: center;
+}
+
+.pim-adv-icon {
+    width: 64px;
+    height: 55px;
+    object-fit: contain;
+}
+
+.pim-adv-card b {
+    margin-top: 8px;
+    display: block;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--pim-ink);
+    line-height: 24px;
+}
+
+.pim-adv-card p {
+    margin-top: 6px;
+    font-weight: 400;
+    font-size: 13px;
+    color: #8C93A8;
+    line-height: 22px;
+    text-align: center;
+}
+
+/* ===== 五个核心能力 ===== */
+.pim-core {
+    background: #f5f7fa;
+    padding: 34px 0 40px;
+}
+
+.pim-core-row {
+    padding: 22px 0;
+}
+
+.pim-core-row+.pim-core-row {
+    border-top: 1px solid #e8ecf4;
+}
+
+.pim-core-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 6px;
+    background: rgba(26, 92, 255, 0.08);
+    font-weight: 600;
+    font-size: 12px;
+    color: #1A5CFF;
+    line-height: 20px;
+}
+
+.pim-core-pill img {
+    width: 13px;
+    height: 13px;
+    object-fit: contain;
+}
+
+.pim-core-text h3 {
+    margin: 14px 0 10px;
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--pim-ink);
+    line-height: 30px;
+}
+
+.pim-core-text p {
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--pim-muted);
+    line-height: 24px;
+    text-align: justify;
+}
+
+.pim-core-visual {
+    display: flex;
+    justify-content: center;
+    margin-top: 18px;
+}
+
+.pim-core-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+    box-shadow: 0 12px 30px rgba(23, 35, 61, .1);
+}
+
+/* 灵活评分体系-自绘卡片（web 端 520px 固定宽 → 全宽） */
+.pim-score-card {
+    width: 100%;
+    padding: 18px 16px 16px;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 12px 30px rgba(23, 35, 61, .08);
+}
+
+.pim-score-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pim-score-head b {
+    font-size: 14px;
+    color: #17233d;
+}
+
+.pim-score-head span {
+    padding: 3px 10px;
+    border-radius: 6px;
+    background: #e8f1ff;
+    color: var(--pim-blue);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.pim-score-row {
+    margin-top: 13px;
+}
+
+.pim-score-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #3c4657;
+}
+
+.pim-score-line b {
+    color: var(--pim-blue);
+    font-weight: 700;
+}
+
+.pim-score-line b.orange {
+    color: #ff8800;
+}
+
+.pim-score-track {
+    margin-top: 6px;
+    height: 7px;
+    border-radius: 4px;
+    background: #eef1f6;
+    overflow: hidden;
+}
+
+.pim-score-track i {
+    display: block;
+    height: 100%;
+    border-radius: 4px;
+    background: #1677ff;
+}
+
+.pim-score-track i.orange {
+    background: #ff8800;
+}
+
+.pim-score-warn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 16px;
+    padding: 9px 12px;
+    border-radius: 8px;
+    background: #fff7e8;
+    color: #ff8800;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* ===== 七大系统模块 ===== */
+.pim-modules {
+    background: #f5f7fa;
+    padding-top: 30px;
+}
+
+.pim-modules-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-top: 26px;
+}
+
+.pim-module-card {
+    padding: 22px 18px 24px;
+    background: #FFFFFF;
+    border-radius: 12px;
+    border: 1px solid #E8ECF4;
+}
+
+.pim-module-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.pim-module-icon {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+    flex: none;
+}
+
+.pim-module-head b {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--pim-ink);
+    line-height: 25px;
+}
+
+.pim-module-card p {
+    margin-top: 12px;
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--pim-muted);
+    line-height: 23px;
+    text-align: justify;
+}
+
+/* ===== 资质证书（横向滑动相册） =====
+   web 端为固定尺寸叠放构图；移动端改 scroll-snap 横滑，保留卡片阴影 */
+.pim-cert {
+    position: relative;
+    background: #fff;
+    padding: 48px 0 40px;
+    overflow: hidden;
+}
+
+.pim-cert-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    display: block;
+    pointer-events: none;
+}
+
+.pim-cert .pim-container {
+    position: relative;
+    z-index: 2;
+}
+
+.pim-cert-scroll {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: 14px;
+    margin-top: 30px;
+    padding: 8px 16px 20px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+}
+
+.pim-cert-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.pim-cert-item {
+    flex: 0 0 62%;
+    scroll-snap-align: center;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 10px 26px rgba(23, 35, 61, .14);
+    overflow: hidden;
+}
+
+.pim-cert-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.pim-cert-hint {
+    position: relative;
+    z-index: 2;
+    margin-top: 2px;
+    text-align: center;
+    font-size: 12px;
+    color: #9aa3b0;
+}
+
+/* ===== 服务案例 ===== */
+.pim-cases {
+    background: #fff;
+}
+
+.pim-cases-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-top: 24px;
+}
+
+.pim-case-card {
+    border-radius: 12px;
+    border: 1px solid #E8ECF4;
+    overflow: hidden;
+    background: #fff;
+}
+
+.pim-case-img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.pim-case-body {
+    padding: 18px 18px 20px;
+}
+
+.pim-case-tag {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 4px;
+    background: rgba(26, 92, 255, 0.08);
+    font-weight: 600;
+    font-size: 12px;
+    color: #1A5CFF;
+    line-height: 19px;
+}
+
+.pim-case-body h4 {
+    margin: 8px 0 6px;
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--pim-ink);
+    line-height: 27px;
+}
+
+.pim-case-body p {
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--pim-muted);
+    line-height: 22px;
+    text-align: justify;
+}
+
+.pim-case-stats {
+    display: flex;
+    gap: 28px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid #eef1f5;
+}
+
+.pim-case-stat b {
+    display: flex;
+    align-items: baseline;
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--pim-blue);
+}
+
+/* 数字动画元素：字号/字重/颜色显式继承，规避 v-count-up 后缀样式继承陷阱 */
+.pim-case-stat b span {
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    color: inherit !important;
+}
+
+.pim-case-stat b i {
+    font-style: normal;
+    font-size: 13px;
+    font-weight: 700;
+    margin-left: 1px;
+}
+
+.pim-case-green {
+    color: #16A34A;
+}
+
+.pim-case-stat small {
+    display: block;
+    margin-top: 4px;
+    font-size: 11px;
+    color: #9aa3b0;
+}
+
+/* ===== 移动端内部响应式：≥600px 卡片转 2 列 ===== */
+@media (min-width: 600px) {
+
+    .pim-intro-grid,
+    .pim-intro-boxes,
+    .pim-adv-grid,
+    .pim-modules-grid,
+    .pim-cases-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 </style>
