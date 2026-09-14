@@ -378,6 +378,41 @@ const showcasePairs = [
         { src: '/assets/images/antiCheating/box4-img15.png', w: 575, h: 251 },
     ],
 ]
+
+// ===== 移动端（acm- 前缀）独立逻辑：纯新增，不改动 web 端任何逻辑 =====
+// 复用上方已导入的 ref/onMounted 及 navTabs 数据，不新增 import
+const acmSection = ref<HTMLElement>()
+const acmActiveNav = ref('overview')
+
+const acmHandleScroll = () => {
+    const sections = navTabs.map(t => document.getElementById(`acm-${t.target}`))
+    const scrollY = window.scrollY + 140
+    for (let i = sections.length - 1; i >= 0; i--) {
+        const sec = sections[i]
+        const tab = navTabs[i]
+        if (sec && tab && sec.offsetTop <= scrollY) {
+            acmActiveNav.value = tab.target
+            break
+        }
+    }
+}
+
+onMounted(() => {
+    window.addEventListener('scroll', acmHandleScroll, { passive: true })
+    if (acmSection.value) {
+        const acmObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('acm-visible')
+                    acmObserver.unobserve(entry.target)
+                }
+            })
+        }, { threshold: 0.12 })
+        acmSection.value.querySelectorAll('.acm-animate').forEach(el => {
+            acmObserver.observe(el as HTMLElement)
+        })
+    }
+})
 </script>
 
 <template>
@@ -635,6 +670,240 @@ const showcasePairs = [
                     <h2>科技赋能考务 共筑公平防线</h2>
                     <p>全方位提升考试管理的智能化与规范化水平，为各类考试的公平公正、安全有序开展提供坚实可靠的技术保障。</p>
                     <NuxtLink class="ac-btn ac-btn-primary1" :to="contactRoute">预约产品演示
+                        <img src="/assets/images/antiCheating/btn-b.png" alt="" />
+                    </NuxtLink>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ========== 移动端（acm- 前缀）：纯新增兄弟根，web 端零改动 ========== -->
+    <div ref="acmSection" class="acm-page">
+        <!-- Banner -->
+        <section class="acm-banner">
+            <div class="acm-banner-bg">
+                <img src="/assets/images/antiCheating/banner-bg.png" alt="" />
+            </div>
+            <div class="acm-banner-content">
+                <div class="acm-banner-badge">AI智能监测 · 全流程闭环管理 · 数据安全合规</div>
+                <div class="acm-banner-brand">中测高科</div>
+                <h1 class="acm-banner-title">AI考务安全智能体</h1>
+                <p class="acm-banner-desc">面向标准化考试场景的智能化全流程考务管控系统，融合人工智能与视频分析技术，实现从考务组织到结果溯源的全链路闭环管理，重塑考试监管新模式。</p>
+                <div class="acm-banner-actions">
+                    <NuxtLink class="acm-btn acm-btn-primary" :to="contactRoute">预约产品演示
+                        <img src="/assets/images/antiCheating/btn-l.png" alt="" />
+                    </NuxtLink>
+                    <NuxtLink class="acm-btn acm-btn-outline" :to="contactRoute">获取产品方案
+                        <img src="/assets/images/antiCheating/btn-r.png" alt="" />
+                    </NuxtLink>
+                </div>
+            </div>
+        </section>
+
+        <!-- 导航栏 -->
+        <nav class="acm-nav-bar">
+            <div class="acm-nav-scroll">
+                <a v-for="tab in navTabs" :key="tab.target" class="acm-nav-tab"
+                    :class="{ 'acm-nav-tab-active': acmActiveNav === tab.target }" :href="`#acm-${tab.target}`">
+                    {{ tab.label }}
+                </a>
+            </div>
+        </nav>
+
+        <!-- 产品概述 -->
+        <section id="acm-overview" class="acm-section acm-overview-section">
+            <div class="acm-overview-bg"><img src="/assets/images/antiCheating/bg1.png" alt="" /></div>
+            <div class="acm-container">
+                <div class="acm-section-header acm-animate">
+                    <h2>智能化全流程考务管控系统</h2>
+                    <p class="acm-section-subtitle">中测高科AI考务智能体是面向各类标准化考试场景打造的智能化、全流程考务管控系统，通过前沿技术赋能，实现从考务组织到结果溯源的全链路闭环管理，重塑考试监管新模式。</p>
+                </div>
+                <div class="acm-overview-cards">
+                    <div v-for="(card, idx) in overviewCards" :key="idx" class="acm-overview-card acm-animate">
+                        <img :src="card.icon" alt="" />
+                        <h3>{{ card.title }}</h3>
+                        <p>{{ card.desc }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 核心功能 - 多维度AI智能防作弊 -->
+        <section id="acm-feature" class="acm-section acm-feature-section">
+            <div class="acm-container">
+                <div class="acm-section-header acm-animate">
+                    <h2>多维度AI智能防作弊</h2>
+                    <p class="acm-section-subtitle">构建全方位、无死角的智能风控体系，为线下考试与公平竞赛筑牢坚实的数字安全防线。</p>
+                </div>
+                <div class="acm-feat-box">
+                    <div class="acm-feat-box-item acm-animate">
+                        <div class="acm-feat-box-item-header">
+                            <img src="/assets/images/antiCheating/box2-icon1.png" alt="" />
+                            <h3>实时动态监测</h3>
+                        </div>
+                        <div class="acm-feat-box-item-desc">基于毫秒级数据采集技术，各个考场进行无死角监控，全面分析异常行为和作弊行为。全面分析无线电信号特征，全面分析红外热成像异常情况，全面排查高科技作弊设备。</div>
+                    </div>
+                    <div class="acm-feat-box-item acm-animate">
+                        <div class="acm-feat-box-item-header">
+                            <img src="/assets/images/antiCheating/box2-icon2.png" alt="" />
+                            <h3>行为特征建模</h3>
+                        </div>
+                        <div class="acm-feat-box-item-desc">构建各类行为和信号特征，通过深度学习算法分析考生行为、无线信号特征，热成像异常情况进行建模分析，精准识别潜在风险。</div>
+                    </div>
+                    <div class="acm-feat-box-item acm-animate">
+                        <div class="acm-feat-box-item-header">
+                            <img src="/assets/images/antiCheating/box2-icon3.png" alt="" />
+                            <h3>智能风险阻断</h3>
+                        </div>
+                        <div class="acm-feat-box-item-desc">实时评估风险等级，自动触发分级预警机制，对高危作弊行为进行即时拦截与阻断或报警，保障考场环境绝对安全。</div>
+                    </div>
+                </div>
+                <div v-for="(block, bIdx) in antiCheatBlocks" :key="bIdx" class="acm-feat-block acm-animate">
+                    <div class="acm-feat-head">
+                        <h3>{{ block.title }}</h3>
+                    </div>
+                    <p class="acm-feat-intro">{{ block.intro }}</p>
+                    <div class="acm-feat-img-wrap">
+                        <img :src="block.img" alt="" class="acm-feat-img" />
+                    </div>
+                    <p v-if="block.quote1" class="acm-feat-quote1">{{ block.quote1 }}</p>
+                    <p v-if="block.quote" class="acm-feat-quote">{{ block.quote }}</p>
+                    <div v-for="(item, iIdx) in block.items" :key="iIdx" class="acm-feat-item">
+                        <img :src="item.icon" alt="" />
+                        <div>
+                            <strong>{{ item.title }}</strong>
+                            <span>{{ item.desc }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 核心功能 - 全流程考务智能化管控（5 tab 切换，复用共享 activeTab） -->
+        <section class="acm-section acm-control-section">
+            <div class="acm-container">
+                <div class="acm-section-header acm-animate">
+                    <h2>全流程考务智能化管控</h2>
+                    <p class="acm-section-subtitle">覆盖从考生入场到异常处置的每一个关键环节，以技术保障考试全流程的安全与规范。</p>
+                </div>
+                <div class="acm-tab-bar acm-animate">
+                    <div class="acm-tab-scroll">
+                        <div v-for="(tab, idx) in controlTabs" :key="idx" class="acm-tab-item"
+                            :class="{ 'acm-tab-item-active': activeTab === idx }" @click="activeTab = idx">
+                            {{ tab.name }}
+                        </div>
+                    </div>
+                </div>
+                <div :key="activeTab" class="acm-tab-content">
+                    <div class="acm-tab-left">
+                        <h3>{{ activeControlTab.sub }}</h3>
+                        <p v-if="activeControlTab.desc" class="acm-tab-desc">{{ activeControlTab.desc }}</p>
+                        <div v-for="(point, pIdx) in activeControlTab.points" :key="pIdx" class="acm-tab-point">
+                            <div class="acm-tab-point-text">
+                                <div class="acm-tab-point-title">{{ point.title }}</div>
+                                <div class="acm-tab-point-desc">{{ point.desc }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <img :src="activeControlTab.img" alt="" class="acm-tab-img" />
+                </div>
+            </div>
+        </section>
+
+        <!-- 数据管控区 -->
+        <section id="acm-data" class="acm-section acm-data-section">
+            <div class="acm-data-bg"><img src="/assets/images/antiCheating/bg2.png" alt="" /></div>
+            <div class="acm-container">
+                <div class="acm-section-header acm-animate">
+                    <h2>全域数据可视化管控</h2>
+                    <p class="acm-section-subtitle acm-section-subtitle-white">实时采集考场动态数据，毫秒级同步，全链路可视化呈现，构建一体化智能管理体系。</p>
+                </div>
+                <div class="acm-data-features">
+                    <div v-for="(feat, idx) in dataFeatures" :key="idx" class="acm-data-feature acm-animate">
+                        <div class="acm-data-feature-header">
+                            <div>{{ feat.title }}</div>
+                            <img :src="feat.icon" alt="" />
+                        </div>
+                        <div class="acm-data-feature-desc">{{ feat.desc }}</div>
+                    </div>
+                </div>
+                <div v-for="(board, bIdx) in dashboards" :key="bIdx" class="acm-dash-block acm-animate">
+                    <div class="acm-dash-info">
+                        <h3>{{ board.title }}</h3>
+                        <p class="acm-dash-desc">{{ board.desc }}</p>
+                        <div v-for="(point, pIdx) in board.points" :key="pIdx" class="acm-dash-point">
+                            <img :src="point.icon" alt="" />
+                            <div>
+                                <div class="acm-dash-point-title">{{ point.title }}</div>
+                                <div class="acm-dash-point-desc">{{ point.desc }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <img :src="board.img" alt="" class="acm-dash-img" />
+                </div>
+            </div>
+        </section>
+
+        <!-- 全程数据留存溯源追责 -->
+        <section class="acm-section acm-trace-section">
+            <div class="acm-container">
+                <div class="acm-trace-title acm-animate">全程数据留存溯源追责</div>
+                <div class="acm-trace-desc acm-animate">对考试全过程视频、操作记录、异常数据及处置记录进行实时存储与加密备份，构建不可篡改的数字档案。</div>
+                <div class="acm-trace-grid">
+                    <div v-for="(point, idx) in tracePoints" :key="idx" class="acm-trace-card acm-animate">
+                        <h4>{{ point.title }}</h4>
+                        <p>{{ point.desc }}</p>
+                    </div>
+                </div>
+                <img src="/assets/images/antiCheating/box3-img8.png" alt="" class="acm-trace-img acm-animate" />
+            </div>
+        </section>
+
+        <!-- 平台价值总结区 -->
+        <section id="acm-value" class="acm-section acm-value-section">
+            <div class="acm-container">
+                <div class="acm-section-header acm-animate">
+                    <h2>平台价值总结</h2>
+                    <p class="acm-section-subtitle">以AI技术为核心驱动力，打通考前、考中、考后全流程管控壁垒，构建智能化、标准化的现代化考试管理体系。</p>
+                </div>
+                <div class="acm-value-grid">
+                    <div v-for="(card, idx) in valueCards" :key="idx" class="acm-value-card acm-animate">
+                        <img :src="card.icon" alt="" />
+                        <h3>{{ card.title }}</h3>
+                        <p>{{ card.desc }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 部分功能展示（9 图横滑相册 + 3 对图单列堆叠） -->
+        <section class="acm-section acm-showcase-section">
+            <div class="acm-container">
+                <div class="acm-section-header acm-animate">
+                    <h2>部分功能展示</h2>
+                </div>
+            </div>
+            <div class="acm-showcase-scroll acm-animate">
+                <img v-for="n in 9" :key="n" :src="`/assets/images/antiCheating/box4-img${n}.png`" alt=""
+                    class="acm-showcase-img" />
+            </div>
+            <div class="acm-container">
+                <div class="acm-showcase-pairs acm-animate">
+                    <template v-for="(row, rIdx) in showcasePairs" :key="rIdx">
+                        <img v-for="(img, iIdx) in row" :key="iIdx" :src="img.src" alt=""
+                            class="acm-showcase-pair-img" />
+                    </template>
+                </div>
+            </div>
+        </section>
+
+        <!-- 底部CTA区 -->
+        <section class="acm-cta-section">
+            <div class="acm-container">
+                <div class="acm-cta-content acm-animate">
+                    <h2>科技赋能考务 共筑公平防线</h2>
+                    <p>全方位提升考试管理的智能化与规范化水平，为各类考试的公平公正、安全有序开展提供坚实可靠的技术保障。</p>
+                    <NuxtLink class="acm-btn acm-btn-primary1" :to="contactRoute">预约产品演示
                         <img src="/assets/images/antiCheating/btn-b.png" alt="" />
                     </NuxtLink>
                 </div>
@@ -1651,5 +1920,894 @@ const showcasePairs = [
     color: rgba(255, 255, 255, 0.85);
     line-height: 26px;
     margin-bottom: 25px;
+}
+
+/* ============================================================ */
+/* ===== 移动端（acm- 前缀）样式：纯新增，限定在 .acm-page 作用域 ===== */
+/* ============================================================ */
+
+/* 默认隐藏移动根；≤ 1024px 隐藏桌面根、显示移动根（web 端 >1024px 零影响） */
+.acm-page {
+    display: none;
+    --acm-blue: #0F62FE;
+    --acm-blue-dark: #0043CE;
+    --acm-ink: #1A1A2E;
+    font-family: Inter, "SF Pro Display", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    color: var(--acm-ink);
+}
+
+@media (max-width: 1024px) {
+    .ac-page {
+        display: none !important;
+    }
+
+    .acm-page {
+        display: block;
+    }
+}
+
+.acm-container {
+    width: 100%;
+    padding: 0 16px;
+    margin: 0 auto;
+}
+
+.acm-section {
+    position: relative;
+    padding: 44px 0;
+    scroll-margin-top: 130px;
+}
+
+@media (max-width: 560px) {
+    .acm-section {
+        scroll-margin-top: 118px;
+    }
+}
+
+/* 入场动画（移动独立 observer：.acm-animate → .acm-visible） */
+.acm-animate {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.acm-animate.acm-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 通用 Section Header */
+.acm-section-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.acm-section-header h2 {
+    font-weight: 600;
+    font-size: 24px;
+    color: #0F172A;
+    line-height: 1.35;
+    margin: 0 0 12px;
+}
+
+.acm-section-subtitle {
+    font-weight: 400;
+    font-size: 14px;
+    color: #475569;
+    line-height: 24px;
+    margin: 0 auto;
+}
+
+.acm-section-subtitle-white {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* ===== 通用按钮 ===== */
+.acm-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    line-height: 1;
+    border: none;
+}
+
+.acm-btn img {
+    width: 16px;
+    height: 16px;
+}
+
+.acm-btn-primary {
+    background: var(--acm-blue);
+    color: #fff;
+}
+
+.acm-btn-outline {
+    background: rgba(255, 255, 255, 0.6);
+    color: var(--acm-blue);
+    border: 1px solid var(--acm-blue);
+}
+
+.acm-btn-primary1 {
+    background: #fff;
+    color: var(--acm-blue);
+}
+
+/* ===== Banner ===== */
+.acm-banner {
+    position: relative;
+    width: 100%;
+    background: #f8f8f8;
+    overflow: hidden;
+    padding: 40px 0 44px;
+}
+
+.acm-banner-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.acm-banner-bg img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.acm-banner-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 20px;
+}
+
+.acm-banner-badge {
+    display: inline-block;
+    padding: 6px 14px 6px 22px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 100px;
+    border: 1px solid rgba(37, 99, 235, 0.2);
+    font-size: 11px;
+    color: #1A5FFF;
+    font-weight: 500;
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.acm-banner-badge::before {
+    content: '';
+    position: absolute;
+    left: 9px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #2563EB;
+}
+
+.acm-banner-brand {
+    font-weight: 600;
+    font-size: 34px;
+    color: #0F172A;
+    line-height: 1.25;
+    margin-bottom: 6px;
+}
+
+.acm-banner-title {
+    font-weight: 600;
+    font-size: 34px;
+    color: #005AFF;
+    line-height: 1.25;
+    margin: 0 0 12px;
+}
+
+.acm-banner-desc {
+    font-weight: 400;
+    font-size: 14px;
+    color: #475569;
+    line-height: 24px;
+    margin: 0 0 20px;
+}
+
+.acm-banner-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+/* ===== 导航栏 ===== */
+.acm-nav-bar {
+    position: sticky;
+    top: 76px;
+    z-index: 15;
+    background: #F8F8F8;
+    border-bottom: 1px solid #ECEFF3;
+}
+
+@media (max-width: 560px) {
+    .acm-nav-bar {
+        top: 66px;
+    }
+}
+
+.acm-nav-scroll {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 12px;
+    scrollbar-width: none;
+}
+
+.acm-nav-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.acm-nav-tab {
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+    font-size: 14px;
+    color: #161616;
+    text-decoration: none;
+    padding: 14px 12px;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+}
+
+.acm-nav-tab-active {
+    color: var(--acm-blue);
+    border-bottom-color: var(--acm-blue);
+    font-weight: 500;
+}
+
+/* ===== 产品概述区 ===== */
+.acm-overview-section {
+    background: #fff;
+    overflow: hidden;
+}
+
+.acm-overview-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.acm-overview-bg img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.acm-overview-section .acm-container {
+    position: relative;
+    z-index: 2;
+}
+
+.acm-overview-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+}
+
+@media (min-width: 600px) {
+    .acm-overview-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.acm-overview-card {
+    padding: 18px;
+    background: #FFFFFF;
+    border-radius: 12px;
+    border: 1px solid #E5E9F0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.acm-overview-card img {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 12px;
+    display: block;
+}
+
+.acm-overview-card h3 {
+    font-weight: 500;
+    font-size: 17px;
+    color: #0F172A;
+    margin: 0 0 8px;
+    text-align: center;
+}
+
+.acm-overview-card p {
+    font-weight: 400;
+    font-size: 13px;
+    color: #475569;
+    line-height: 22px;
+    text-align: center;
+    margin: 0;
+}
+
+/* ===== 核心功能 - 多维度AI智能防作弊 ===== */
+.acm-feature-section {
+    background: #fff;
+}
+
+.acm-feat-box {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 32px;
+}
+
+.acm-feat-box-item {
+    padding: 20px 18px 16px;
+    background: #FFFFFF;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.acm-feat-box-item-header {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-weight: 500;
+    font-size: 17px;
+    color: #0F172A;
+    margin-bottom: 12px;
+}
+
+.acm-feat-box-item-header img {
+    width: 26px;
+    height: 26px;
+}
+
+.acm-feat-box-item-header h3 {
+    margin: 0;
+}
+
+.acm-feat-box-item-desc {
+    font-weight: 400;
+    font-size: 13px;
+    color: #475569;
+    line-height: 23px;
+    text-indent: 2em;
+}
+
+.acm-feat-block {
+    margin-bottom: 36px;
+}
+
+.acm-feat-block:last-child {
+    margin-bottom: 0;
+}
+
+.acm-feat-head {
+    margin-bottom: 12px;
+}
+
+.acm-feat-head h3 {
+    font-weight: 600;
+    font-size: 20px;
+    color: #1A1A2E;
+    margin: 0;
+}
+
+.acm-feat-intro {
+    font-weight: 400;
+    font-size: 14px;
+    color: #475569;
+    line-height: 25px;
+    margin: 0 0 18px;
+}
+
+.acm-feat-img-wrap {
+    margin: 0 0 12px;
+}
+
+.acm-feat-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+}
+
+.acm-feat-quote1 {
+    font-weight: 500;
+    font-size: 14px;
+    color: #0F62FE;
+    line-height: 22px;
+    margin: 0 0 12px;
+    text-align: center;
+}
+
+.acm-feat-quote {
+    font-weight: 400;
+    font-size: 13px;
+    color: #475569;
+    line-height: 23px;
+    margin: 0 0 16px;
+    text-indent: 2em;
+}
+
+.acm-feat-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.acm-feat-item:last-child {
+    margin-bottom: 0;
+}
+
+.acm-feat-item img {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+}
+
+.acm-feat-item strong {
+    display: block;
+    font-weight: 600;
+    font-size: 15px;
+    color: #0F172A;
+    line-height: 24px;
+    margin-bottom: 4px;
+}
+
+.acm-feat-item span {
+    font-weight: 400;
+    font-size: 13px;
+    color: #475569;
+    line-height: 22px;
+}
+
+/* ===== 核心功能 - 全流程考务智能化管控（5 tab） ===== */
+.acm-control-section {
+    background: #F7FAFF;
+}
+
+.acm-tab-bar {
+    margin-bottom: 24px;
+    padding: 5px;
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.acm-tab-scroll {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.acm-tab-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.acm-tab-item {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 18px;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 14px;
+    color: #475569;
+    text-align: center;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.acm-tab-item-active {
+    color: #fff;
+    background: #0F62FE;
+}
+
+.acm-tab-content {
+    animation: acm-fade 0.4s ease;
+}
+
+@keyframes acm-fade {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.acm-tab-left h3 {
+    font-weight: 600;
+    font-size: 17px;
+    color: #0F172A;
+    line-height: 28px;
+    margin: 0 0 14px;
+}
+
+.acm-tab-desc {
+    font-weight: 400;
+    font-size: 14px;
+    color: #475569;
+    line-height: 24px;
+    margin: 0 0 18px;
+}
+
+.acm-tab-point {
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 14px 16px;
+    margin-bottom: 12px;
+}
+
+.acm-tab-point:last-child {
+    margin-bottom: 0;
+}
+
+.acm-tab-point-title {
+    font-weight: 600;
+    font-size: 15px;
+    color: #0F172A;
+    line-height: 23px;
+    margin-bottom: 6px;
+}
+
+.acm-tab-point-desc {
+    font-weight: 400;
+    font-size: 13px;
+    color: #475569;
+    line-height: 22px;
+}
+
+.acm-tab-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-top: 20px;
+    border-radius: 8px;
+}
+
+/* ===== 数据管控区（深色） ===== */
+.acm-data-section {
+    background: #0E1032;
+    overflow: hidden;
+}
+
+.acm-data-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.acm-data-bg img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.acm-data-section .acm-container {
+    position: relative;
+    z-index: 2;
+}
+
+.acm-data-section .acm-section-header h2 {
+    color: #fff;
+}
+
+.acm-data-features {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 32px;
+}
+
+.acm-data-feature {
+    padding: 18px 18px 22px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.acm-data-feature-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 500;
+    font-size: 18px;
+    color: #FFFFFF;
+    margin: 0 0 16px;
+}
+
+.acm-data-feature-header img {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+}
+
+.acm-data-feature-desc {
+    font-weight: 400;
+    font-size: 13px;
+    color: #FFFFFF;
+    line-height: 23px;
+    text-indent: 2em;
+}
+
+.acm-dash-block {
+    margin-bottom: 36px;
+}
+
+.acm-dash-block:last-child {
+    margin-bottom: 0;
+}
+
+.acm-dash-info h3 {
+    font-weight: 600;
+    font-size: 19px;
+    color: #F1F5F9;
+    line-height: 26px;
+    margin: 0 0 12px;
+}
+
+.acm-dash-desc {
+    font-weight: 400;
+    font-size: 14px;
+    color: #E4E4E4;
+    line-height: 24px;
+    margin: 0 0 16px;
+}
+
+.acm-dash-point {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 14px 16px;
+    margin-bottom: 12px;
+}
+
+.acm-dash-point:last-child {
+    margin-bottom: 0;
+}
+
+.acm-dash-point img {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+}
+
+.acm-dash-point-title {
+    font-weight: 600;
+    font-size: 15px;
+    color: #FFFFFF;
+    line-height: 23px;
+    margin-bottom: 6px;
+}
+
+.acm-dash-point-desc {
+    font-weight: 400;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 22px;
+    text-indent: 2em;
+}
+
+.acm-dash-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-top: 18px;
+    border-radius: 8px;
+}
+
+/* ===== 全程数据留存溯源追责 ===== */
+.acm-trace-section {
+    background: #fff;
+}
+
+.acm-trace-title {
+    font-weight: 600;
+    font-size: 24px;
+    color: #0F172A;
+    line-height: 1.35;
+    margin-bottom: 12px;
+}
+
+.acm-trace-desc {
+    font-weight: 400;
+    font-size: 14px;
+    color: #475569;
+    line-height: 24px;
+    margin: 0 0 24px;
+}
+
+.acm-trace-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+@media (min-width: 600px) {
+    .acm-trace-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.acm-trace-card {
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 12px;
+    border: 2px solid rgba(0, 0, 0, 0.06);
+    padding: 18px 18px 12px;
+}
+
+.acm-trace-card h4 {
+    font-weight: 600;
+    font-size: 15px;
+    color: #0F172A;
+    line-height: 24px;
+    margin: 0 0 4px;
+}
+
+.acm-trace-card p {
+    font-weight: 400;
+    font-size: 13px;
+    color: #475569;
+    line-height: 22px;
+    margin: 0;
+}
+
+.acm-trace-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+}
+
+/* ===== 平台价值总结区 ===== */
+.acm-value-section {
+    background: #fff;
+}
+
+.acm-value-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+}
+
+@media (min-width: 600px) {
+    .acm-value-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.acm-value-card {
+    padding: 24px 18px;
+    background: #FFFFFF;
+    border-radius: 12px;
+    border: 1px solid #E5E9F0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.acm-value-card img {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 14px;
+    display: block;
+}
+
+.acm-value-card h3 {
+    font-weight: 600;
+    font-size: 16px;
+    color: #1A1A2E;
+    margin: 0 0 8px;
+    text-align: center;
+}
+
+.acm-value-card p {
+    font-weight: 400;
+    font-size: 13px;
+    color: #666666;
+    line-height: 22px;
+    margin: 0;
+    text-align: center;
+}
+
+/* ===== 部分功能展示（9图横滑相册 + 3对图单列） ===== */
+.acm-showcase-section {
+    background: #F7FAFF;
+}
+
+.acm-showcase-scroll {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 4px 16px 16px;
+    margin-bottom: 20px;
+}
+
+.acm-showcase-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.acm-showcase-img {
+    flex: 0 0 85%;
+    scroll-snap-align: center;
+    height: auto;
+    border-radius: 8px;
+}
+
+.acm-showcase-pairs {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.acm-showcase-pair-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+}
+
+/* ===== 底部CTA区 ===== */
+.acm-cta-section {
+    width: 100%;
+    padding: 48px 0 44px;
+    background: linear-gradient(106deg, #1A5FFF 0%, #0D47A1 100%);
+}
+
+.acm-cta-content {
+    text-align: center;
+    color: #fff;
+}
+
+.acm-cta-content h2 {
+    font-weight: 600;
+    font-size: 24px;
+    color: #FFFFFF;
+    line-height: 1.4;
+    margin: 0 0 12px;
+}
+
+.acm-cta-content p {
+    font-weight: 400;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 24px;
+    margin: 0 0 22px;
 }
 </style>
