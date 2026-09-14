@@ -264,7 +264,7 @@ onUnmounted(() => {
             <div class="container-qbc qbc-banner-content">
                 <h1 class="qbc-banner-title"><span>题库共建</span>服务</h1>
                 <p class="qbc-banner-subtitle">面向各级人事考试机构、人才集团、企事业单位开放合作</p>
-                <p class="qbc-banner-desc">通过全国考试头部智库机构——中测高科赋能助力各级考试机构建立自有可控优质高校的命题基地</p>
+                <p class="qbc-banner-desc">通过全国考试头部智库机构——中测高科赋能助力各级考试机构建立自有可控优质高效的命题基地</p>
             </div>
             <!-- 数值栏 -->
             <div class="qbc-stats-bar">
@@ -518,7 +518,7 @@ onUnmounted(() => {
             <div class="qbm-container qbm-banner-content">
                 <h1 class="qbm-banner-title"><span>题库共建</span>服务</h1>
                 <p class="qbm-banner-subtitle">面向各级人事考试机构、人才集团、企事业单位开放合作</p>
-                <p class="qbm-banner-desc">通过全国考试头部智库机构——中测高科赋能助力各级考试机构建立自有可控优质高校的命题基地</p>
+                <p class="qbm-banner-desc">通过全国考试头部智库机构——中测高科赋能助力各级考试机构建立自有可控优质高效的命题基地</p>
             </div>
             <div class="qbm-stats-bar">
                 <div class="qbm-stats-inner">
