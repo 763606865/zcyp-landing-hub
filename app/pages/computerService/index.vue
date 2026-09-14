@@ -320,6 +320,41 @@ const box5Data = [
         ]
     },
 ]
+
+// ===== 移动端（csm- 前缀）独立逻辑：纯新增，不改动 web 端任何逻辑 =====
+// 复用上方已导入的 ref/onMounted 及 navTabs 数据，不新增 import
+const csmSection = ref<HTMLElement>()
+const csmActiveNav = ref('cs-research')
+
+const csmHandleScroll = () => {
+    const sections = navTabs.map(t => document.getElementById(`csm-${t.target}`))
+    const scrollY = window.scrollY + 140
+    for (let i = sections.length - 1; i >= 0; i--) {
+        const sec = sections[i]
+        const tab = navTabs[i]
+        if (sec && tab && sec.offsetTop <= scrollY) {
+            csmActiveNav.value = tab.target
+            break
+        }
+    }
+}
+
+onMounted(() => {
+    window.addEventListener('scroll', csmHandleScroll, { passive: true })
+    if (csmSection.value) {
+        const csmObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('csm-visible')
+                    csmObserver.unobserve(entry.target)
+                }
+            })
+        }, { threshold: 0.12 })
+        csmSection.value.querySelectorAll('.csm-animate').forEach(el => {
+            csmObserver.observe(el as HTMLElement)
+        })
+    }
+})
 </script>
 
 <template>
@@ -602,6 +637,275 @@ const box5Data = [
                                     <span v-if="office.email">邮箱：{{ office.email }}</span>
                                     <span v-if="office.address">地址：{{ office.address }}</span>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- ===== 移动端版本（csm- 前缀，纯新增，web 端 DOM/CSS/script 零改动） ===== -->
+    <!-- ================================================================ -->
+    <div ref="csmSection" class="csm-page">
+        <!-- ========== Banner（深蓝渐变 + 图文分离） ========== -->
+        <section class="csm-banner">
+            <div class="csm-container csm-banner-content">
+                <div class="csm-banner-badge">中国人事考试安全交付领导品牌</div>
+                <h1 class="csm-banner-title">机关（企）事业单位<br />专业技术人员水平能力</h1>
+                <div class="csm-banner-subtitle">通用机考服务系统</div>
+                <p class="csm-banner-desc">深耕人才测评，筑牢专业服务根基</p>
+                <div class="csm-banner-actions">
+                    <NuxtLink class="csm-btn csm-btn-primary1" :to="contactRoute">了解产品</NuxtLink>
+                    <NuxtLink class="csm-btn csm-btn-outline" :to="contactRoute">联系我们</NuxtLink>
+                </div>
+            </div>
+            <!-- <div class="csm-container csm-banner-visual">
+                <img src="/assets/images/computerService/banner-bg.png" alt="" />
+            </div> -->
+        </section>
+
+        <!-- ========== 导航标签（sticky 横向 scroll-snap） ========== -->
+        <nav class="csm-nav-bar">
+            <div class="csm-nav-scroll">
+                <a v-for="tab in navTabs" :key="tab.target" class="csm-nav-tab"
+                    :class="{ 'csm-nav-tab-active': csmActiveNav === tab.target }" :href="`#csm-${tab.target}`">
+                    {{ tab.label }}
+                </a>
+            </div>
+        </nav>
+
+        <!-- ========== 研发背景区 ========== -->
+        <section id="csm-cs-research" class="csm-section csm-research-section">
+            <div class="csm-container">
+                <div class="csm-section-header csm-animate">
+                    <h2 class="csm-section-title">研发背景</h2>
+                </div>
+                <div class="csm-research-blocks csm-animate">
+                    <div v-for="(block, idx) in researchBlocks" :key="idx" class="csm-research-block">
+                        <h3>{{ block.title }}</h3>
+                        <p v-if="block.content" class="csm-indent">{{ block.content }}</p>
+                    </div>
+                </div>
+                <div class="csm-research-img csm-animate">
+                    <img src="/assets/images/computerService/box-img1.png" alt="" />
+                </div>
+                <div class="csm-research-items-title csm-animate">现实需求</div>
+                <div class="csm-research-items csm-animate">
+                    <div v-for="(item, iidx) in researchBlocks1" :key="iidx" class="csm-research-item">
+                        <div>{{ item.label }}</div>
+                        <p class="csm-indent">{{ item.content }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 产品介绍区 ========== -->
+        <section id="csm-cs-product" class="csm-section csm-product-section">
+            <div class="csm-container">
+                <div class="csm-section-header csm-animate">
+                    <h2 class="csm-section-title">产品介绍</h2>
+                    <div class="csm-section-subtitle">专为全国各省、市（州）、县（区）机关事业单位以及国有企业专业技术人员水平能力测试以及技能等级考核打造</div>
+                </div>
+                <div class="csm-product-blocks">
+                    <template v-for="(block, idx) in productBlocks" :key="idx">
+                        <div v-if="idx === 2" class="csm-product-img csm-animate">
+                            <img src="/assets/images/computerService/box-img2.png" alt="" />
+                        </div>
+                        <div v-else class="csm-product-block csm-animate">
+                            <div class="csm-product-block-header">
+                                <img :src="block.icon" alt="" class="csm-product-block-icon" />
+                                <h3>{{ block.title }}</h3>
+                            </div>
+                            <p v-if="block.content" class="csm-indent">{{ block.content }}</p>
+                            <div v-if="block.items" class="csm-product-items">
+                                <div v-for="(item, iidx) in block.items" :key="iidx" class="csm-product-item"
+                                    :class="block.last ? 'csm-product-item1' : ''">
+                                    <img v-if="block.subIcons" :src="block.subIcons[iidx]" alt=""
+                                        class="csm-product-item-icon" />
+                                    <div class="csm-product-item-content">
+                                        <div class="csm-product-item-content-title">{{ item.title }}</div>
+                                        <div class="csm-indent">{{ item.content }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 核心功能区 ========== -->
+        <section id="csm-cs-core" class="csm-section csm-core-section">
+            <div class="csm-container">
+                <div class="csm-section-header csm-animate">
+                    <h2 class="csm-section-title">核心功能</h2>
+                    <p class="csm-section-subtitle">六大核心模块覆盖考试全流程，从组织管理到成绩归档，实现一站式智能化考务管理</p>
+                </div>
+                <div class="csm-core-list">
+                    <div v-for="(feature, idx) in coreFeatures" :key="idx" class="csm-core-card csm-animate">
+                        <div class="csm-core-card-header">
+                            <h3>{{ feature.title }}</h3>
+                            <img :src="feature.icon" alt="" class="csm-core-card-icon" />
+                        </div>
+                        <div class="csm-core-card-items">
+                            <div v-for="(item, iidx) in feature.items" :key="iidx" class="csm-core-card-item">
+                                <strong>{{ item.label }}：</strong>
+                                <span>{{ item.content }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 服务优势区 ========== -->
+        <section id="csm-cs-advantage" class="csm-section csm-advantage-section">
+            <div class="csm-container">
+                <div class="csm-section-header csm-animate">
+                    <h2 class="csm-section-title csm-title-white">服务优势</h2>
+                    <p class="csm-section-subtitle csm-subtitle-white">五大核心优势，为机关事业单位和国有企业提供全方位、高标准的能力测试服务</p>
+                </div>
+                <div class="csm-advantage-list">
+                    <div v-for="(card, idx) in advantageCards" :key="idx" class="csm-advantage-card csm-animate">
+                        <div class="csm-advantage-card-header">
+                            <img :src="card.icon" alt="" class="csm-advantage-card-icon" />
+                            <h3>{{ card.title }}</h3>
+                        </div>
+                        <p v-if="card.content" class="csm-advantage-card-desc csm-indent">{{ card.content }}</p>
+                        <div v-if="card.subItems && card.subItems.length" class="csm-advantage-sub-items">
+                            <div v-for="(sub, sidx) in card.subItems" :key="sidx" class="csm-advantage-sub-item">
+                                <img v-if="sub.icon" :src="sub.icon" alt="" class="csm-advantage-sub-icon" />
+                                <div>
+                                    <div class="csm-strong">{{ sub.title }}</div>
+                                    <p class="csm-indent">{{ sub.content }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 机考系统其他应用场景 ========== -->
+        <section class="csm-section csm-scene-section">
+            <div class="csm-container">
+                <div class="csm-section-header csm-animate">
+                    <h2 class="csm-section-title">机考系统其他应用场景</h2>
+                    <p class="csm-section-subtitle">机考系统就是通过电脑、平板等电子设备完成出题、组卷、答题、监考、自动判分、成绩统计全流程考试，覆盖职业考试、校园、企业、机构等多类场景。</p>
+                </div>
+                <div class="csm-scene-list">
+                    <div v-for="(item, i) in box5Data" :key="i" class="csm-scene-card csm-animate">
+                        <div class="csm-scene-card-img-wrap">
+                            <img :src="`/assets/images/computerService/box5-img${i + 1}.png`" alt=""
+                                class="csm-scene-card-img" />
+                            <span class="csm-scene-card-label">{{ item.label }}</span>
+                        </div>
+                        <div class="csm-scene-card-content">
+                            <template v-for="(items, j) in item.content" :key="i + '-' + j">
+                                <div class="csm-scene-card-content-title">{{ items.title }}</div>
+                                <p v-if="items.content" class="csm-indent">{{ items.content }}</p>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+                <div class="csm-scene-bottom csm-animate">
+                    <div class="csm-scene-bottom-title">核心价值总结</div>
+                    <div class="csm-scene-bottom-desc">
+                        · 大规模考试：减少印刷试卷、人工阅卷成本，提升效率<br />
+                        · 高保密考试：随机抽题、防作弊、全程留痕可追溯<br />
+                        · 线上便捷考试：打破地域限制，不用统一聚集考场
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 数据实力区 ========== -->
+        <section id="csm-cs-data" class="csm-section csm-data-section">
+            <div class="csm-container">
+                <div class="csm-section-header csm-animate">
+                    <h2 class="csm-section-title">数据实力</h2>
+                    <p class="csm-section-subtitle">覆盖全国的学术支撑与生产快速交付能力，以数据见证专业实力</p>
+                </div>
+                <div class="csm-data-top csm-animate">
+                    <div class="csm-data-top-item">
+                        <strong><span class="csm-count-number" v-count-up="300">300</span><span
+                                class="csm-count-suffix">+</span></strong>
+                        <span>专家命题专家</span>
+                    </div>
+                    <div class="csm-data-top-item">
+                        <strong><span class="csm-count-number" v-count-up="285">285</span></strong>
+                        <span>个专业覆盖</span>
+                    </div>
+                    <div class="csm-data-top-item">
+                        <strong><span class="csm-count-number" v-count-up="20">20</span><span
+                                class="csm-count-suffix">TB+</span></strong>
+                        <span>题库文件大小</span>
+                    </div>
+                    <div class="csm-data-top-item">
+                        <strong><span class="csm-count-number" v-count-up="1000">1000</span><span
+                                class="csm-count-suffix">+</span></strong>
+                        <span>个细分学科</span>
+                    </div>
+                </div>
+                <div class="csm-data-bottom">
+                    <div class="csm-data-bottom-item csm-animate">
+                        <img src="/assets/images/computerService/box6-icon1.png" alt="" class="csm-data-icon" />
+                        <div>
+                            <div class="csm-strong"><span class="csm-count-number" v-count-up="54">54</span><span
+                                    class="csm-count-suffix">+</span></div>
+                            <span>种不同类别的用人单位</span>
+                        </div>
+                    </div>
+                    <div class="csm-data-bottom-item csm-animate">
+                        <img src="/assets/images/computerService/box6-icon2.png" alt="" class="csm-data-icon" />
+                        <div>
+                            <div class="csm-strong"><span class="csm-count-number" v-count-up="37">37</span><span
+                                    class="csm-count-suffix">%+</span></div>
+                            <span>服务客户数平均增长</span>
+                        </div>
+                    </div>
+                    <div class="csm-data-bottom-item csm-animate">
+                        <img src="/assets/images/computerService/box6-icon3.png" alt="" class="csm-data-icon" />
+                        <div>
+                            <div class="csm-strong"><span class="csm-count-number" v-count-up="35">35</span><span
+                                    class="csm-count-suffix">%+</span></div>
+                            <span>服务考生数平均增长</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 协作共享区 ========== -->
+        <section id="csm-cs-share" class="csm-section csm-share-section">
+            <div class="csm-container">
+                <div class="csm-section-header csm-animate">
+                    <h2 class="csm-section-title csm-title-white csm-title-large">协作共享</h2>
+                </div>
+                <div class="csm-share-desc csm-indent csm-animate">
+                    中测高科在全国32家省市设有分子公司及办事处，依托科锐国际在全球的110多个服务网点，为各地招才引智工作提供面向全国的国际化人才荐评服务。欢迎各地机关事业单位、国有企业联系我们，共同推进专业技术人员水平能力评估工作。
+                </div>
+                <div class="csm-share-items csm-animate">
+                    <div v-for="(item, idx) in shareItems" :key="idx" class="csm-share-item">
+                        <img :src="item.icon" alt="" class="csm-share-item-icon" />
+                        <span>{{ item.text }}</span>
+                    </div>
+                </div>
+                <div class="csm-banner-actions csm-animate">
+                    <NuxtLink class="csm-btn csm-btn-primary2" :to="contactRoute">电话咨询</NuxtLink>
+                    <button class="csm-btn csm-btn-outline" @click="scrollToTop">返回顶部</button>
+                </div>
+                <div class="csm-share-right csm-animate">
+                    <h3 class="csm-share-right-title">全国部分分子公司联系方式</h3>
+                    <div class="csm-branch-list">
+                        <div v-for="(office, idx) in branchOffices" :key="idx" class="csm-branch-card">
+                            <div class="csm-branch-city">{{ office.city }}</div>
+                            <div class="csm-branch-info">
+                                <span>手机：{{ office.phone }}</span>
+                                <span v-if="office.email">邮箱：{{ office.email }}</span>
+                                <span v-if="office.address">地址：{{ office.address }}</span>
                             </div>
                         </div>
                     </div>
@@ -1670,5 +1974,885 @@ const box5Data = [
     font-size: 13px;
     color: rgba(255, 255, 255, 0.75);
     line-height: 1.6;
+}
+
+/* ============================================================ */
+/* ===== 移动端（csm- 前缀）样式：纯新增，限定在 .csm-page 作用域 ===== */
+/* · web 端（.cs- 前缀）DOM/CSS/script 零改动                    */
+/* · ≤1024px 隐藏桌面根、显示移动根                             */
+/* · 所有移动样式限定在 .csm-page 作用域内                       */
+/* · 不给 .csm-page 设 overflow:hidden，避免破坏 .csm-nav-bar 的 sticky */
+/* ============================================================ */
+
+/* 默认隐藏移动根；≤ 1024px 隐藏桌面根、显示移动根（web 端 >1024px 零影响） */
+.csm-page {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .cs-page {
+        display: none !important;
+    }
+
+    .csm-page {
+        display: block;
+    }
+}
+
+.csm-page {
+    --csm-blue: #0F62FE;
+    --csm-blue-dark: #0043CE;
+    --csm-ink: #1A1A2E;
+    --csm-muted: #5A6578;
+    font-family: Inter, "SF Pro Display", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    color: var(--csm-ink);
+    background: #fff;
+}
+
+.csm-container {
+    width: min(100% - 32px, 600px);
+    margin: 0 auto;
+}
+
+.csm-indent {
+    text-indent: 2em;
+}
+
+.csm-strong {
+    font-weight: 600;
+}
+
+/* 入场动画（移动独立 observer：.csm-animate → .csm-visible） */
+.csm-animate {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.csm-animate.csm-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 数字后缀继承陷阱处理（复现 web .cs-count-number 逻辑） */
+.csm-count-number {
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    color: inherit !important;
+}
+
+.csm-count-suffix {
+    font-size: 16px !important;
+    font-weight: 600;
+    color: inherit;
+    margin-left: 2px;
+}
+
+/* ===== 通用按钮 ===== */
+.csm-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 28px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    line-height: 1;
+    border: 1px solid #fff;
+}
+
+.csm-btn-primary1 {
+    background: #fff;
+    color: var(--csm-blue);
+}
+
+.csm-btn-primary2 {
+    background: var(--csm-blue);
+    color: #fff;
+    border-color: var(--csm-blue);
+}
+
+.csm-btn-outline {
+    background: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+}
+
+/* ===== 通用 Section ===== */
+.csm-section {
+    position: relative;
+    padding: 48px 0;
+    scroll-margin-top: 130px;
+}
+
+@media (max-width: 560px) {
+    .csm-section {
+        scroll-margin-top: 118px;
+    }
+}
+
+.csm-section-header {
+    margin-bottom: 28px;
+}
+
+.csm-section-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--csm-blue);
+    letter-spacing: 1px;
+    line-height: 1.3;
+    margin: 0 0 10px;
+    padding-left: 12px;
+    border-left: 4px solid var(--csm-blue);
+}
+
+.csm-section-title.csm-title-white {
+    color: #fff;
+}
+
+.csm-section-title.csm-title-large {
+    font-size: 26px;
+}
+
+.csm-section-subtitle {
+    font-size: 14px;
+    color: #4A5568;
+    line-height: 1.75;
+    margin: 0;
+}
+
+.csm-section-subtitle.csm-subtitle-white {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* ===== Banner（深蓝渐变 + 图文分离） ===== */
+.csm-banner {
+    padding: 40px 0 34px;
+    background: linear-gradient(160deg, #0D2137 0%, #1A5FB4 55%, #2196F3 100%);
+}
+
+.csm-banner-content {
+    position: relative;
+    z-index: 1;
+}
+
+.csm-banner-badge {
+    display: inline-block;
+    padding: 8px 18px 8px 34px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 100px;
+    font-size: 12px;
+    color: #60DDF4;
+    font-weight: 500;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.csm-banner-badge::before {
+    content: "★";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 16px;
+    color: #63EAFF;
+}
+
+.csm-banner-title {
+    font-size: 26px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.45;
+    margin: 0 0 18px;
+}
+
+.csm-banner-subtitle {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.1);
+    font-size: 18px;
+    padding: 5px 16px;
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 3px;
+    margin-bottom: 18px;
+    border-radius: 8px;
+}
+
+.csm-banner-desc {
+    font-weight: 500;
+    font-size: 15px;
+    color: #fff;
+    line-height: 24px;
+    letter-spacing: 3px;
+    margin: 0 0 28px;
+}
+
+.csm-banner-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* 配图全宽自适应，与渐变底衔接 */
+.csm-banner-visual {
+    margin-top: 26px;
+    line-height: 0;
+}
+
+.csm-banner-visual img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+}
+
+/* ===== 导航栏（sticky 横向滚动） ===== */
+.csm-nav-bar {
+    position: sticky;
+    top: 76px;
+    z-index: 15;
+    background: #f4f7fb;
+    border-bottom: 1px solid #ECEFF3;
+}
+
+@media (max-width: 560px) {
+    .csm-nav-bar {
+        top: 66px;
+    }
+}
+
+.csm-nav-scroll {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 0 16px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.csm-nav-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.csm-nav-tab {
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+    font-size: 14px;
+    color: #161616;
+    text-decoration: none;
+    padding: 14px 12px;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+}
+
+.csm-nav-tab-active {
+    color: var(--csm-blue);
+    border-bottom-color: var(--csm-blue);
+    font-weight: 500;
+}
+
+/* ===== 研发背景区 ===== */
+.csm-research-section {
+    background: #fff;
+}
+
+.csm-research-blocks {
+    margin-bottom: 20px;
+}
+
+.csm-research-block {
+    margin-bottom: 24px;
+}
+
+.csm-research-block:last-child {
+    margin-bottom: 0;
+}
+
+.csm-research-block h3 {
+    font-size: 17px;
+    font-weight: 600;
+    color: #1D1D1D;
+    margin: 0 0 10px;
+}
+
+.csm-research-block p {
+    font-size: 14px;
+    color: #4A5568;
+    line-height: 1.9;
+    margin: 0;
+}
+
+.csm-research-img {
+    margin-bottom: 26px;
+    line-height: 0;
+}
+
+.csm-research-img img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+}
+
+.csm-research-items-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: #1D1D1D;
+    margin: 0 0 12px;
+}
+
+.csm-research-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.csm-research-item {
+    font-size: 14px;
+    color: #4A5568;
+    line-height: 1.9;
+    background: #F4F7FB;
+    border-radius: 12px;
+    padding: 18px 16px 20px;
+}
+
+.csm-research-item div {
+    color: var(--csm-blue);
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.csm-research-item p {
+    margin: 0;
+}
+
+/* ===== 产品介绍区（不放 bg1.png，沿用 web 浅蓝底） ===== */
+.csm-product-section {
+    background: #f0f4f8;
+    padding-bottom: 56px;
+}
+
+.csm-product-section .csm-section-title {
+    margin-bottom: 8px;
+}
+
+.csm-product-blocks {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.csm-product-img {
+    line-height: 0;
+}
+
+.csm-product-img img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+}
+
+.csm-product-block-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.csm-product-block-icon {
+    width: 22px;
+    height: 22px;
+}
+
+.csm-product-block-header h3 {
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--csm-blue);
+    line-height: 1.4;
+    margin: 0;
+}
+
+.csm-product-block>p {
+    font-weight: 400;
+    font-size: 14px;
+    color: #4A5568;
+    line-height: 1.9;
+    margin: 0;
+}
+
+.csm-product-items {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.csm-product-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.csm-product-item1 {
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #E2E8F0;
+    padding: 16px;
+    gap: 0;
+    display: block;
+}
+
+.csm-product-item-icon {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+}
+
+.csm-product-item1 .csm-product-item-icon {
+    margin-bottom: 10px;
+}
+
+.csm-product-item-content {
+    font-weight: 400;
+    font-size: 13px;
+    color: #4A5568;
+    line-height: 1.8;
+}
+
+.csm-product-item-content .csm-product-item-content-title {
+    font-weight: 600;
+    font-size: 15px;
+    color: #1A2332;
+    line-height: 1.5;
+    margin-bottom: 6px;
+}
+
+/* ===== 核心功能区 ===== */
+.csm-core-section {
+    background: #fff;
+}
+
+.csm-core-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.csm-core-card {
+    padding: 20px 18px 22px;
+    background: rgba(245, 247, 250, 1);
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+}
+
+.csm-core-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.csm-core-card-icon {
+    width: 40px;
+    height: 40px;
+}
+
+.csm-core-card-header h3 {
+    font-weight: 600;
+    font-size: 17px;
+    color: #1A2332;
+    margin: 0;
+}
+
+.csm-core-card-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.csm-core-card-item {
+    font-weight: 400;
+    font-size: 13px;
+    color: #4A5568;
+    line-height: 1.75;
+    position: relative;
+    padding-left: 14px;
+}
+
+.csm-core-card-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 6px;
+    height: 6px;
+    background: var(--csm-blue);
+    border-radius: 3px;
+}
+
+.csm-core-card-item strong {
+    color: #1A2332;
+    font-weight: 600;
+}
+
+/* ===== 服务优势区（保留 web 深蓝渐变底） ===== */
+.csm-advantage-section {
+    background: linear-gradient(160deg, #0D2137 0%, #1A5FB4 50%, #0D3B7A 100%);
+}
+
+.csm-advantage-section .csm-section-title {
+    border-color: #E8651A;
+}
+
+.csm-advantage-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.csm-advantage-card {
+    padding: 22px 18px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.csm-advantage-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.csm-advantage-card-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+}
+
+.csm-advantage-card-header h3 {
+    font-size: 17px;
+    font-weight: 600;
+    color: #1F1F1F;
+    margin: 0;
+}
+
+.csm-advantage-card-desc {
+    font-weight: 400;
+    font-size: 13px;
+    color: rgba(37, 37, 37, 0.97);
+    line-height: 1.85;
+    margin: 0;
+}
+
+.csm-advantage-sub-items {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.csm-advantage-sub-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.csm-advantage-sub-icon {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    margin-top: -2px;
+}
+
+.csm-advantage-sub-item div {
+    font-size: 13px;
+    color: rgba(37, 37, 37, 0.97);
+    line-height: 1.85;
+}
+
+.csm-advantage-sub-item .csm-strong {
+    font-size: 14px;
+    color: #1F1F1F;
+    line-height: 1.6;
+    margin-bottom: 2px;
+}
+
+.csm-advantage-sub-item p {
+    margin: 0;
+}
+
+/* ===== 应用场景区 ===== */
+.csm-scene-section {
+    background: #fff;
+}
+
+.csm-scene-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.csm-scene-card {
+    background: #fff;
+    border-radius: 14px;
+    border: 1px solid #E2E8F0;
+    overflow: hidden;
+}
+
+.csm-scene-card-img-wrap {
+    position: relative;
+    width: 100%;
+    line-height: 0;
+}
+
+.csm-scene-card-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.csm-scene-card-label {
+    position: absolute;
+    left: 12px;
+    top: 11px;
+    background: #DBEAFE;
+    border-radius: 9999px;
+    padding: 3px 12px;
+    color: #1E40AF;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+.csm-scene-card-content {
+    padding: 16px 16px 20px;
+}
+
+.csm-scene-card-content-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: #0F172A;
+    line-height: 1.7;
+    margin-bottom: 6px;
+}
+
+.csm-scene-card-content p {
+    font-weight: 400;
+    font-size: 13px;
+    color: #64748B;
+    line-height: 1.8;
+    margin: 0 0 14px;
+}
+
+.csm-scene-card-content p:last-child {
+    margin-bottom: 0;
+}
+
+.csm-scene-bottom {
+    background: #F4F7FB;
+    border-radius: 12px;
+    padding: 18px 16px;
+}
+
+.csm-scene-bottom-title {
+    font-weight: 600;
+    font-size: 16px;
+    color: #0F172A;
+    line-height: 1.6;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.csm-scene-bottom-desc {
+    font-weight: 400;
+    font-size: 13px;
+    color: #64748B;
+    line-height: 2;
+    text-align: center;
+}
+
+/* ===== 数据实力区（浅色底，不放 bg2.png） ===== */
+.csm-data-section {
+    background: #ebf2fa;
+}
+
+.csm-data-top {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.csm-data-top-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 22px 10px;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #E5E9F0;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.06);
+}
+
+.csm-data-top-item strong {
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--csm-blue);
+    line-height: 1.1;
+}
+
+.csm-data-top-item>span {
+    font-size: 13px;
+    color: #666;
+}
+
+.csm-data-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.csm-data-bottom-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #E5E9F0;
+    padding: 16px;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.06);
+}
+
+.csm-data-icon {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+}
+
+.csm-data-bottom-item div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.csm-data-bottom-item .csm-strong {
+    display: flex;
+    align-items: baseline;
+    flex-direction: row;
+    line-height: 1;
+    color: var(--csm-blue);
+    font-size: 24px;
+}
+
+.csm-data-bottom-item .csm-count-suffix {
+    font-size: 14px !important;
+}
+
+.csm-data-bottom-item div span:last-child {
+    font-size: 13px;
+    color: #666;
+}
+
+/* ===== 协作共享区（保留 web 深蓝渐变底） ===== */
+.csm-share-section {
+    background: linear-gradient(160deg, #0D2137 0%, #1A5FB4 50%, #0D3B7A 100%);
+    padding-bottom: 56px;
+}
+
+.csm-share-section .csm-section-header {
+    margin-bottom: 20px;
+}
+
+.csm-share-section .csm-section-title {
+    margin: 0;
+    border: none;
+    padding: 0;
+}
+
+.csm-share-desc {
+    font-weight: 400;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.9;
+    margin: 0 0 22px;
+}
+
+.csm-share-items {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.csm-share-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.csm-share-item-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.csm-share-item span {
+    font-weight: 400;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.7;
+}
+
+.csm-share-section .csm-banner-actions {
+    margin-bottom: 34px;
+}
+
+.csm-share-right-title {
+    font-weight: 600;
+    font-size: 17px;
+    color: #fff;
+    line-height: 1.5;
+    margin: 0 0 14px;
+}
+
+.csm-branch-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.csm-branch-card {
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.csm-branch-city {
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.csm-branch-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.csm-branch-info span {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.6;
+    word-break: break-all;
 }
 </style>
