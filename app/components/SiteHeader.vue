@@ -32,7 +32,7 @@ const primaryNav = [
   { to: '/marking', label: '阅卷服务' },
   { to: '/escort', label: '制卷与押运' },
   { to: '/niupai', label: '牛派系统' },
-  { to: '/questionBank', label: '共享题库中心' },
+  { to: '/questionBank', label: '题库共建' },
   { to: '/question', label: '题库系统' },
   { to: '/aiInterview', label: 'AI面试' },
 ]
