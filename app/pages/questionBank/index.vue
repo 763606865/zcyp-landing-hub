@@ -302,7 +302,7 @@ onUnmounted(() => {
         <section id="qbc-pain" class="qbc-pain">
             <div class="container-qbc qbc-pain-grid">
                 <div class="qbc-pain-left qbc-animate">
-                    <h2 class="qbc-pain-title">为什么需要共享题库</h2>
+                    <h2 class="qbc-pain-title">为什么需要题库共建</h2>
                     <p class="qbc-pain-sub">人事考试命题的四道<br />现实难关</p>
                     <p class="qbc-pain-desc">多数考试机构并非不够专业，而是在命题资源、工具与机制上"单打独斗"。题库共建存在的意义，就是把这套能力变成你的底座。</p>
                     <div class="qbc-pain-card">
@@ -491,7 +491,7 @@ onUnmounted(() => {
                     <div class="qb-why-circle qb-why-circle-br"></div>
                 </div>
                 <div class="qb-why-header qbc-animate">合作实践</div>
-                <div class="qb-why-subTitle qbc-animate">他⁠们⁠已⁠经⁠在⁠用⁠共⁠享⁠题⁠库⁠</div>
+                <div class="qb-why-subTitle qbc-animate">他⁠们⁠已⁠经⁠在⁠用题库共建⁠</div>
                 <div class="qb-why-desc qbc-animate">从省级考试机构到人才集团、央企集团，题库共建以不同模式支撑各类命题业务落地。</div>
                 <div class="qb-why-box">
                     <div class="qb-why-card qbc-animate" v-for="(card, i) in qbcData" :key="i"
@@ -556,7 +556,7 @@ onUnmounted(() => {
         <section id="qbm-pain" class="qbm-section qbm-pain">
             <div class="qbm-container">
                 <div class="qbm-pain-intro qbm-animate">
-                    <h2 class="qbm-pain-title">为什么需要共享题库</h2>
+                    <h2 class="qbm-pain-title">为什么需要题库共建</h2>
                     <p class="qbm-pain-sub">人事考试命题的四道现实难关</p>
                     <p class="qbm-pain-desc">多数考试机构并非不够专业，而是在命题资源、工具与机制上“单打独斗”。题库共建存在的意义，就是把这套能力变成你的底座。</p>
                 </div>
@@ -744,7 +744,7 @@ onUnmounted(() => {
             </div>
             <div class="qbm-container qbm-cases-inner">
                 <div class="qbm-cases-head qbm-animate">合作实践</div>
-                <div class="qbm-cases-subtitle qbm-animate">他们已经在用共享题库</div>
+                <div class="qbm-cases-subtitle qbm-animate">他们已经在用题库共建</div>
                 <div class="qbm-cases-desc qbm-animate">从省级考试机构到人才集团、央企集团，题库共建以不同模式支撑各类命题业务落地。</div>
                 <div class="qbm-cases-box">
                     <div class="qbm-cases-card qbm-animate" v-for="(card, i) in qbcData" :key="i"
