@@ -20,6 +20,7 @@
         <NuxtLink to="/antiCheating">AI考务安全智能体</NuxtLink>
         <NuxtLink to="/paperlessInterview">无纸化面试评分</NuxtLink>
         <NuxtLink to="/scoreAnalysis">成绩分析系统</NuxtLink>
+        <NuxtLink to="/skillCert">职业技能鉴定</NuxtLink>
       </div>
       <div>
         <p class="footer-label">联系我们</p>

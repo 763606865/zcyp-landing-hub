@@ -20,6 +20,7 @@ const routeProductMap: Record<string, number> = {
   '/antiCheating': 11,
   '/paperlessInterview': 13,
   '/scoreAnalysis': 14,
+  '/skillCert': 15,
 }
 const contactRoute = computed(() => {
   const product = routeProductMap[route.path]
@@ -42,6 +43,7 @@ const moreNav = [
   { to: '/antiCheating', label: 'AI考务安全智能体' },
   { to: '/paperlessInterview', label: '无纸化面试评分' },
   { to: '/scoreAnalysis', label: '成绩分析系统' },
+  { to: '/skillCert', label: '职业技能鉴定' },
 ]
 
 const moreOpen = ref(false)
