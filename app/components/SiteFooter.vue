@@ -7,19 +7,17 @@
       </div>
       <div class="footer-links">
         <NuxtLink to="/">命题服务</NuxtLink>
-        <!-- <NuxtLink to="/hr">HR事务所</NuxtLink> -->
-        <!-- <NuxtLink to="/aiproposition">命题服务</NuxtLink> -->
         <NuxtLink to="/marking">阅卷服务</NuxtLink>
         <NuxtLink to="/escort">制卷与押运</NuxtLink>
-        <NuxtLink to="/niupai">牛派系统</NuxtLink>
         <NuxtLink to="/questionBank">题库共建</NuxtLink>
         <NuxtLink to="/question">题库系统</NuxtLink>
-        <NuxtLink to="/aiInterview">AI面试</NuxtLink>
-        <NuxtLink to="/computerService">机考服务</NuxtLink>
         <NuxtLink to="/onlineTest">在线笔试</NuxtLink>
+        <NuxtLink to="/computerService">机考服务</NuxtLink>
+        <NuxtLink to="/aiInterview">AI面试</NuxtLink>
         <NuxtLink to="/antiCheating">AI考务安全智能体</NuxtLink>
         <NuxtLink to="/paperlessInterview">无纸化面试评分</NuxtLink>
         <NuxtLink to="/scoreAnalysis">成绩分析系统</NuxtLink>
+        <NuxtLink to="/niupai">牛派系统</NuxtLink>
         <NuxtLink to="/skillCert">职业技能鉴定</NuxtLink>
       </div>
       <div>

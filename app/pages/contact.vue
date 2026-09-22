@@ -7,22 +7,20 @@ const config = useRuntimeConfig()
 const source = useCampaignSource()
 const contactApiUrl = `${config.public.apiBaseUrl.replace(/\/+$/, '')}/cms/contact-inquiries`
 const products = [
-  { value: 1 as ProductValue, label: 'HR事务所' },
-  { value: 2 as ProductValue, label: '命题服务' },
-  { value: 3 as ProductValue, label: '阅卷服务' },
-  { value: 4 as ProductValue, label: '制卷与押运' },
-  { value: 5 as ProductValue, label: '牛派系统' },
-  { value: 6 as ProductValue, label: '题库共建' },
-  { value: 7 as ProductValue, label: '题库系统' },
-  { value: 8 as ProductValue, label: 'AI面试系统' },
-  { value: 9 as ProductValue, label: '机考服务' },
-  { value: 10 as ProductValue, label: '在线笔试' },
-  { value: 11 as ProductValue, label: 'AI考务安全智能体' },
-  { value: 12 as ProductValue, label: '中测咨询' },
-  { value: 13 as ProductValue, label: '无纸化面试评分系统' },
-  { value: 14 as ProductValue, label: '成绩分析系统' },
-  { value: 15 as ProductValue, label: '职业技能鉴定' },
   { value: 99 as ProductValue, label: '其他' },
+  { value: 1 as ProductValue, label: '命题服务' },
+  { value: 2 as ProductValue, label: '阅卷服务' },
+  { value: 3 as ProductValue, label: '制卷与押运' },
+  { value: 4 as ProductValue, label: '题库共建' },
+  { value: 5 as ProductValue, label: '题库系统' },
+  { value: 6 as ProductValue, label: '在线笔试' },
+  { value: 7 as ProductValue, label: '机考服务' },
+  { value: 8 as ProductValue, label: 'AI面试系统' },
+  { value: 9 as ProductValue, label: 'AI考务安全智能体' },
+  { value: 10 as ProductValue, label: '无纸化面试评分系统' },
+  { value: 11 as ProductValue, label: '成绩分析系统' },
+  { value: 12 as ProductValue, label: '牛派系统' },
+  { value: 13 as ProductValue, label: '职业技能鉴定' },
 ]
 
 const normalizeProduct = (value: unknown): ProductValue => {

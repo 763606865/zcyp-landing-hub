@@ -32,17 +32,17 @@ const primaryNav = [
   { to: '/', label: '命题服务' },
   { to: '/marking', label: '阅卷服务' },
   { to: '/escort', label: '制卷与押运' },
-  { to: '/niupai', label: '牛派系统' },
   { to: '/questionBank', label: '题库共建' },
   { to: '/question', label: '题库系统' },
-  { to: '/aiInterview', label: 'AI面试' },
+  { to: '/onlineTest', label: '在线笔试' },
+  { to: '/computerService', label: '机考服务' },
 ]
 const moreNav = [
-  { to: '/computerService', label: '机考服务' },
-  { to: '/onlineTest', label: '在线笔试' },
+  { to: '/aiInterview', label: 'AI面试' },
   { to: '/antiCheating', label: 'AI考务安全智能体' },
   { to: '/paperlessInterview', label: '无纸化面试评分' },
   { to: '/scoreAnalysis', label: '成绩分析系统' },
+  { to: '/niupai', label: 'HRS牛派系统' },
   { to: '/skillCert', label: '职业技能鉴定' },
 ]
 
@@ -222,23 +222,13 @@ onBeforeUnmount(() => {
   object-fit: contain; display: block;
 }
 
-/* 响应式：≤850px 时覆盖全局 .nav-wrap nav{display:none}，保留 5+"更多"结构 */
-@media (max-width: 850px) {
-  .site-header .nav-wrap nav { display: flex; gap: 12px; font-size: 13px; }
-  .nav-actions { gap: 12px; }
-}
-@media (max-width: 560px) {
-  .site-header .nav-wrap nav { gap: 8px; font-size: 12px; }
-  .nav-more-panel { min-width: 160px; }
-}
-
 /* ===== 移动端汉堡按钮 + 右侧抽屉 =====
    默认（桌面端）全部隐藏，不影响 web 端任何样式与行为 */
 .nav-burger { display: none; }
 .nav-drawer-mask { display: none; }
 .nav-drawer { display: none; }
 
-@media (max-width: 768px) {
+@media (max-width: 850px) {
   /* 隐藏横排导航与右侧操作区，改用汉堡 */
   .site-header .nav-wrap nav { display: none; }
   .nav-actions { display: none; }
@@ -274,7 +264,7 @@ onBeforeUnmount(() => {
     box-shadow: -12px 0 40px rgba(16, 25, 21, .18);
     transform: translateX(100%);
     transition: transform .32s cubic-bezier(.4, 0, .2, 1);
-    overflow-y: auto; -webkit-overflow-scrolling: touch;
+    overflow: hidden;
   }
   .nav-drawer.open { transform: translateX(0); }
 
@@ -294,6 +284,7 @@ onBeforeUnmount(() => {
   .nav-drawer-list {
     display: flex; flex-direction: column; gap: 2px;
     flex: 1; padding: 12px 12px 20px;
+    overflow-y: auto; -webkit-overflow-scrolling: touch;
   }
   .nav-drawer-list a {
     padding: 13px 14px; border-radius: 10px;
