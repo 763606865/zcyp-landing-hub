@@ -322,7 +322,7 @@ onMounted(() => {
                     <h3 class="ai-block-title">专家团队实力</h3>
                     <div class="ai-expert-stats">
                         <div class="ai-expert-stat">
-                            <strong><span class="ai-count-number" v-count-up="300">300</span><span class="ai-expert-unit">人</span></strong>
+                            <strong><span class="ai-count-number" v-count-up="300">300</span><span class="ai-expert-unit">+</span></strong>
                             <span>全职研究员</span>
                         </div>
                         <div class="ai-expert-stat">
@@ -859,7 +859,7 @@ onMounted(() => {
                 <div class="aim-block aim-animate">
                     <h3 class="aim-block-title">专家团队实力</h3>
                     <div class="aim-expert-stats">
-                        <div class="aim-expert-stat"><strong><span class="aim-count" v-count-up="300">300</span><em>人</em></strong><span>全职研究员</span></div>
+                        <div class="aim-expert-stat"><strong><span class="aim-count" v-count-up="300">300</span><em>+</em></strong><span>全职研究员</span></div>
                         <div class="aim-expert-stat"><strong><span class="aim-count" v-count-up="160">160</span><em>+</em></strong><span>南昌专职队伍</span></div>
                         <div class="aim-expert-stat"><strong><span class="aim-count" v-count-up="6">6</span><em>人</em></strong><span>博士学历</span></div>
                         <div class="aim-expert-stat"><strong><span class="aim-count" v-count-up="88">88</span><em>人</em></strong><span>硕士学历</span></div>
