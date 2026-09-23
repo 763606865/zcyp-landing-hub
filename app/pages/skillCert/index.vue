@@ -160,7 +160,7 @@ const advantagesData = [
     },
     {
         title: '优势三',
-        subtitle: '项目交付经验丰富',
+        subtitle: '合规性与信息安全保障',
         desc: '依托团队与存量资源，高效完成题库建设',
         items: [
             '专职命题团队+庞大外部专家池，快速匹配各行业命题专家',
