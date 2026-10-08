@@ -32,7 +32,7 @@ export const products: Product[] = [
     name: '经营分析系统',
     summary: '把分散数据转化为清晰、及时、可行动的经营洞察。',
     description: '连接企业核心数据源，用直观的指标与趋势呈现业务状态，让管理者更快发现问题并做出判断。',
-    accent: '#0e7c66',
+    accent: '#ff9f00',
     features: ['多源数据接入', '核心指标管理', '自助分析看板', '异常趋势提醒'],
     scenarios: ['管理驾驶舱', '渠道效果分析', '业务目标追踪'],
     metric: '1站式',
