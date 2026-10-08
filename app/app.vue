@@ -5,4 +5,5 @@
     <NuxtPage />
   </main>
   <SiteFooter />
+  <FloatingActions />
 </template>
