@@ -110,8 +110,9 @@ onBeforeUnmount(() => {
       </nav>
       <div class="nav-actions">
         <div class="nav-contact" aria-label="客服电话">
-          <img src="/assets/images/link-phone.png" alt="" width="24" height="24">
+          <img class="tel-icon" src="/assets/images/link-phone.png" alt="" width="24" height="24">
           <span>400-825-1513</span>
+          <span class="tel-wave" aria-hidden="true"><i></i><i></i><i></i></span>
         </div>
         <NuxtLink class="button button-small" :to="contactRoute">获取方案</NuxtLink>
       </div>
@@ -154,8 +155,9 @@ onBeforeUnmount(() => {
         </nav>
         <div class="nav-drawer-foot">
           <a class="nav-drawer-tel" href="tel:400-825-1513">
-            <img src="/assets/images/link-phone.png" alt="" width="22" height="22">
+            <img class="tel-icon" src="/assets/images/link-phone.png" alt="" width="22" height="22">
             <span>400-825-1513</span>
+            <span class="tel-wave" aria-hidden="true"><i></i><i></i><i></i></span>
           </a>
           <NuxtLink class="button nav-drawer-cta" :to="contactRoute" @click="mobileOpen = false">获取方案</NuxtLink>
         </div>
@@ -211,7 +213,7 @@ onBeforeUnmount(() => {
 }
 
 /* 右侧联系方式 + 获取方案 */
-.nav-actions { display: flex; align-items: center; gap: 18px; }
+.nav-actions { display: flex; align-items: center; gap: 22px; }
 .nav-contact {
   display: inline-flex; align-items: center; gap: 6px;
   font-size: 17px; color: #3370FF; font-weight: 600;
@@ -220,6 +222,51 @@ onBeforeUnmount(() => {
 .nav-contact img {
   width: 24px; height: 24px;
   object-fit: contain; display: block;
+}
+
+/* ===== 电话 icon 铃声摆动 + 号码右上角音波 ===== */
+.nav-contact, .nav-drawer-tel { position: relative; }
+
+.tel-icon {
+  transform-origin: 50% 50%;
+  animation: tel-ring 2.1s ease-in-out infinite;
+}
+@keyframes tel-ring {
+  0%, 52%   { transform: rotate(0); }
+  56%       { transform: rotate(18deg); }
+  60%       { transform: rotate(-16deg); }
+  64%       { transform: rotate(13deg); }
+  68%       { transform: rotate(-10deg); }
+  72%       { transform: rotate(7deg); }
+  76%       { transform: rotate(-4deg); }
+  80%, 100% { transform: rotate(0); }
+}
+
+/* 右上角蝙蝠声波：三层同心弧（圆心落在号码右上角），波次由内向外扩散 */
+.tel-wave {
+  position: absolute; top: 5px; right: -2px; z-index: 1;
+  width: 0; height: 0; pointer-events: none;
+}
+.tel-wave i {
+  position: absolute; left: 0; bottom: 0;
+  border: 1.5px solid #3370FF;
+  border-radius: 50%;
+  /* 只保留右上 1/4 圆弧，弧口朝右上向外发散 */
+  border-color: #3370FF #3370FF transparent transparent;
+  opacity: .5;
+  animation: tel-wave 1.6s ease-out infinite;
+}
+.tel-wave i:nth-child(1) { width: 8px;  height: 8px;  margin: 0 0 -4px -4px;   animation-delay: 0s; }
+.tel-wave i:nth-child(2) { width: 13px; height: 13px; margin: 0 0 -6.5px -6.5px; animation-delay: .25s; }
+.tel-wave i:nth-child(3) { width: 18px; height: 18px; margin: 0 0 -9px -9px;   animation-delay: .5s; }
+@keyframes tel-wave {
+  0%   { transform: scale(.72); opacity: .18; }
+  35%  { opacity: .95; }
+  100% { transform: scale(1.12); opacity: .22; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tel-icon, .tel-wave i { animation: none; }
 }
 
 /* ===== 移动端汉堡按钮 + 右侧抽屉 =====
