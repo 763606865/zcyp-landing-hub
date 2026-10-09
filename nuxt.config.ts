@@ -15,7 +15,7 @@ export default defineNuxtConfig({
 			titleTemplate: '%s｜产品中心',
 			link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }],
 			meta: [
-				{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
+				{ name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
 				{ name: 'theme-color', content: '#17221e' },
 				{ name: 'format-detection', content: 'telephone=no' },
 			],

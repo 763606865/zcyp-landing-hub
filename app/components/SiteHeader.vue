@@ -293,9 +293,9 @@ onBeforeUnmount(() => {
   .nav-burger.open span:nth-child(2) { opacity: 0; }
   .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-  /* 半透明遮罩 */
+  /* 半透明遮罩（层级需高于悬浮底栏 FloatingActions 的 1000） */
   .nav-drawer-mask {
-    display: block; position: fixed; inset: 0; z-index: 60;
+    display: block; position: fixed; inset: 0; z-index: 1060;
     background: rgba(16, 25, 21, .45);
     opacity: 0; visibility: hidden;
     transition: opacity .3s ease, visibility .3s;
@@ -305,7 +305,7 @@ onBeforeUnmount(() => {
   /* 右侧滑入面板 */
   .nav-drawer {
     display: flex; flex-direction: column;
-    position: fixed; top: 0; right: 0; bottom: 0; z-index: 70;
+    position: fixed; top: 0; right: 0; bottom: 0; z-index: 1070;
     width: min(82vw, 340px);
     background: #f6f7f2;
     box-shadow: -12px 0 40px rgba(16, 25, 21, .18);
@@ -352,6 +352,8 @@ onBeforeUnmount(() => {
   }
   .nav-drawer-tel {
     display: inline-flex; align-items: center; gap: 8px;
+    /* 收缩包裹内容，保证声波锚定在号码右上角而非整行右上角 */
+    align-self: flex-start;
     font-size: 17px; font-weight: 700; color: #3370FF;
   }
   .nav-drawer-tel img { width: 22px; height: 22px; object-fit: contain; display: block; }

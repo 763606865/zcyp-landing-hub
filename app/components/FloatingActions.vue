@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watch, onMounted, onBeforeUnmount } from 'vue'
 import { getContactRoute, useCampaignSource } from '../composables/useCampaignSource'
 
 // @ts-ignore
 const route = useRoute()
 const source = useCampaignSource()
 
-// 获取方案页（/contact）不展示悬浮按钮，移动端由 CSS 断点隐藏
+// 获取方案页（/contact）不展示悬浮按钮；移动端切换为底部按钮栏
 const visible = computed(() => route.path !== '/contact')
 
 const contactRoute = computed(() => getContactRoute(undefined, source.value))
@@ -16,12 +16,41 @@ const scrollToTop = () => {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' })
 }
+
+// 移动端无 hover：点击微信咨询切换二维码弹层，点击其他区域关闭
+const qrOpen = ref(false)
+const wechatEl = ref<HTMLElement | null>(null)
+const toggleQr = () => {
+  if (typeof window === 'undefined') return
+  if (window.matchMedia('(max-width: 850px)').matches) qrOpen.value = !qrOpen.value
+}
+const onDocClick = (e: MouseEvent) => {
+  if (wechatEl.value && !wechatEl.value.contains(e.target as Node)) qrOpen.value = false
+}
+onMounted(() => document.addEventListener('click', onDocClick))
+onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
+
+// 仅在悬浮按钮存在时给 body 预留底栏高度，避免 /contact 等隐藏页底部出现空白
+watch(visible, (show) => {
+  if (typeof document === 'undefined') return
+  document.body.classList.toggle('fa-bar-visible', show)
+}, { immediate: true })
+onBeforeUnmount(() => {
+  if (typeof document !== 'undefined') document.body.classList.remove('fa-bar-visible')
+})
 </script>
 
 <template>
   <aside v-if="visible" class="floating-actions" aria-label="快捷操作">
     <div class="fa-panel">
-      <div class="fa-item fa-wechat" tabindex="0">
+      <div
+        ref="wechatEl"
+        class="fa-item fa-wechat"
+        :class="{ 'qr-open': qrOpen }"
+        tabindex="0"
+        @click="toggleQr"
+        @keyup.enter="toggleQr"
+      >
         <span class="fa-icon">
           <img class="fa-icon-normal" src="/assets/images/home/wx-icon.png" alt="" width="24" height="24">
           <img class="fa-icon-act" src="/assets/images/home/wx-icon-act.png" alt="" width="24" height="24">
@@ -191,14 +220,76 @@ const scrollToTop = () => {
 }
 
 .fa-wechat:hover .fa-qrcode,
-.fa-wechat:focus-within .fa-qrcode {
+.fa-wechat:focus-within .fa-qrcode,
+.fa-wechat.qr-open .fa-qrcode {
   opacity: 1;
   visibility: visible;
   transform: translateY(-50%) translateX(0);
 }
 
-/* 移动端不展示（与全站 850px 断点一致） */
+/* ===== 移动端（≤850px，与全站断点一致）：底部按钮栏，宽 100%、高 64，三项横排，无置顶 ===== */
 @media (max-width: 850px) {
-  .floating-actions { display: none; }
+  .floating-actions {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    flex-direction: row;
+    gap: 0;
+    box-sizing: border-box;
+    height: calc(64px + env(safe-area-inset-bottom, 0px));
+    /* 适配 iOS/Android 手势区、圆角屏安全区 */
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: #fff;
+    box-shadow: 0 -2px 12px rgba(0, 0, 0, .08);
+  }
+
+  .fa-panel {
+    flex: 1;
+    width: auto;
+    height: 64px;
+    flex-direction: row;
+    gap: 0;
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  /* 分隔线横排时改为竖线 */
+  .line {
+    width: 1px;
+    height: 24px;
+    margin: 0;
+    flex: none;
+  }
+
+  .fa-item {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .fa-to-top { display: none; }
+
+  /* 二维码卡片改为弹在底栏上方 */
+  .fa-qrcode {
+    right: auto;
+    top: auto;
+    left: 50%;
+    bottom: calc(100% + 12px);
+    transform: translateX(-50%) translateY(6px);
+  }
+
+  .fa-wechat:hover .fa-qrcode,
+  .fa-wechat:focus-within .fa-qrcode,
+  .fa-wechat.qr-open .fa-qrcode {
+    transform: translateX(-50%) translateY(0);
+  }
+}
+</style>
+
+<style>
+/* 防止移动端固定底栏遮挡页面底部内容（非 scoped），仅在底栏存在时生效 */
+@media (max-width: 850px) {
+  body.fa-bar-visible { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
 }
 </style>
