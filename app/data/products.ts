@@ -63,7 +63,7 @@ export const products: Product[] = [
     scenarios: ['人事考试安全交付', '试卷保密印刷押运', '阅卷全流程安保'],
     metric: '32省市',
     metricLabel: '全国服务网络覆盖',
-    contactProduct: 4,
+    contactProduct: 3,
   },
 ]
 

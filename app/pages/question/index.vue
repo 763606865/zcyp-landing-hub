@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { getContactRoute, useCampaignSource } from '../../composables/useCampaignSource'
 
 const source = useCampaignSource()
-const contactRoute = computed(() => getContactRoute(7, source.value))
+const contactRoute = computed(() => getContactRoute(5, source.value))
 
 // 导航标签
 const navTabs = [

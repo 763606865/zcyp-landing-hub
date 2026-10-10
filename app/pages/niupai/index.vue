@@ -211,11 +211,11 @@ onMounted(() => {
                         数字化高速成长保驾护航。
                     </p>
                     <div class="niupai-banner-actions">
-                        <NuxtLink class="niupai-banner-btn niupai-banner-btn-primary" to="/contact?product=5">
+                        <NuxtLink class="niupai-banner-btn niupai-banner-btn-primary" to="/contact?product=12">
                             免费申请体验
                             <img src="/assets/images/niupai/banner-icon1.png" alt="" class="niupai-banner-side-icon" />
                         </NuxtLink>
-                        <NuxtLink class="niupai-banner-btn niupai-banner-btn-ghost" to="/contact?product=5">
+                        <NuxtLink class="niupai-banner-btn niupai-banner-btn-ghost" to="/contact?product=12">
                             <img src="/assets/images/niupai/banner-icon2.png" alt="" class="niupai-banner-side-icon" />
                             了解产品详情
                         </NuxtLink>
@@ -568,11 +568,11 @@ onMounted(() => {
                 <h1 class="npm-banner-title"><span class="npm-title1">牛派</span> · 中小企业协同办公<br /><span>管理云平台</span></h1>
                 <p class="npm-banner-desc">打通“人、财、物、费”全链路数据，以统一数字化平台实现运营效率与业务质量的双重提升。凭借20余年行业服务经验，为企业数字化高速成长保驾护航。</p>
                 <div class="npm-banner-actions">
-                    <NuxtLink class="npm-btn npm-btn-primary" to="/contact?product=5">
+                    <NuxtLink class="npm-btn npm-btn-primary" to="/contact?product=12">
                         免费申请体验
                         <img src="/assets/images/niupai/banner-icon1.png" alt="" class="npm-btn-icon" />
                     </NuxtLink>
-                    <NuxtLink class="npm-btn npm-btn-ghost" to="/contact?product=5">
+                    <NuxtLink class="npm-btn npm-btn-ghost" to="/contact?product=12">
                         <img src="/assets/images/niupai/banner-icon2.png" alt="" class="npm-btn-icon" />
                         了解产品详情
                     </NuxtLink>

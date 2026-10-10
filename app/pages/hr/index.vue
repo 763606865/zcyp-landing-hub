@@ -248,8 +248,8 @@ onMounted(() => {
                     都拥有专业的人力资源支撑。
                 </p>
                 <div class="hr-banner-actions">
-                    <NuxtLink class="hr-btn hr-btn-primary" to="/contact?product=1">成为会员 <span>→</span></NuxtLink>
-                    <NuxtLink class="hr-btn hr-btn-outline" to="/contact?product=1">企业方案 <span>→</span></NuxtLink>
+                    <NuxtLink class="hr-btn hr-btn-primary" to="/contact?product=14">成为会员 <span>→</span></NuxtLink>
+                    <NuxtLink class="hr-btn hr-btn-outline" to="/contact?product=14">企业方案 <span>→</span></NuxtLink>
                 </div>
             </div>
             <!-- 统计卡片 -->
@@ -559,7 +559,7 @@ onMounted(() => {
                         <h3>免费资源下载</h3>
                         <div class="hr-resource-list">
                             <div v-for="(res, idx) in resources" :key="idx" class="hr-resource-item hr-animate"
-                                @click="navigateTo('/contact?product=1')">
+                                @click="navigateTo('/contact?product=14')">
                                 <img :src="res.icon" :alt="res.name" class="hr-resource-icon" />
                                 <div class="hr-resource-info">
                                     <strong>{{ res.name }}</strong>

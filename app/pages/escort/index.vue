@@ -107,11 +107,11 @@ onMounted(() => {
                         中测高科拥有国家秘密载体印制乙级资质、安保资质和信息安全认证三级等资质与企业级信息安全认证，自有安保团队，提供从试卷保密印刷、安全押运到阅卷交付的全流程服务，在全国建设有8大交付中心，覆盖全国32个省市，保障每一次考试交付的高效安全与公正。
                     </p>
                     <div class="escort-banner-actions">
-                        <NuxtLink class="escort-banner-btn escort-banner-btn-primary" to="/contact?product=4">
+                        <NuxtLink class="escort-banner-btn escort-banner-btn-primary" to="/contact?product=3">
                             <img src="/assets/images/marking/phone-btn.png" alt="" class="escort-btn-icon" />
                             预约咨询
                         </NuxtLink>
-                        <NuxtLink class="escort-banner-btn escort-banner-btn-ghost" to="/contact?product=4">
+                        <NuxtLink class="escort-banner-btn escort-banner-btn-ghost" to="/contact?product=3">
                             了解服务
                             <img src="/assets/images/marking/system-btn.png" alt="" class="escort-btn-icon" />
                         </NuxtLink>
@@ -462,7 +462,7 @@ onMounted(() => {
                             <img src="/assets/images/marking/code-img.png" alt="微信扫码咨询" class="escort-qrcode-img" />
                         </div>
                         <p class="escort-qrcode-text">微信扫码咨询</p>
-                        <NuxtLink class="escort-contact-btn" to="/contact?product=4">
+                        <NuxtLink class="escort-contact-btn" to="/contact?product=3">
                             <img src="/assets/images/marking/phone-btn.png" alt="" class="escort-contact-btn-icon" />
                             立即咨询
                         </NuxtLink>
@@ -483,10 +483,10 @@ onMounted(() => {
                 <h1 class="esm-banner-title">保密制卷<span>与安保押运服务</span></h1>
                 <p class="esm-banner-desc esm-indent">中测高科拥有国家秘密载体印制乙级资质、安保资质和信息安全认证三级等资质与企业级信息安全认证，自有安保团队，提供从试卷保密印刷、安全押运到阅卷交付的全流程服务，在全国建设有8大交付中心，覆盖全国32个省市，保障每一次考试交付的高效安全与公正。</p>
                 <div class="esm-banner-actions">
-                    <NuxtLink class="esm-btn esm-btn-primary" to="/contact?product=4">
+                    <NuxtLink class="esm-btn esm-btn-primary" to="/contact?product=3">
                         <img src="/assets/images/marking/phone-btn.png" alt="" class="esm-btn-icon" />预约咨询
                     </NuxtLink>
-                    <NuxtLink class="esm-btn esm-btn-ghost" to="/contact?product=4">
+                    <NuxtLink class="esm-btn esm-btn-ghost" to="/contact?product=3">
                         了解服务<img src="/assets/images/marking/system-btn.png" alt="" class="esm-btn-icon" />
                     </NuxtLink>
                 </div>
@@ -733,7 +733,7 @@ onMounted(() => {
                         <div class="esm-qrcode-box"><img src="/assets/images/marking/code-img.png" alt="微信扫码咨询" /></div>
                         <p class="esm-qrcode-text">微信扫码咨询</p>
                     </div>
-                    <NuxtLink class="esm-contact-btn" to="/contact?product=4">
+                    <NuxtLink class="esm-contact-btn" to="/contact?product=3">
                         <img src="/assets/images/marking/phone-btn.png" alt="" class="esm-btn-icon" />立即咨询
                     </NuxtLink>
                 </div>

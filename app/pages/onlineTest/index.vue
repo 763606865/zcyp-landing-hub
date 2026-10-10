@@ -4,7 +4,7 @@ import { ref, onMounted, computed } from 'vue'
 // @ts-ignore
 const source = useCampaignSource()
 // @ts-ignore
-const contactRoute = computed(() => getContactRoute(10, source.value))
+const contactRoute = computed(() => getContactRoute(6, source.value))
 
 const navTabs = [
     { label: '产品介绍', target: 'ot-product' },

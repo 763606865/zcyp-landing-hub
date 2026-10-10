@@ -4,7 +4,7 @@ import { ref, onMounted, computed } from 'vue'
 // @ts-ignore
 const source = useCampaignSource()
 // @ts-ignore
-const contactRoute = computed(() => getContactRoute(13, source.value))
+const contactRoute = computed(() => getContactRoute(10, source.value))
 
 // @ts-ignore
 useSeoMeta({

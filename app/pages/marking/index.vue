@@ -113,11 +113,11 @@ onMounted(() => {
                     <h1 class="marking-banner-title">中测阅卷服务<br /><span style="color: #1A1A2E;">AI智能阅卷云平台</span></h1>
                     <p class="marking-banner-desc comm-indent">全国社会化考试AI阅卷云平台，基于垂直领域自有大模型，实现全学科、全题型智能批改，让阅卷更高效、更公正、更准确。</p>
                     <div class="marking-banner-actions">
-                        <NuxtLink class="marking-banner-btn marking-banner-btn-primary" to="/contact?product=3">
+                        <NuxtLink class="marking-banner-btn marking-banner-btn-primary" to="/contact?product=2">
                             <img src="/assets/images/marking/phone-btn.png" alt="" class="marking-btn-icon" />
                             预约演示
                         </NuxtLink>
-                        <NuxtLink class="marking-banner-btn marking-banner-btn-ghost" to="/contact?product=3">
+                        <NuxtLink class="marking-banner-btn marking-banner-btn-ghost" to="/contact?product=2">
                             了解系统
                             <img src="/assets/images/marking/system-btn.png" alt="" class="marking-btn-icon" />
                         </NuxtLink>
@@ -435,32 +435,32 @@ onMounted(() => {
                     <div class="marking-functions-grid">
                         <div class="marking-func-card marking-func-card-1">
                             <h4>智能扫描识别</h4>
-                            <NuxtLink class="marking-func-btn" to="/contact?product=3">立即演示</NuxtLink>
+                            <NuxtLink class="marking-func-btn" to="/contact?product=2">立即演示</NuxtLink>
                             <p class="comm-indent">依托高速扫描仪与自适应准确识别算法，实现边扫描、边识别、边阅卷三端联动。同步完成图像加密上传、考号OCR精准匹配、客观题智能赋分，各环节耗时压缩至传统流程的1/10。</p>
                         </div>
                         <div class="marking-func-card marking-func-card-2">
                             <h4>AI智能阅卷</h4>
-                            <NuxtLink class="marking-func-btn" to="/contact?product=3">立即演示</NuxtLink>
+                            <NuxtLink class="marking-func-btn" to="/contact?product=2">立即演示</NuxtLink>
                             <p class="comm-indent">集成CNN、NLP、Transformer及DeepSeek大模型等技术，实现中英文文本、数学公式及图表的精准识别。主观题AI阅卷深度提升80%以上。</p>
                         </div>
                         <div class="marking-func-card marking-func-card-3">
                             <h4>人工阅卷协同</h4>
-                            <NuxtLink class="marking-func-btn" to="/contact?product=3">立即演示</NuxtLink>
+                            <NuxtLink class="marking-func-btn" to="/contact?product=2">立即演示</NuxtLink>
                             <p class="comm-indent">支持单评、双评、三/四评并行阅卷及仲裁审核模式。双重身份验证保障数据安全，教师可一键跳转至目标试卷界面。</p>
                         </div>
                         <div class="marking-func-card marking-func-card-4">
                             <h4>异常检测预警</h4>
-                            <NuxtLink class="marking-func-btn" to="/contact?product=3">立即演示</NuxtLink>
+                            <NuxtLink class="marking-func-btn" to="/contact?product=2">立即演示</NuxtLink>
                             <p class="comm-indent">深度融合AI技术与多模态数据分析，精准识别缺考、作弊等异常行为，形成"监测-判定-追溯-纠偏"闭环管理。</p>
                         </div>
                         <div class="marking-func-card marking-func-card-5">
                             <h4>专家复审机制</h4>
-                            <NuxtLink class="marking-func-btn" to="/contact?product=3">立即演示</NuxtLink>
+                            <NuxtLink class="marking-func-btn" to="/contact?product=2">立即演示</NuxtLink>
                             <p class="comm-indent">AI阅卷完成后，系统自动标记异常并上报专家复核。利用视觉大模型精准评分，支持按得分点打分并判理由，差异超阈值自动触发仲裁。</p>
                         </div>
                         <div class="marking-func-card marking-func-card-6">
                             <h4>成绩分析诊断</h4>
-                            <NuxtLink class="marking-func-btn" to="/contact?product=3">立即演示</NuxtLink>
+                            <NuxtLink class="marking-func-btn" to="/contact?product=2">立即演示</NuxtLink>
                             <p class="comm-indent">基于自研垂直领域AI大模型，自动生成考试数据分析报告，涵盖试题难度分析、个人成绩剖析等多维度，为岗位胜任力模型构建提供科学依据。</p>
                         </div>
                     </div>
@@ -530,7 +530,7 @@ onMounted(() => {
                             <img src="/assets/images/marking/code-img.png" alt="微信扫码咨询" class="marking-qrcode-img" />
                         </div>
                         <p class="marking-qrcode-text">微信扫码咨询</p>
-                        <NuxtLink class="marking-contact-btn" to="/contact?product=3">
+                        <NuxtLink class="marking-contact-btn" to="/contact?product=2">
                             <img src="/assets/images/marking/phone-btn.png" alt="" class="marking-contact-btn-icon" />
                             立即咨询
                         </NuxtLink>
@@ -551,10 +551,10 @@ onMounted(() => {
                 <h1 class="mm-banner-title">中测阅卷服务<br /><span>AI智能阅卷云平台</span></h1>
                 <p class="mm-banner-desc mm-indent">全国社会化考试AI阅卷云平台，基于垂直领域自有大模型，实现全学科、全题型智能批改，让阅卷更高效、更公正、更准确。</p>
                 <div class="mm-banner-actions">
-                    <NuxtLink class="mm-btn mm-btn-primary" to="/contact?product=3">
+                    <NuxtLink class="mm-btn mm-btn-primary" to="/contact?product=2">
                         <img src="/assets/images/marking/phone-btn.png" alt="" class="mm-btn-icon" />预约演示
                     </NuxtLink>
-                    <NuxtLink class="mm-btn mm-btn-ghost" to="/contact?product=3">
+                    <NuxtLink class="mm-btn mm-btn-ghost" to="/contact?product=2">
                         了解系统<img src="/assets/images/marking/system-btn.png" alt="" class="mm-btn-icon" />
                     </NuxtLink>
                 </div>
@@ -758,7 +758,7 @@ onMounted(() => {
                             <div class="mm-func-band mm-func-band-1"></div>
                             <div class="mm-func-body">
                                 <h4>智能扫描识别</h4>
-                                <NuxtLink class="mm-func-btn" to="/contact?product=3">立即演示</NuxtLink>
+                                <NuxtLink class="mm-func-btn" to="/contact?product=2">立即演示</NuxtLink>
                                 <p class="mm-indent">依托高速扫描仪与自适应准确识别算法，实现边扫描、边识别、边阅卷三端联动。同步完成图像加密上传、考号OCR精准匹配、客观题智能赋分，各环节耗时压缩至传统流程的1/10。</p>
                             </div>
                         </div>
@@ -766,7 +766,7 @@ onMounted(() => {
                             <div class="mm-func-band mm-func-band-2"></div>
                             <div class="mm-func-body">
                                 <h4>AI智能阅卷</h4>
-                                <NuxtLink class="mm-func-btn" to="/contact?product=3">立即演示</NuxtLink>
+                                <NuxtLink class="mm-func-btn" to="/contact?product=2">立即演示</NuxtLink>
                                 <p class="mm-indent">集成CNN、NLP、Transformer及DeepSeek大模型等技术，实现中英文文本、数学公式及图表的精准识别。主观题AI阅卷深度提升80%以上。</p>
                             </div>
                         </div>
@@ -774,7 +774,7 @@ onMounted(() => {
                             <div class="mm-func-band mm-func-band-3"></div>
                             <div class="mm-func-body">
                                 <h4>人工阅卷协同</h4>
-                                <NuxtLink class="mm-func-btn" to="/contact?product=3">立即演示</NuxtLink>
+                                <NuxtLink class="mm-func-btn" to="/contact?product=2">立即演示</NuxtLink>
                                 <p class="mm-indent">支持单评、双评、三/四评并行阅卷及仲裁审核模式。双重身份验证保障数据安全，教师可一键跳转至目标试卷界面。</p>
                             </div>
                         </div>
@@ -782,7 +782,7 @@ onMounted(() => {
                             <div class="mm-func-band mm-func-band-4"></div>
                             <div class="mm-func-body">
                                 <h4>异常检测预警</h4>
-                                <NuxtLink class="mm-func-btn" to="/contact?product=3">立即演示</NuxtLink>
+                                <NuxtLink class="mm-func-btn" to="/contact?product=2">立即演示</NuxtLink>
                                 <p class="mm-indent">深度融合AI技术与多模态数据分析，精准识别缺考、作弊等异常行为，形成“监测-判定-追溯-纠偏”闭环管理。</p>
                             </div>
                         </div>
@@ -790,7 +790,7 @@ onMounted(() => {
                             <div class="mm-func-band mm-func-band-5"></div>
                             <div class="mm-func-body">
                                 <h4>专家复审机制</h4>
-                                <NuxtLink class="mm-func-btn" to="/contact?product=3">立即演示</NuxtLink>
+                                <NuxtLink class="mm-func-btn" to="/contact?product=2">立即演示</NuxtLink>
                                 <p class="mm-indent">AI阅卷完成后，系统自动标记异常并上报专家复核。利用视觉大模型精准评分，支持按得分点打分并判理由，差异超阈值自动触发仲裁。</p>
                             </div>
                         </div>
@@ -798,7 +798,7 @@ onMounted(() => {
                             <div class="mm-func-band mm-func-band-6"></div>
                             <div class="mm-func-body">
                                 <h4>成绩分析诊断</h4>
-                                <NuxtLink class="mm-func-btn" to="/contact?product=3">立即演示</NuxtLink>
+                                <NuxtLink class="mm-func-btn" to="/contact?product=2">立即演示</NuxtLink>
                                 <p class="mm-indent">基于自研垂直领域AI大模型，自动生成考试数据分析报告，涵盖试题难度分析、个人成绩剖析等多维度，为岗位胜任力模型构建提供科学依据。</p>
                             </div>
                         </div>
@@ -847,7 +847,7 @@ onMounted(() => {
                         <div class="mm-qrcode-box"><img src="/assets/images/marking/code-img.png" alt="微信扫码咨询" /></div>
                         <p class="mm-qrcode-text">微信扫码咨询</p>
                     </div>
-                    <NuxtLink class="mm-contact-btn" to="/contact?product=3">
+                    <NuxtLink class="mm-contact-btn" to="/contact?product=2">
                         <img src="/assets/images/marking/phone-btn.png" alt="" class="mm-btn-icon" />立即咨询
                     </NuxtLink>
                 </div>

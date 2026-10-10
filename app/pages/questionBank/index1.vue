@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { getContactRoute, useCampaignSource } from '../../composables/useCampaignSource'
 
+// @ts-ignore
 const config = useRuntimeConfig()
 const source = useCampaignSource()
-const contactRoute = computed(() => getContactRoute(6, source.value))
+const contactRoute = computed(() => getContactRoute(4, source.value))
 
 // 滚动动画
 const qbSection = ref<HTMLElement>()

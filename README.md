@@ -23,10 +23,10 @@ pnpm dev
 咨询页面地址为 `/contact`，支持通过查询参数自动回填和记录推广来源：
 
 ```text
-/contact?product=2&source=zcyp-web
+/contact?product=15&source=zcyp
 ```
 
-- `product`：`1` 招聘服务、`2` 校园招聘、`3` 人才服务、`99` 其他
+- `product`：`1` 命题服务、`2` 阅卷服务、`3` 制卷与押运、`4` 题库共建、`5` 题库系统、`6` 在线笔试、`7` 机考服务、`8` AI面试系统、`9` AI考务安全智能体、`10` 无纸化面试评分系统、`11` 成绩分析系统、`12` 牛派系统、`13` 职业技能鉴定、`14` 中测HR事务所、`15` 中测咨询、`16` 中测测评、`99` 其他
 - `source`：最长 100 个字符，不在表单中显示；首次访问后保存 30 天，并随咨询请求提交
 
 表单使用 `NUXT_PUBLIC_API_BASE_URL` 作为后端 API 根地址，并自动拼接 `/cms/contact-inquiries`。例如根地址为 `https://api.example.com` 时，最终请求地址为 `https://api.example.com/cms/contact-inquiries`。变量留空时默认请求当前域名下的接口；前后端不同域名时，后端需允许推广站域名跨域访问。

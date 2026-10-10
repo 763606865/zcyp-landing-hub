@@ -7,20 +7,20 @@ const route = useRoute()
 const source = useCampaignSource()
 
 const routeProductMap: Record<string, number> = {
-  // '/hr': 1,
-  '/aiproposition': 2,
-  '/marking': 3,
-  '/escort': 4,
-  '/niupai': 5,
-  '/questionBank': 6,
-  '/question': 7,
+  // '/hr': 14,
+  '/aiproposition': 1,
+  '/marking': 2,
+  '/escort': 3,
+  '/questionBank': 4,
+  '/question': 5,
+  '/onlineTest': 6,
+  '/computerService': 7,
   '/aiInterview': 8,
-  '/computerService': 9,
-  '/onlineTest': 10,
-  '/antiCheating': 11,
-  '/paperlessInterview': 13,
-  '/scoreAnalysis': 14,
-  '/skillCert': 15,
+  '/antiCheating': 9,
+  '/paperlessInterview': 10,
+  '/scoreAnalysis': 11,
+  '/niupai': 12,
+  '/skillCert': 13,
 }
 const contactRoute = computed(() => {
   const product = routeProductMap[route.path]
