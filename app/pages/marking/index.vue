@@ -128,7 +128,7 @@ onMounted(() => {
                     <div class="marking-stats-content">
                         <div class="marking-stat-item marking-animate">
                             <strong><span class="marking-count-number" v-count-up="28000">28,000</span><span
-                                    class="marking-stat-unit">#</span></strong>
+                                    class="marking-stat-unit">余套</span></strong>
                             <span>十余年行业沉淀</span>
                         </div>
                         <div class="marking-stat-item marking-animate">
@@ -565,7 +565,7 @@ onMounted(() => {
             <!-- 统计数字 -->
             <div class="mm-stats mm-container">
                 <div class="mm-stat-item mm-animate">
-                    <strong><span class="mm-count" v-count-up="28000">28,000</span><em>#</em></strong>
+                    <strong><span class="mm-count" v-count-up="28000">28,000</span><em>余套</em></strong>
                     <span>十余年行业沉淀</span>
                 </div>
                 <div class="mm-stat-item mm-animate">
