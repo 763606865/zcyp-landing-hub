@@ -131,7 +131,7 @@ function isExternalLink(href: string) {
 
 .portal-footer-qr {
   display: block;
-  margin: 0 auto;
+  margin: 0;
   width: 86px;
   height: 86px;
   box-sizing: border-box;
