@@ -24,7 +24,7 @@ const routeProductMap: Record<string, number> = {
 }
 const contactRoute = computed(() => {
   const product = routeProductMap[route.path]
-  return getContactRoute(product, source.value)
+  return getContactRoute(product, '')
 })
 
 // 前 5 项直接展示，后 5 项折叠到"更多"下拉
