@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch, onMounted, onBeforeUnmount } from 'vue'
+import { getContactRoute, useCampaignSource } from '../composables/useCampaignSource'
 
 // @ts-ignore
 const route = useRoute()
@@ -7,6 +8,7 @@ const route = useRoute()
 const source = useCampaignSource()
 
 const routeProductMap: Record<string, number> = {
+  '/': 1, // 首页为命题服务
   // '/hr': 14,
   '/aiproposition': 1,
   '/marking': 2,
