@@ -13,7 +13,7 @@ pnpm dev
 
 ## 修改内容
 
-- 品牌名称、联系方式：`app/components/SiteHeader.vue`、`app/components/SiteFooter.vue`
+- 品牌名称、联系方式：`app/components/SiteHeader.vue`、`app/components/PortalFooter.vue`（统一页脚，数据见 `app/data/footer.ts`；旧页脚 `SiteFooter.vue` 已在 `app/app.vue` 中注释保留）
 - 首页文案：`app/pages/index.vue`
 - 产品名称、介绍、能力与场景：`app/data/products.ts`
 - 视觉样式：`app/assets/css/main.css`
