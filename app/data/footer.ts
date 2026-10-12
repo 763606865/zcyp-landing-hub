@@ -35,7 +35,7 @@ export const portalFooterGroups: FooterLinkGroup[] = [
   {
     title: '测评科技生态类',
     links: [
-      { label: '在线报名', href: '/' },
+      { label: '在线报名', href: 'https://zk.sun-hrm.com/index.php' },
       { label: '机考系统', href: '/computerService' },
       { label: '在线考试系统', href: '/onlineTest' },
       { label: '题库系统', href: '/question' },
