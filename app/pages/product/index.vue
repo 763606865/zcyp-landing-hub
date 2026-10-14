@@ -310,6 +310,306 @@
       </div>
     </section>
   </div>
+
+  <!-- ============================================================
+       移动端版本（pm- 前缀，≤1024px 生效，PC 端 DOM/CSS/script 零改动）
+       · 桌面（>1024px）隐藏移动根；≤1024px 隐藏桌面根、显示移动根
+       · 所有移动样式限定在 .pm-page 作用域内，数据数组直接复用
+       · 不给 .pm-page 设 overflow:hidden，避免破坏 sticky 导航
+       ============================================================ -->
+  <div class="pm-page">
+    <!-- 1. Banner -->
+    <section class="pm-banner">
+      <div class="pm-container">
+        <div class="pm-banner-tag pm-animate"><i></i>考务科技 · 安防检测</div>
+        <h1 class="pm-banner-title pm-animate">中测高科考务硬件科技产品</h1>
+        <p class="pm-banner-desc pm-animate">覆盖考试考务全场景的安防检测设备体系：手持式金属探测器、手机信号屏蔽器、隐形耳机探测仪、智慧手机探测门、WIFI/无人机屏蔽仪、人脸核验终端，全系产品均通过主管部门检验及国标认证。</p>
+        <NuxtLink class="pm-btn pm-animate" :to="contactRoute">咨询产品采购</NuxtLink>
+      </div>
+      <!-- 产品全家福主视觉：裁掉图左侧空白与上下空边 -->
+      <div class="pm-banner-photo">
+        <img :src="`${IMG}/bannerbg.png`" alt="" />
+      </div>
+      <div class="pm-container">
+        <div class="pm-stats">
+          <div class="pm-stat pm-animate" v-for="(s, i) in heroStats" :key="i">
+            <div class="pm-stat-v">
+              <span v-if="s.value !== undefined" v-count-up="s.value">{{ s.value }}</span>
+              <span v-else>{{ s.text }}</span><i v-if="s.suffix">{{ s.suffix }}</i>
+            </div>
+            <div class="pm-stat-l">{{ s.label }}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- 2. 手持式金属探测器系列 -->
+    <section class="pm-section">
+      <div class="pm-container">
+        <header class="pm-sec-head pm-animate">
+          <p class="pm-en">HANDHELD METAL DETECTORS</p>
+          <h2>手持式金属探测器系列</h2>
+          <p class="pm-lead">高灵敏手持探测设备，可探测隐藏在人体上的所有种类金属物体，声光/振动双报警，适应静音与嘈杂环境，广泛服务于各种考试等安检场景。</p>
+        </header>
+        <article class="pm-card pm-animate" v-for="(card, i) in detectorCards" :key="i">
+          <h3 class="pm-prod-title">{{ card.title }}</h3>
+          <img class="pm-card-img" :src="card.img" :alt="card.title" />
+          <p class="pm-desc">{{ card.intro }}</p>
+          <ul class="pm-dots">
+            <li v-for="(b, bi) in card.bullets" :key="bi">{{ b }}</li>
+          </ul>
+          <div class="pm-spec-box">
+            <div class="pm-spec-title">技术规格</div>
+            <p class="pm-spec-line" v-for="(line, li) in card.spec" :key="li">
+              <template v-for="(seg, si) in line" :key="si"><em v-if="si">｜</em>{{ seg }}</template>
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+    <!-- 3. 无线信号屏蔽器系列 -->
+    <section class="pm-section pm-section-grey">
+      <div class="pm-container">
+        <header class="pm-sec-head pm-animate">
+          <p class="pm-en">SIGNAL JAMMERS</p>
+          <h2>无线信号屏蔽器系列</h2>
+          <p class="pm-lead">覆盖 2G/3G/4G/5G + WIFI + 蓝牙全频段的信号管控设备，从桌面式、壁挂式到信令级智能管控，满足考场、会议室、涉密场所的不同屏蔽需求。</p>
+        </header>
+        <img class="pm-showcase pm-animate" :src="`${IMG}/box2bg.png`" alt="信令手机信号屏蔽器" />
+        <div class="pm-dark-card pm-animate">
+          <div class="pm-card-head">
+            <h3 class="pm-prod-title">{{ jam1.title }}</h3>
+            <span class="pm-pill">{{ jam1.tag }}</span>
+          </div>
+          <p class="pm-desc">{{ jam1.desc }}</p>
+          <ul class="pm-dots pm-dots-dark">
+            <li v-for="(b, bi) in jam1.bullets" :key="bi">{{ b }}</li>
+          </ul>
+          <div class="pm-spec-box pm-spec-box-dark">
+            <div class="pm-spec-title">{{ jam1.specTitle }}</div>
+            <p class="pm-spec-line" v-for="(line, li) in jam1.spec" :key="li">
+              <template v-for="(seg, si) in line" :key="si"><em v-if="si">｜</em>{{ seg }}</template>
+            </p>
+          </div>
+        </div>
+        <article class="pm-card pm-animate" v-for="(card, i) in jam2Cards" :key="i">
+          <h3 class="pm-prod-title">{{ card.title }}</h3>
+          <img class="pm-card-img" :src="card.img" :alt="card.title" />
+          <p class="pm-desc">{{ card.desc }}</p>
+          <div class="pm-metrics">
+            <div class="pm-metric" v-for="(m, mi) in card.metrics" :key="mi">
+              <div class="pm-metric-v">{{ m.v }}</div>
+              <div class="pm-metric-l">{{ m.l }}</div>
+            </div>
+          </div>
+          <div class="pm-spec-box">
+            <div class="pm-spec-title">{{ card.listTitle }}</div>
+            <p class="pm-spec-line" v-for="(line, li) in card.list" :key="li">
+              <template v-for="(seg, si) in line" :key="si"><em v-if="si">｜</em>{{ seg }}</template>
+            </p>
+          </div>
+          <p class="pm-note">{{ card.note }}</p>
+        </article>
+      </div>
+    </section>
+    <!-- 4. WIFI / 无人机屏蔽仪 -->
+    <section class="pm-section">
+      <div class="pm-container">
+        <img class="pm-showcase pm-animate" :src="`${IMG}/box3bg.png`" alt="WIFI / 无人机屏蔽仪" />
+        <h3 class="pm-prod-title pm-animate">{{ wifi.title }}</h3>
+        <p class="pm-desc pm-animate">{{ wifi.desc }}</p>
+        <ul class="pm-dots pm-animate">
+          <li v-for="(b, bi) in wifi.bullets" :key="bi">{{ b }}</li>
+        </ul>
+        <div class="pm-params pm-animate">
+          <div class="pm-param" v-for="(p, pi) in wifi.params" :key="pi">
+            <div class="pm-param-v">{{ p.v }}</div>
+            <div class="pm-param-l">{{ p.l }}</div>
+          </div>
+        </div>
+        <p class="pm-note pm-animate">{{ wifi.note }}</p>
+      </div>
+    </section>
+
+    <!-- 5. 反高科技作弊手段类 -->
+    <section class="pm-section pm-section-grey">
+      <div class="pm-container">
+        <header class="pm-sec-head pm-animate">
+          <p class="pm-en">WIRELESS EARPHONE DETECTOR</p>
+          <h2>反高科技作弊手段类</h2>
+        </header>
+        <img class="pm-showcase pm-animate" :src="`${IMG}/box4bg.png`" :alt="ear.title" />
+        <h3 class="pm-prod-title pm-animate">{{ ear.title }}</h3>
+        <p class="pm-desc pm-animate">{{ ear.desc }}</p>
+        <ul class="pm-dots pm-animate">
+          <li v-for="(b, bi) in ear.bullets" :key="bi">{{ b }}</li>
+        </ul>
+        <div class="pm-spec-box pm-animate">
+          <div class="pm-spec-title">{{ ear.specTitle }}</div>
+          <p class="pm-spec-line" v-for="(line, li) in ear.spec" :key="li">
+            <template v-for="(seg, si) in line" :key="si"><em v-if="si">｜</em>{{ seg }}</template>
+          </p>
+        </div>
+        <div class="pm-tags">
+          <span class="pm-tag" v-for="(t, ti) in ear.tags" :key="ti">{{ t }}</span>
+        </div>
+      </div>
+    </section>
+    <!-- 6. 手持手机探测器 -->
+    <section class="pm-section">
+      <div class="pm-container">
+        <img class="pm-showcase pm-animate" :src="`${IMG}/box5bg.png`" :alt="phone.title" />
+        <h3 class="pm-prod-title pm-animate">{{ phone.title }}</h3>
+        <p class="pm-desc pm-animate">{{ phone.desc }}</p>
+        <ul class="pm-dots pm-animate">
+          <li v-for="(b, bi) in phone.bullets" :key="bi">{{ b }}</li>
+        </ul>
+        <div class="pm-spec-box pm-animate">
+          <div class="pm-spec-title">{{ phone.specTitle }}</div>
+          <p class="pm-spec-line" v-for="(line, li) in phone.spec" :key="li">
+            <template v-for="(seg, si) in line" :key="si"><em v-if="si">｜</em>{{ seg }}</template>
+          </p>
+        </div>
+        <div class="pm-tags">
+          <span class="pm-tag" v-for="(t, ti) in phone.tags" :key="ti">{{ t }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. 一型电子仪器探测门 -->
+    <section class="pm-section pm-section-grey">
+      <div class="pm-container">
+        <img class="pm-showcase pm-animate" :src="`${IMG}/box6bg.png`" :alt="gate.title" />
+        <h3 class="pm-prod-title pm-animate">{{ gate.title }}</h3>
+        <p class="pm-desc pm-animate">{{ gate.desc }}</p>
+        <div class="pm-blocks pm-animate">
+          <div class="pm-block" v-for="(b, bi) in gate.blocks" :key="bi">
+            <div class="pm-block-t">{{ b.t }}</div>
+            <div class="pm-block-d">{{ b.d }}</div>
+          </div>
+        </div>
+        <div class="pm-spec-box pm-animate">
+          <div class="pm-spec-title">{{ gate.paramsTitle }}</div>
+          <p class="pm-spec-line" v-for="(line, li) in gate.params" :key="li">
+            <template v-for="(seg, si) in line" :key="si"><em v-if="si">｜</em>{{ seg }}</template>
+          </p>
+        </div>
+      </div>
+    </section>
+    <!-- 8. 非线性节点探测器 -->
+    <section class="pm-section">
+      <div class="pm-container">
+        <img class="pm-showcase pm-animate" :src="`${IMG}/box7bg.png`" :alt="node.title" />
+        <h3 class="pm-prod-title pm-animate">{{ node.title }}</h3>
+        <ul class="pm-dots pm-animate">
+          <li v-for="(b, bi) in node.bullets" :key="bi">{{ b }}</li>
+        </ul>
+        <div class="pm-params pm-animate">
+          <div class="pm-param" v-for="(p, pi) in node.params" :key="pi">
+            <div class="pm-param-v">{{ p.v }}</div>
+            <div class="pm-param-l">{{ p.l }}</div>
+          </div>
+        </div>
+        <p class="pm-note pm-animate">{{ node.note }}</p>
+      </div>
+    </section>
+
+    <!-- 9. 身份核验类 -->
+    <section class="pm-section pm-section-grey">
+      <div class="pm-container">
+        <header class="pm-sec-head pm-animate">
+          <p class="pm-en">FACE VERIFICATION TERMINAL</p>
+          <h2>身份核验类</h2>
+        </header>
+        <!-- 标题/描述叠放在图底部（不裁图），补住图下方留白 -->
+        <div class="pm-hero pm-animate">
+          <img :src="`${IMG}/box8bg.png`" :alt="face.title" />
+          <div class="pm-hero-copy">
+            <h3 class="pm-prod-title">{{ face.title }}</h3>
+            <p class="pm-desc">{{ face.desc }}</p>
+          </div>
+        </div>
+        <div class="pm-spec-box pm-animate">
+          <div class="pm-spec-title">{{ face.configTitle }}</div>
+          <p class="pm-spec-line" v-for="(line, li) in face.config" :key="li">
+            <template v-for="(seg, si) in line" :key="si"><em v-if="si">｜</em>{{ seg }}</template>
+          </p>
+        </div>
+        <div class="pm-spec-box pm-animate">
+          <div class="pm-spec-title">{{ face.perfTitle }}</div>
+          <p class="pm-spec-line" v-for="(line, li) in face.perf" :key="li">
+            <template v-for="(seg, si) in line" :key="si"><em v-if="si">｜</em>{{ seg }}</template>
+          </p>
+        </div>
+        <!-- 数据项改一行两个紧凑卡片 -->
+        <div class="pm-blocks pm-blocks-tight">
+          <div class="pm-block pm-animate" v-for="(b, bi) in face.blocks" :key="bi">
+            <div class="pm-block-t">{{ b.t }}</div>
+            <div class="pm-block-d">{{ b.d }}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- 10. 面试考场设备 -->
+    <section class="pm-section">
+      <div class="pm-container">
+        <header class="pm-sec-head pm-animate">
+          <p class="pm-en">DUAL-SCREEN DESKTOP DISPLAYS</p>
+          <h2>面试考场设备</h2>
+        </header>
+        <!-- 只展示图上半部分（产品画面），裁掉下方留白 -->
+        <div class="pm-crop pm-crop-s10 pm-animate">
+          <img :src="`${IMG}/box9bg.png`" alt="面试考场设备" />
+        </div>
+        <article class="pm-card pm-animate" v-for="(d, di) in displays" :key="di">
+          <h3 class="pm-prod-title">{{ d.title }}</h3>
+          <p class="pm-desc">{{ d.desc }}</p>
+          <ul class="pm-dots">
+            <li v-for="(b, bi) in d.bullets" :key="bi">{{ b }}</li>
+          </ul>
+          <div class="pm-spec-box">
+            <div class="pm-spec-title">技术规格</div>
+            <p class="pm-spec-line" v-for="(line, li) in d.spec" :key="li">
+              <template v-for="(seg, si) in line" :key="si"><em v-if="si">｜</em>{{ seg }}</template>
+            </p>
+            <img class="pm-spec-img" :src="d.img" :alt="d.title" />
+          </div>
+        </article>
+        <div class="pm-tags">
+          <span class="pm-tag" v-for="(t, ti) in displayTags" :key="ti">{{ t }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. 产品汇总表 -->
+    <section class="pm-section pm-section-blue">
+      <div class="pm-container">
+        <header class="pm-sec-head pm-animate">
+          <p class="pm-en">PRODUCT SUMMARY</p>
+          <h2>产品汇总表</h2>
+          <p class="pm-lead">5大系列、十三款产品的功能与场景一览，快速匹配您的安防检测需求。</p>
+        </header>
+        <div class="pm-table-wrap pm-animate">
+          <table class="pm-table">
+            <thead>
+              <tr>
+                <th>产品类别</th>
+                <th>核心功能</th>
+                <th>适用场景</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(row, ri) in summaryTable" :key="ri">
+                <td class="pm-td-name">{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="pm-table-tip">左右滑动查看完整表格</p>
+      </div>
+    </section>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -639,6 +939,23 @@ const summaryTable: string[][] = [
   ['21.5寸双面同显显示器', '2400MHz 射频探测，识别半导体器件', '保密单位、大型活动安保、教育防作弊'],
   ['14寸双面同显显示器', '只对含磁物品报警，排除日常金属干扰', '工厂、公检法、学校考场、招标中心、监狱'],
 ]
+// ===================== 移动端（≤1024px）专用逻辑 =====================
+// PC 端根节点 .pd-page 的模板 / 样式 / 脚本零改动；
+// 以下仅供移动根节点 .pm-page 使用，数据数组与 v-count-up 指令直接复用。
+// 与 PC observer 同一写法：直接用 document 查询，不新增任何 import。
+onMounted(() => {
+  const pmRoot = document.querySelector('.pm-page')
+  if (!pmRoot) return
+  const pmObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('pm-visible')
+        pmObserver.unobserve(entry.target)
+      }
+    })
+  }, { threshold: 0.12 })
+  pmRoot.querySelectorAll('.pm-animate').forEach((el) => pmObserver.observe(el as HTMLElement))
+})
 </script>
 
 <style scoped>
@@ -1716,5 +2033,595 @@ const summaryTable: string[][] = [
 .pd-td-name {
   font-weight: 500;
   color: #0B2A5B;
+}
+/* ============================================================
+   移动端版本（pm- 前缀，≤1024px 生效，PC 端 DOM/CSS/script 零改动）
+   · 桌面（>1024px）隐藏移动根；≤1024px 隐藏桌面根、显示移动根
+   · 所有移动样式限定在 .pm-page 作用域内
+   · 不给 .pm-page 设 overflow:hidden，避免破坏 sticky 导航
+   ============================================================ */
+.pm-page {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .pd-page {
+    display: none;
+  }
+
+  .pm-page {
+    display: block;
+  }
+}
+
+.pm-page {
+  --pm-blue: #0F62FE;
+  --pm-ink: #0B2A5B;
+  --pm-muted: #4E5D75;
+  font-family: Inter, "SF Pro Display", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  color: var(--pm-ink);
+  background: #fff;
+}
+
+.pm-container {
+  width: calc(100% - 32px);
+  margin: 0 auto;
+}
+
+/* 入场动画（移动独立 observer：.pm-animate → .pm-visible） */
+.pm-animate {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.pm-animate.pm-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ===== 1. Banner ===== */
+/* banner：文字在深色底上置顶，产品全家福（裁切后）作主视觉，数值卡殿后 */
+.pm-banner {
+  padding: 44px 0 30px;
+  background: #090413;
+  color: #fff;
+}
+
+/* 裁掉图左侧空白区与上下空边，只留产品全家福 */
+.pm-banner-photo {
+  position: relative;
+  width: 100%;
+  height: 0;
+  margin-top: 24px;
+  padding-bottom: 56%;
+  overflow: hidden;
+}
+
+.pm-banner-photo img {
+  position: absolute;
+  top: -6%;
+  left: -65%;
+  width: 165%;
+  height: auto;
+}
+
+.pm-banner-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  background: rgba(15, 98, 254, 0.18);
+  border: 1px solid rgba(15, 98, 254, 0.6);
+  border-radius: 999px;
+  font-size: 12px;
+  color: #9CC0FF;
+}
+
+.pm-banner-tag i {
+  width: 6px;
+  height: 6px;
+  background: #0F62FE;
+  border-radius: 50%;
+}
+
+.pm-banner-title {
+  margin: 16px 0 0;
+  font-size: 26px;
+  line-height: 38px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.pm-banner-desc {
+  margin: 12px 0 0;
+  font-size: 14px;
+  line-height: 24px;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.pm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 11px 28px;
+  background: #0F62FE;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+}
+
+.pm-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 26px;
+}
+
+/* 数值卡白底蓝字，深色背景上清晰可读 */
+.pm-stat {
+  padding: 14px;
+  background: #fff;
+  border-radius: 12px;
+}
+
+.pm-stat-v {
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 700;
+  color: var(--pm-blue);
+}
+
+.pm-stat-v i {
+  margin-left: 2px;
+  font-style: normal;
+  font-size: 13px;
+  color: var(--pm-ink);
+}
+
+.pm-stat-l {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--pm-muted);
+}
+
+/* ===== 区块通用 ===== */
+.pm-section {
+  padding: 40px 0;
+}
+
+.pm-section-grey {
+  background: #F5F8FF;
+}
+
+.pm-section-blue {
+  background: #F0F5FF;
+}
+
+.pm-en {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--pm-blue);
+}
+
+.pm-sec-head h2 {
+  margin: 0;
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 700;
+  color: var(--pm-ink);
+}
+
+.pm-lead {
+  margin: 10px 0 0;
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--pm-muted);
+}
+
+.pm-showcase {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 22px;
+  border-radius: 14px;
+}
+
+.pm-prod-title {
+  margin: 22px 0 0;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 600;
+  color: var(--pm-ink);
+}
+
+.pm-desc {
+  margin: 10px 0 0;
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--pm-muted);
+}
+
+/* 打点列表 */
+.pm-dots {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pm-dots li {
+  position: relative;
+  padding-left: 14px;
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--pm-muted);
+}
+
+.pm-dots li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 10px;
+  width: 4px;
+  height: 4px;
+  background: var(--pm-blue);
+  border-radius: 50%;
+}
+
+.pm-dots-dark li {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.pm-dots-dark li::before {
+  background: #fff;
+}
+
+/* 规格块 */
+.pm-spec-box {
+  margin-top: 16px;
+  padding: 14px;
+  background: #EAF1FF;
+  border-radius: 12px;
+}
+
+.pm-spec-title {
+  font-size: 13px;
+  line-height: 19px;
+  font-weight: 700;
+  color: var(--pm-blue);
+}
+
+.pm-spec-line {
+  margin: 8px 0 0;
+  font-size: 13px;
+  line-height: 22px;
+  color: var(--pm-muted);
+}
+
+.pm-spec-line em {
+  margin: 0 6px;
+  font-style: normal;
+  color: #C9D3E4;
+}
+
+.pm-note {
+  margin: 12px 0 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: #8A94A6;
+}
+
+/* 卡片（探测器/屏蔽器/显示器） */
+.pm-card {
+  margin-top: 20px;
+  padding: 18px 16px 20px;
+  background: #fff;
+  border: 1px solid #E4EBF7;
+  border-radius: 14px;
+}
+
+.pm-card .pm-prod-title {
+  margin-top: 0;
+}
+
+.pm-card-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 12px;
+  border-radius: 10px;
+}
+
+/* 指标 / 参数（2x2） */
+.pm-metrics,
+.pm-params {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.pm-metric,
+.pm-param {
+  padding: 12px 14px;
+  background: #F5F8FF;
+  border-radius: 10px;
+}
+
+.pm-metric-v,
+.pm-param-v {
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 700;
+  color: var(--pm-blue);
+}
+
+.pm-metric-l,
+.pm-param-l {
+  margin-top: 2px;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--pm-muted);
+}
+
+/* 奇数个参数时末项占整行 */
+.pm-params .pm-param:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+/* 深色卡（信令级屏蔽器） */
+.pm-dark-card {
+  margin-top: 18px;
+  padding: 20px 16px;
+  background: #101B3D;
+  border-radius: 16px;
+  color: #fff;
+}
+
+.pm-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pm-dark-card .pm-prod-title {
+  margin: 0;
+  color: #fff;
+}
+
+.pm-dark-card .pm-desc {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.pm-pill {
+  flex: none;
+  padding: 4px 10px;
+  background: rgba(15, 98, 254, 0.25);
+  border: 1px solid rgba(122, 162, 255, 0.5);
+  border-radius: 999px;
+  font-size: 12px;
+  color: #A9C4FF;
+}
+
+.pm-spec-box-dark {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.pm-spec-box-dark .pm-spec-title {
+  color: #7AB0FF;
+}
+
+.pm-spec-box-dark .pm-spec-line {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.pm-spec-box-dark .pm-spec-line em {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* 功能块（探测门 2 列 / 身份核验单列） */
+.pm-blocks {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 16px;
+}
+
+/* 功能块：白色实体卡片（在灰底区块上可见） */
+.pm-block {
+  padding: 12px 14px;
+  background: #fff;
+  border: 1px solid #E4EBF7;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(28, 79, 217, 0.06);
+}
+
+.pm-block-t {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--pm-ink);
+}
+
+.pm-block-d {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--pm-muted);
+}
+
+/* 标签 */
+.pm-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.pm-tag {
+  padding: 6px 14px;
+  background: #EAF1FF;
+  border-radius: 999px;
+  font-size: 12px;
+  color: var(--pm-blue);
+}
+
+/* 规格块内产品图 */
+.pm-spec-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 12px;
+  border-radius: 10px;
+}
+
+/* 11. 产品汇总表（横向滚动） */
+.pm-table-wrap {
+  margin-top: 18px;
+  background: #fff;
+  border: 1px solid #D6E3FA;
+  border-radius: 12px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.pm-table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+}
+
+.pm-table th {
+  padding: 12px 14px;
+  background: #fff;
+  border-bottom: 1px solid #D6E3FA;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--pm-blue);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.pm-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #E7EEFB;
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--pm-muted);
+}
+
+.pm-table tr:nth-child(even) td {
+  background: #F3F7FF;
+}
+
+.pm-td-name {
+  font-weight: 600;
+  color: var(--pm-ink);
+  white-space: nowrap;
+}
+
+.pm-table-tip {
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: #98A2B3;
+  text-align: center;
+}
+
+/* 图上叠放标题/描述（身份核验类）：不裁图，用底部渐变压暗补住留白 */
+.pm-hero {
+  position: relative;
+  margin-top: 22px;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.pm-hero img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.pm-hero-copy {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 44px 14px 16px;
+  background: linear-gradient(180deg, rgba(9, 4, 19, 0) 0%, rgba(9, 4, 19, 0.72) 30%, rgba(9, 4, 19, 0.92) 100%);
+}
+
+.pm-hero-copy .pm-prod-title {
+  margin: 0;
+  color: #fff;
+}
+
+.pm-hero-copy .pm-desc {
+  margin-top: 8px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* 大图裁切展示：只保留图上半部分的产品画面（考场设备类） */
+.pm-crop {
+  position: relative;
+  height: 0;
+  margin-top: 22px;
+  padding-bottom: 54%;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.pm-crop img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* 紧凑功能块（身份核验类，一行两个） */
+.pm-blocks-tight {
+  gap: 8px;
+}
+
+.pm-blocks-tight .pm-block {
+  padding: 10px 12px;
+}
+
+.pm-blocks-tight .pm-block-t {
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.pm-blocks-tight .pm-block-d {
+  margin-top: 2px;
+  font-size: 11px;
+  line-height: 16px;
+}
+
+/* 手机级微调（≤560px） */
+@media (max-width: 560px) {
+  .pm-banner-title {
+    font-size: 22px;
+    line-height: 32px;
+  }
+
+  .pm-sec-head h2 {
+    font-size: 21px;
+    line-height: 29px;
+  }
+
+  .pm-stat-v {
+    font-size: 21px;
+    line-height: 27px;
+  }
 }
 </style>
