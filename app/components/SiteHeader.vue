@@ -46,6 +46,7 @@ const moreNav = [
   { to: '/scoreAnalysis', label: '成绩分析系统' },
   { to: '/niupai', label: 'HRS牛派系统' },
   { to: '/skillCert', label: '职业技能鉴定' },
+  { to: '/product', label: '中测产品' },
 ]
 
 const moreOpen = ref(false)

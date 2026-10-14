@@ -1,5 +1,5 @@
 <script setup lang="ts">
-type ProductValue = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 99
+type ProductValue = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 99
 type FieldName = 'name' | 'phone' | 'company_name' | 'product' | 'content'
 
 const route = useRoute()
@@ -24,12 +24,13 @@ const products = [
   { value: 14 as ProductValue, label: '中测HR事务所' },
   { value: 15 as ProductValue, label: '中测咨询' },
   { value: 16 as ProductValue, label: '中测测评' },
+  { value: 17 as ProductValue, label: '中测产品' },
 ]
 
 const normalizeProduct = (value: unknown): ProductValue => {
   const raw = Array.isArray(value) ? value[0] : value
   const number = Number(raw)
-  return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 99].includes(number) ? number as ProductValue : 99
+  return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 99].includes(number) ? number as ProductValue : 99
 }
 
 const form = reactive({
