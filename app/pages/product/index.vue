@@ -1626,7 +1626,7 @@ onMounted(() => {
 
 .pd-jam1-bg {
   position: absolute;
-  left: -36px;
+  left: 0;
   top: 0;
   width: 1166px;
   height: 542px;
