@@ -17,6 +17,7 @@ type ProductValue =
   | 15
   | 16
   | 17
+  | 18
   | 99;
 type FieldName = "name" | "phone" | "company_name" | "product" | "content";
 
@@ -43,13 +44,14 @@ const products = [
   { value: 15 as ProductValue, label: "中测咨询" },
   { value: 16 as ProductValue, label: "中测测评" },
   { value: 17 as ProductValue, label: "考务硬件产品" },
+  { value: 18 as ProductValue, label: "AI简历优化" },
 ];
 
 const normalizeProduct = (value: unknown): ProductValue => {
   const raw = Array.isArray(value) ? value[0] : value;
   const number = Number(raw);
   return [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 99,
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 99,
   ].includes(number)
     ? (number as ProductValue)
     : 99;
