@@ -571,10 +571,13 @@ onMounted(() => {
             <NuxtLink class="cs-btn cs-btn-primary1" :to="contactRoute"
               >预约咨询</NuxtLink
             >
-            <!-- TODO: 立即体验点击事件待定 -->
-            <button type="button" class="cs-btn cs-btn-outline">
-              立即体验
-            </button>
+            <a
+              class="cs-btn cs-btn-outline"
+              href="https://console-beta.jxzhaopin.com/#/login"
+              target="_blank"
+              rel="noopener noreferrer"
+              >立即体验</a
+            >
             <a
               class="cs-btn cs-btn-outline"
               href="https://newpr-develop.oss-cn-hangzhou.aliyuncs.com/zcyp-classroom/materials/computerservice.pdf"
@@ -1004,10 +1007,13 @@ onMounted(() => {
           <NuxtLink class="csm-btn csm-btn-primary1" :to="contactRoute"
             >预约咨询</NuxtLink
           >
-          <!-- TODO: 立即体验点击事件待定 -->
-          <button type="button" class="csm-btn csm-btn-outline">
-            立即体验
-          </button>
+          <a
+            class="csm-btn csm-btn-outline"
+            href="https://console-beta.jxzhaopin.com/#/login"
+            target="_blank"
+            rel="noopener noreferrer"
+            >立即体验</a
+          >
           <a
             class="csm-btn csm-btn-outline"
             href="https://newpr-develop.oss-cn-hangzhou.aliyuncs.com/zcyp-classroom/materials/computerservice.pdf"
