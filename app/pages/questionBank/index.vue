@@ -1,1886 +1,2180 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted } from "vue";
 
 // @ts-ignore
 useSeoMeta({
-    title: '题库共建服务｜中测高科',
-    description: '题库共建面向各级人事考试机构、人才集团、企事业单位开放合作，以五大共享模式与智能化命题技术平台，赋能各级考试机构建立自有可控的命题基地。',
-})
+  title: "题库共建服务｜中测高科",
+  description:
+    "题库共建面向各级人事考试机构、人才集团、企事业单位开放合作，以五大共享模式与智能化命题技术平台，赋能各级考试机构建立自有可控的命题基地。",
+});
+
+// ===== 咨询预约按钮（与页眉「获取方案」跳转一致，预选题库共建） =====
+// @ts-ignore
+const contactRoute = getContactRoute(4, "");
 
 // ===== 内容导航 =====
 const navTabs = [
-    { label: '用户痛点', target: 'qbc-pain' },
-    { label: '核心功能', target: 'qbc-mode' },
-    { label: '品牌优势', target: 'qbc-brand' },
-    { label: '安全保障', target: 'qbc-safe' },
-    { label: '合作共建', target: 'qbc-cobuild' },
-    { label: '合作流程', target: 'qbc-process' },
-    { label: '服务案例', target: 'qbc-cases' },
-]
-const activeNav = ref('qbc-pain')
+  { label: "用户痛点", target: "qbc-pain" },
+  { label: "核心功能", target: "qbc-mode" },
+  { label: "品牌优势", target: "qbc-brand" },
+  { label: "安全保障", target: "qbc-safe" },
+  { label: "合作共建", target: "qbc-cobuild" },
+  { label: "合作流程", target: "qbc-process" },
+  { label: "服务案例", target: "qbc-cases" },
+];
+const activeNav = ref("qbc-pain");
 
 const scrollToSection = (target: string) => {
-    const el = document.getElementById(target)
-    if (el) {
-        const headerOffset = 132
-        const y = el.getBoundingClientRect().top + window.pageYOffset - headerOffset
-        window.scrollTo({ top: y, behavior: 'smooth' })
-    }
-}
+  const el = document.getElementById(target);
+  if (el) {
+    const headerOffset = 132;
+    const y =
+      el.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+    window.scrollTo({ top: y, behavior: "smooth" });
+  }
+};
 
 const handleScroll = () => {
-    const scrollY = window.scrollY + 140
-    for (let i = navTabs.length - 1; i >= 0; i--) {
-        const tab = navTabs[i]
-        if (!tab) continue
-        const sec = document.getElementById(tab.target)
-        if (sec && sec.offsetTop <= scrollY) {
-            activeNav.value = tab.target
-            break
-        }
+  const scrollY = window.scrollY + 140;
+  for (let i = navTabs.length - 1; i >= 0; i--) {
+    const tab = navTabs[i];
+    if (!tab) continue;
+    const sec = document.getElementById(tab.target);
+    if (sec && sec.offsetTop <= scrollY) {
+      activeNav.value = tab.target;
+      break;
     }
-}
+  }
+};
 
 // ===== 模块数据 =====
 const painPoints = [
-    { icon: '/assets/images/question_bank1/box1-icon1.png', title: '缺专家', desc: '缺少自有命题专家团队，依赖外部临时专家，对考试大纲、测评技术理解不足，命题质量难以稳定。' },
-    { icon: '/assets/images/question_bank1/box1-icon2.png', title: '难匹配', desc: '岗位调研深度不足，试题难以实现人岗精准匹配，人才选拔结果与岗位真实需求存在偏差。' },
-    { icon: '/assets/images/question_bank1/box1-icon3.png', title: '高风险', desc: '入闱命题组织难度大、保密风险高，命题交付质量稳定性难以保障，一旦出事影响巨大。' },
-    { icon: '/assets/images/question_bank1/box1-icon4.png', title: '迭代慢', desc: '题库更新滞后，缺少智能化命题、查重、组卷等工具支撑，业务开展事倍功半。' },
-]
+  {
+    icon: "/assets/images/question_bank1/box1-icon1.png",
+    title: "缺专家",
+    desc: "缺少自有命题专家团队，依赖外部临时专家，对考试大纲、测评技术理解不足，命题质量难以稳定。",
+  },
+  {
+    icon: "/assets/images/question_bank1/box1-icon2.png",
+    title: "难匹配",
+    desc: "岗位调研深度不足，试题难以实现人岗精准匹配，人才选拔结果与岗位真实需求存在偏差。",
+  },
+  {
+    icon: "/assets/images/question_bank1/box1-icon3.png",
+    title: "高风险",
+    desc: "入闱命题组织难度大、保密风险高，命题交付质量稳定性难以保障，一旦出事影响巨大。",
+  },
+  {
+    icon: "/assets/images/question_bank1/box1-icon4.png",
+    title: "迭代慢",
+    desc: "题库更新滞后，缺少智能化命题、查重、组卷等工具支撑，业务开展事倍功半。",
+  },
+];
 
 const modeCards = [
-    { icon: '/assets/images/question_bank1/box2-icon1.png', title: '专家共享', desc: '300 余名全职命题专家 + 海量兼职专家库，按需派驻，提供命题技术指导支撑。', en: 'E⁠X⁠P⁠E⁠R⁠T⁠ ⁠S⁠H⁠A⁠R⁠I⁠N⁠G' },
-    { icon: '/assets/images/question_bank1/box2-icon2.png', title: '题库共享', desc: '58 个专业大类、1000+ 细分小类、20TB 题库资源，持续迭代更新适配考试大纲。', en: 'I⁠T⁠E⁠M⁠ ⁠B⁠A⁠N⁠K⁠ ⁠S⁠H⁠A⁠R⁠I⁠N⁠G' },
-    { icon: '/assets/images/question_bank1/box2-icon3.png', title: '科技共享', desc: '全套自主知识产权命题技术平台，部署、调试、人员全流程培训交付。', en: 'TECH SHARING' },
-    {
-        icon: '/assets/images/question_bank1/box2-icon4.png', title: '任务共担', desc: '远程加密协同"中央厨房"命题基地，安全传输，高质量完成命题任务交付。', en: 'TASK SHARING'
-    },
-    { icon: '/assets/images/question_bank1/box2-icon5.png', title: '机制共享', desc: '输出成熟 SOP 管理流程、保密制度、运营案例，适配本地化落地运行。', en: 'SOP SHARING' },
-]
+  {
+    icon: "/assets/images/question_bank1/box2-icon1.png",
+    title: "专家共享",
+    desc: "300 余名全职命题专家 + 海量兼职专家库，按需派驻，提供命题技术指导支撑。",
+    en: "E⁠X⁠P⁠E⁠R⁠T⁠ ⁠S⁠H⁠A⁠R⁠I⁠N⁠G",
+  },
+  {
+    icon: "/assets/images/question_bank1/box2-icon2.png",
+    title: "题库共享",
+    desc: "58 个专业大类、1000+ 细分小类、20TB 题库资源，持续迭代更新适配考试大纲。",
+    en: "I⁠T⁠E⁠M⁠ ⁠B⁠A⁠N⁠K⁠ ⁠S⁠H⁠A⁠R⁠I⁠N⁠G",
+  },
+  {
+    icon: "/assets/images/question_bank1/box2-icon3.png",
+    title: "科技共享",
+    desc: "全套自主知识产权命题技术平台，部署、调试、人员全流程培训交付。",
+    en: "TECH SHARING",
+  },
+  {
+    icon: "/assets/images/question_bank1/box2-icon4.png",
+    title: "任务共担",
+    desc: '远程加密协同"中央厨房"命题基地，安全传输，高质量完成命题任务交付。',
+    en: "TASK SHARING",
+  },
+  {
+    icon: "/assets/images/question_bank1/box2-icon5.png",
+    title: "机制共享",
+    desc: "输出成熟 SOP 管理流程、保密制度、运营案例，适配本地化落地运行。",
+    en: "SOP SHARING",
+  },
+];
 
 const brandCards = [
-    { icon: '/assets/images/question_bank1/box3-icon1.png', title: '题库管理系统', desc: '集中存储、智能检索、多维标注、动态更新，让 20TB 资源真正好用。' },
-    { icon: '/assets/images/question_bank1/box3-icon2.png', title: 'AI 命题与组卷系统', desc: 'AI 辅助命题、智能查重、难度预测、自动组卷，效率与质量双提升。' },
-    { icon: '/assets/images/question_bank1/box3-icon3.png', title: '在线考试与机考系统', desc: '远程审题、模拟考试、大规模电子化考试，稳定支撑高并发场景。' },
-    { icon: '/assets/images/question_bank1/box3-icon4.png', title: '阅卷与面试评分系统', desc: '协同阅卷、AI 辅助评分、面试评价全流程管理，评分客观可复核。' },
-    { icon: '/assets/images/question_bank1/box3-icon5.png', title: '安全保密管理系统', desc: '权限分级、操作留痕、异常预警、全流程管控，保密无死角。' },
-]
+  {
+    icon: "/assets/images/question_bank1/box3-icon1.png",
+    title: "题库管理系统",
+    desc: "集中存储、智能检索、多维标注、动态更新，让 20TB 资源真正好用。",
+  },
+  {
+    icon: "/assets/images/question_bank1/box3-icon2.png",
+    title: "AI 命题与组卷系统",
+    desc: "AI 辅助命题、智能查重、难度预测、自动组卷，效率与质量双提升。",
+  },
+  {
+    icon: "/assets/images/question_bank1/box3-icon3.png",
+    title: "在线考试与机考系统",
+    desc: "远程审题、模拟考试、大规模电子化考试，稳定支撑高并发场景。",
+  },
+  {
+    icon: "/assets/images/question_bank1/box3-icon4.png",
+    title: "阅卷与面试评分系统",
+    desc: "协同阅卷、AI 辅助评分、面试评价全流程管理，评分客观可复核。",
+  },
+  {
+    icon: "/assets/images/question_bank1/box3-icon5.png",
+    title: "安全保密管理系统",
+    desc: "权限分级、操作留痕、异常预警、全流程管控，保密无死角。",
+  },
+];
 
 const safeCards = [
-    { icon: '/assets/images/question_bank1/box4-icon1.png', title: '资质护城河', desc: '自有涉密乙级资质，信息认证安全三级等保资质，从源头满足人事考试保密要求。' },
-    { icon: '/assets/images/question_bank1/box4-icon2.png', title: '多元股东背景', desc: '上市公司、国企信誉背书' },
-    { icon: '/assets/images/question_bank1/box4-icon3.png', title: '出题硬实力', desc: '全国6家研究院、8大命题交付中心、2大科技研发中心；300+专业题库研发团队' },
-    { icon: '/assets/images/question_bank1/box4-icon4.png', title: '质量安全双保障', desc: '年服务考生850万人次，出库任务28000套，实现0质量、0安全事故' },
-]
+  {
+    icon: "/assets/images/question_bank1/box4-icon1.png",
+    title: "资质护城河",
+    desc: "自有涉密乙级资质，信息认证安全三级等保资质，从源头满足人事考试保密要求。",
+  },
+  {
+    icon: "/assets/images/question_bank1/box4-icon2.png",
+    title: "多元股东背景",
+    desc: "上市公司、国企信誉背书",
+  },
+  {
+    icon: "/assets/images/question_bank1/box4-icon3.png",
+    title: "出题硬实力",
+    desc: "全国6家研究院、8大命题交付中心、2大科技研发中心；300+专业题库研发团队",
+  },
+  {
+    icon: "/assets/images/question_bank1/box4-icon4.png",
+    title: "质量安全双保障",
+    desc: "年服务考生850万人次，出库任务28000套，实现0质量、0安全事故",
+  },
+];
 
-const cobuildCards: { img: string; title: string; desc?: string; bullets?: string[] }[] = [
-    {
-        img: '/assets/images/question_bank1/box6-img1.png',
-        title: '共建高标准保\n密命题场地',
-        desc: '建设独立封闭命题工作区、专家入闱休息区；物理隔离、无死角视频监控（录像留存≥6个月）、防盗安防、密码储物柜、信号屏蔽设备，配套完善生活保障设施，满足中长期入闱命题工作条件。',
-    },
-    {
-        img: '/assets/images/question_bank1/box6-img2.png',
-        title: '共建先进命题技术\n平台与系统',
-        desc: '输出全套自主知识产权智能化命题平台，覆盖题库、AI命题组卷、机考、阅卷面试评分、安全保密全链条系统，实现远程加密协同中央厨房式保密命题基地，赋能命题业务数字化、智能化。',
-    },
-    {
-        img: '/assets/images/question_bank1/box6-img3.png',
-        title: '共建基地运行与\n管理机制',
-        bullets: [
-            '专家遴选、培训、考核激励机制，持续提升命题专家队伍能力；',
-            '标准化SOP业务流程：命制、多级审核、试测、修订、入库全流程管控；',
-            '完备安全保密管理机制：保密协议、人员设备网络载体管控、保密应急处置预案。',
-        ],
-    },
-]
+const cobuildCards: {
+  img: string;
+  title: string;
+  desc?: string;
+  bullets?: string[];
+}[] = [
+  {
+    img: "/assets/images/question_bank1/box6-img1.png",
+    title: "共建高标准保\n密命题场地",
+    desc: "建设独立封闭命题工作区、专家入闱休息区；物理隔离、无死角视频监控（录像留存≥6个月）、防盗安防、密码储物柜、信号屏蔽设备，配套完善生活保障设施，满足中长期入闱命题工作条件。",
+  },
+  {
+    img: "/assets/images/question_bank1/box6-img2.png",
+    title: "共建先进命题技术\n平台与系统",
+    desc: "输出全套自主知识产权智能化命题平台，覆盖题库、AI命题组卷、机考、阅卷面试评分、安全保密全链条系统，实现远程加密协同中央厨房式保密命题基地，赋能命题业务数字化、智能化。",
+  },
+  {
+    img: "/assets/images/question_bank1/box6-img3.png",
+    title: "共建基地运行与\n管理机制",
+    bullets: [
+      "专家遴选、培训、考核激励机制，持续提升命题专家队伍能力；",
+      "标准化SOP业务流程：命制、多级审核、试测、修订、入库全流程管控；",
+      "完备安全保密管理机制：保密协议、人员设备网络载体管控、保密应急处置预案。",
+    ],
+  },
+];
 
 const dutyPartner = [
-    '提供满足保密标准的命题基地物理场地，保障电力通风等基础条件',
-    '双方共同投入完成场地保密装修改造',
-    '采购电脑、监控、门禁等办公安防硬件并完成安装调试',
-    '协助办理基地相关地方行政审批手续',
-    '负责基地物业管理、安保、设备基础维护',
-    '配置少量管理人员，负责基地日常管理与业务协同组织',
-]
+  "提供满足保密标准的命题基地物理场地，保障电力通风等基础条件",
+  "双方共同投入完成场地保密装修改造",
+  "采购电脑、监控、门禁等办公安防硬件并完成安装调试",
+  "协助办理基地相关地方行政审批手续",
+  "负责基地物业管理、安保、设备基础维护",
+  "配置少量管理人员，负责基地日常管理与业务协同组织",
+];
 
 const dutyCompany = [
-    { k: '专家共享', v: '输出专家资源，按需派驻命题专家，提供技术指导' },
-    { k: '题库共享', v: '开放海量题库资源，持续更新补充适配本地考试需求' },
-    { k: '科技共享', v: '部署全套命题技术系统，完成实施与人员操作培训' },
-    { k: '任务共担', v: '建立加密远程协同机制，保障命题任务高质量交付' },
-    { k: '机制共享', v: '输出成熟管理制度SOP、项目案例，赋能基地运营' },
-]
+  { k: "专家共享", v: "输出专家资源，按需派驻命题专家，提供技术指导" },
+  { k: "题库共享", v: "开放海量题库资源，持续更新补充适配本地考试需求" },
+  { k: "科技共享", v: "部署全套命题技术系统，完成实施与人员操作培训" },
+  { k: "任务共担", v: "建立加密远程协同机制，保障命题任务高质量交付" },
+  { k: "机制共享", v: "输出成熟管理制度SOP、项目案例，赋能基地运营" },
+];
 
 const processSteps = [
-    { num: '壹', title: '对接洽谈', desc: '商务对接，明确合作范围与需求，现场考察题库与平台能力。' },
-    { num: '贰', title: '方案定制', desc: '结合本地考试需求定制共享方案：题库授权范围、系统部署、专家派驻计划。' },
-    { num: '叁', title: '落地运行', desc: '系统部署培训、SOP 移交、协同运营，周例会与月度推进机制保障长期运转。' },
-]
+  {
+    num: "壹",
+    title: "对接洽谈",
+    desc: "商务对接，明确合作范围与需求，现场考察题库与平台能力。",
+  },
+  {
+    num: "贰",
+    title: "方案定制",
+    desc: "结合本地考试需求定制共享方案：题库授权范围、系统部署、专家派驻计划。",
+  },
+  {
+    num: "叁",
+    title: "落地运行",
+    desc: "系统部署培训、SOP 移交、协同运营，周例会与月度推进机制保障长期运转。",
+  },
+];
 
 const qbcData = [
-    {
-        label: '题库授权 + 平台部署',
-        name: '某考试机构',
-        content: '覆盖 30 余个职位序列的公开招聘考试，题库授权与智能平台本地化部署同步交付，智能组卷与查重全面替代人工操作。',
-        desc: '命题周期显著缩短，多场次考试稳定交付'
-    },
-    {
-        label: '共建命题基地',
-        name: '某发展集团',
-        content: '专家派驻 + 任务共担模式共建命题基地，SOP 管理流程与保密制度整体移交，本地团队快速形成自主命题能力。',
-        desc: '当年实现本地团队独立承接命题任务'
-    },
-    {
-        label: '定制题库 + AI 组卷',
-        name: '某大型央企集团',
-        content: '围绕内部人才选拔测评定制专属题库，AI 辅助命题与难度校准，支撑全国范围多场次同步考试。',
-        desc: '选拔测评全流程留痕、零差错交付'
-    },
-]
+  {
+    label: "题库授权 + 平台部署",
+    name: "某考试机构",
+    content:
+      "覆盖 30 余个职位序列的公开招聘考试，题库授权与智能平台本地化部署同步交付，智能组卷与查重全面替代人工操作。",
+    desc: "命题周期显著缩短，多场次考试稳定交付",
+  },
+  {
+    label: "共建命题基地",
+    name: "某发展集团",
+    content:
+      "专家派驻 + 任务共担模式共建命题基地，SOP 管理流程与保密制度整体移交，本地团队快速形成自主命题能力。",
+    desc: "当年实现本地团队独立承接命题任务",
+  },
+  {
+    label: "定制题库 + AI 组卷",
+    name: "某大型央企集团",
+    content:
+      "围绕内部人才选拔测评定制专属题库，AI 辅助命题与难度校准，支撑全国范围多场次同步考试。",
+    desc: "选拔测评全流程留痕、零差错交付",
+  },
+];
 
 // ===== 滚动进入动画 + 小数计数动效 =====
-const qbcSection = ref<HTMLElement>()
+const qbcSection = ref<HTMLElement>();
 
 onMounted(() => {
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    if (qbcSection.value) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('qbc-visible')
-                    observer.unobserve(entry.target)
-                }
-            })
-        }, { threshold: 0.12 })
-        qbcSection.value.querySelectorAll('.qbc-animate').forEach(el => observer.observe(el as HTMLElement))
+  window.addEventListener("scroll", handleScroll, { passive: true });
+  if (qbcSection.value) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("qbc-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 },
+    );
+    qbcSection.value
+      .querySelectorAll(".qbc-animate")
+      .forEach((el) => observer.observe(el as HTMLElement));
 
-        // 小数数值动效（如 1.3 亿），整数由 v-count-up 指令处理
-        const decimalObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (!entry.isIntersecting) return
-                const el = entry.target as HTMLElement
-                const endVal = parseFloat(el.dataset.decimalTarget || '0')
-                const duration = 3000
-                const startTime = performance.now()
-                const animate = (now: number) => {
-                    const progress = Math.min((now - startTime) / duration, 1)
-                    const eased = 1 - Math.pow(1 - progress, 3)
-                    el.textContent = (eased * endVal).toFixed(1)
-                    if (progress < 1) requestAnimationFrame(animate)
-                }
-                requestAnimationFrame(animate)
-                decimalObserver.unobserve(el)
-            })
-        }, { threshold: 0.3 })
-        qbcSection.value.querySelectorAll('[data-decimal-target]').forEach(el => decimalObserver.observe(el as HTMLElement))
-    }
-})
+    // 小数数值动效（如 1.3 亿），整数由 v-count-up 指令处理
+    const decimalObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          const endVal = parseFloat(el.dataset.decimalTarget || "0");
+          const duration = 3000;
+          const startTime = performance.now();
+          const animate = (now: number) => {
+            const progress = Math.min((now - startTime) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = (eased * endVal).toFixed(1);
+            if (progress < 1) requestAnimationFrame(animate);
+          };
+          requestAnimationFrame(animate);
+          decimalObserver.unobserve(el);
+        });
+      },
+      { threshold: 0.3 },
+    );
+    qbcSection.value
+      .querySelectorAll("[data-decimal-target]")
+      .forEach((el) => decimalObserver.observe(el as HTMLElement));
+  }
+});
 
 onUnmounted(() => {
-    window.removeEventListener('scroll', handleScroll)
-})
+  window.removeEventListener("scroll", handleScroll);
+});
 
 // ===================== 移动端（≤1024px）专用逻辑 =====================
 // web 端根节点 .qbc-page 的模板 / 样式 / 脚本保持零改动；
 // 以下状态与副作用仅供移动根节点 .qbm-page 使用，与桌面端互不干扰。
-const qbmSection = ref<HTMLElement>()
-const qbmActiveNav = ref('pain')
+const qbmSection = ref<HTMLElement>();
+const qbmActiveNav = ref("pain");
 const qbmNavTabs = [
-    { label: '用户痛点', target: 'pain' },
-    { label: '核心功能', target: 'mode' },
-    { label: '品牌优势', target: 'brand' },
-    { label: '安全保障', target: 'safe' },
-    { label: '合作共建', target: 'cobuild' },
-    { label: '合作流程', target: 'process' },
-    { label: '服务案例', target: 'cases' },
-]
+  { label: "用户痛点", target: "pain" },
+  { label: "核心功能", target: "mode" },
+  { label: "品牌优势", target: "brand" },
+  { label: "安全保障", target: "safe" },
+  { label: "合作共建", target: "cobuild" },
+  { label: "合作流程", target: "process" },
+  { label: "服务案例", target: "cases" },
+];
 
 // 滚动时高亮当前区块（tab 较多，横向 scroll-snap 滑动）
 const qbmHandleScroll = () => {
-    const scrollY = window.scrollY + 120
-    let current = qbmNavTabs[0]!.target
-    for (let i = qbmNavTabs.length - 1; i >= 0; i--) {
-        const tab = qbmNavTabs[i]
-        if (!tab) continue
-        const el = document.getElementById(`qbm-${tab.target}`)
-        if (el && el.getBoundingClientRect().top + window.scrollY <= scrollY) {
-            current = tab.target
-            break
-        }
+  const scrollY = window.scrollY + 120;
+  let current = qbmNavTabs[0]!.target;
+  for (let i = qbmNavTabs.length - 1; i >= 0; i--) {
+    const tab = qbmNavTabs[i];
+    if (!tab) continue;
+    const el = document.getElementById(`qbm-${tab.target}`);
+    if (el && el.getBoundingClientRect().top + window.scrollY <= scrollY) {
+      current = tab.target;
+      break;
     }
-    qbmActiveNav.value = current
-}
+  }
+  qbmActiveNav.value = current;
+};
 
 onMounted(() => {
-    window.addEventListener('scroll', qbmHandleScroll, { passive: true })
-    if (qbmSection.value) {
-        // 入场动画（移动独立 observer 命中后加 .qbm-visible）
-        const qbmObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('qbm-visible')
-                    qbmObserver.unobserve(entry.target)
-                }
-            })
-        }, { threshold: 0.12 })
-        qbmSection.value.querySelectorAll('.qbm-animate').forEach(el => qbmObserver.observe(el as HTMLElement))
+  window.addEventListener("scroll", qbmHandleScroll, { passive: true });
+  if (qbmSection.value) {
+    // 入场动画（移动独立 observer 命中后加 .qbm-visible）
+    const qbmObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("qbm-visible");
+            qbmObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 },
+    );
+    qbmSection.value
+      .querySelectorAll(".qbm-animate")
+      .forEach((el) => qbmObserver.observe(el as HTMLElement));
 
-        // 小数数值动效（如 1.3 亿），整数由全局 v-count-up 指令处理
-        const qbmDecimalObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (!entry.isIntersecting) return
-                const el = entry.target as HTMLElement
-                const endVal = parseFloat(el.dataset.decimalTarget || '0')
-                const duration = 3000
-                const startTime = performance.now()
-                const animate = (now: number) => {
-                    const progress = Math.min((now - startTime) / duration, 1)
-                    const eased = 1 - Math.pow(1 - progress, 3)
-                    el.textContent = (eased * endVal).toFixed(1)
-                    if (progress < 1) requestAnimationFrame(animate)
-                }
-                requestAnimationFrame(animate)
-                qbmDecimalObserver.unobserve(el)
-            })
-        }, { threshold: 0.3 })
-        qbmSection.value.querySelectorAll('[data-decimal-target]').forEach(el => qbmDecimalObserver.observe(el as HTMLElement))
-    }
-})
+    // 小数数值动效（如 1.3 亿），整数由全局 v-count-up 指令处理
+    const qbmDecimalObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          const endVal = parseFloat(el.dataset.decimalTarget || "0");
+          const duration = 3000;
+          const startTime = performance.now();
+          const animate = (now: number) => {
+            const progress = Math.min((now - startTime) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = (eased * endVal).toFixed(1);
+            if (progress < 1) requestAnimationFrame(animate);
+          };
+          requestAnimationFrame(animate);
+          qbmDecimalObserver.unobserve(el);
+        });
+      },
+      { threshold: 0.3 },
+    );
+    qbmSection.value
+      .querySelectorAll("[data-decimal-target]")
+      .forEach((el) => qbmDecimalObserver.observe(el as HTMLElement));
+  }
+});
 
 onUnmounted(() => {
-    window.removeEventListener('scroll', qbmHandleScroll)
-})
+  window.removeEventListener("scroll", qbmHandleScroll);
+});
 </script>
 
 <template>
-    <div ref="qbcSection" class="qbc-page">
-        <!-- ========== Banner ========== -->
-        <section class="qbc-banner">
-            <div class="qbc-banner-bg">
-                <img src="/assets/images/question_bank1/banner-bg.png" alt="" />
-            </div>
-            <div class="container-qbc qbc-banner-content">
-                <h1 class="qbc-banner-title"><span>题库共建</span>服务</h1>
-                <p class="qbc-banner-subtitle">面向各级人事考试机构、人才集团、企事业单位开放合作</p>
-                <p class="qbc-banner-desc">通过全国考试头部智库机构——中测高科赋能助力各级考试机构建立自有可控优质高效的命题基地</p>
-            </div>
-            <!-- 数值栏 -->
-            <div class="qbc-stats-bar">
-                <div class="qbc-stats-inner">
-                    <div class="qbc-stat-item qbc-animate">
-                        <strong><span v-count-up="10">10</span><i>余年</i></strong>
-                        <span class="qbc-stat-desc">行业沉淀</span>
-                    </div>
-                    <div class="qbc-stat-item qbc-animate">
-                        <strong><span v-count-up="64">64</span><i>万</i></strong>
-                        <span class="qbc-stat-desc">企业客户信赖</span>
-                    </div>
-                    <div class="qbc-stat-item qbc-animate">
-                        <strong><span v-count-up="204">204</span><i>万</i></strong>
-                        <span class="qbc-stat-desc">场考试交付</span>
-                    </div>
-                    <div class="qbc-stat-item qbc-animate">
-                        <strong><span data-decimal-target="1.3">1.3</span><i>亿</i></strong>
-                        <span class="qbc-stat-desc">人次累计参考</span>
-                    </div>
-                </div>
-            </div>
-        </section>
+  <div ref="qbcSection" class="qbc-page">
+    <!-- ========== Banner ========== -->
+    <section class="qbc-banner">
+      <div class="qbc-banner-bg">
+        <img src="/assets/images/question_bank1/banner-bg.png" alt="" />
+      </div>
+      <div class="container-qbc qbc-banner-content">
+        <h1 class="qbc-banner-title"><span>题库共建</span>服务</h1>
+        <p class="qbc-banner-subtitle">
+          面向各级人事考试机构、人才集团、企事业单位开放合作
+        </p>
+        <p class="qbc-banner-desc">
+          通过全国考试头部智库机构——中测高科赋能助力各级考试机构建立自有可控优质高效的命题基地
+        </p>
+        <NuxtLink class="qbc-banner-btn" :to="contactRoute">咨询预约</NuxtLink>
+      </div>
+      <!-- 数值栏 -->
+      <div class="qbc-stats-bar">
+        <div class="qbc-stats-inner">
+          <div class="qbc-stat-item qbc-animate">
+            <strong><span v-count-up="10">10</span><i>余年</i></strong>
+            <span class="qbc-stat-desc">行业沉淀</span>
+          </div>
+          <div class="qbc-stat-item qbc-animate">
+            <strong><span v-count-up="64">64</span><i>万</i></strong>
+            <span class="qbc-stat-desc">企业客户信赖</span>
+          </div>
+          <div class="qbc-stat-item qbc-animate">
+            <strong><span v-count-up="204">204</span><i>万</i></strong>
+            <span class="qbc-stat-desc">场考试交付</span>
+          </div>
+          <div class="qbc-stat-item qbc-animate">
+            <strong><span data-decimal-target="1.3">1.3</span><i>亿</i></strong>
+            <span class="qbc-stat-desc">人次累计参考</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <!-- ========== 内容导航 ========== -->
-        <nav class="qbc-nav">
-            <div class="container-qbc qbc-nav-inner">
-                <a v-for="tab in navTabs" :key="tab.target" class="qbc-nav-tab"
-                    :class="{ 'qbc-nav-tab-active': activeNav === tab.target }" href="javascript:void(0)"
-                    @click.prevent="scrollToSection(tab.target)">{{ tab.label }}</a>
-            </div>
-        </nav>
+    <!-- ========== 内容导航 ========== -->
+    <nav class="qbc-nav">
+      <div class="container-qbc qbc-nav-inner">
+        <a
+          v-for="tab in navTabs"
+          :key="tab.target"
+          class="qbc-nav-tab"
+          :class="{ 'qbc-nav-tab-active': activeNav === tab.target }"
+          href="javascript:void(0)"
+          @click.prevent="scrollToSection(tab.target)"
+          >{{ tab.label }}</a
+        >
+      </div>
+    </nav>
 
-        <!-- ========== 用户痛点 ========== -->
-        <section id="qbc-pain" class="qbc-pain">
-            <div class="container-qbc qbc-pain-grid">
-                <div class="qbc-pain-left qbc-animate">
-                    <h2 class="qbc-pain-title">为什么需要题库共建</h2>
-                    <p class="qbc-pain-sub">人事考试命题的四道<br />现实难关</p>
-                    <p class="qbc-pain-desc">多数考试机构并非不够专业，而是在命题资源、工具与机制上"单打独斗"。题库共建存在的意义，就是把这套能力变成你的底座。</p>
-                    <div class="qbc-pain-card">
-                        <img src="/assets/images/question_bank1/box1-img.png" alt="" />
-                        <div class="qbc-pain-card-inner">
-                            <p class="qbc-pain-quote">命题的事，交给专业的人；考试的主导权，始终在你手里。</p>
-                            <span class="qbc-pain-quote-from">—— 题库共建合作理念</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="qbc-pain-list">
-                    <div v-for="(item, i) in painPoints" :key="item.title" class="qbc-pain-item qbc-animate"
-                        :style="{ transitionDelay: i * 0.1 + 's' }">
-                        <img :src="item.icon" alt="" class="qbc-pain-item-icon" />
-                        <div>
-                            <h3>{{ item.title }}</h3>
-                            <p>{{ item.desc }}</p>
-                        </div>
-                    </div>
-                </div>
+    <!-- ========== 用户痛点 ========== -->
+    <section id="qbc-pain" class="qbc-pain">
+      <div class="container-qbc qbc-pain-grid">
+        <div class="qbc-pain-left qbc-animate">
+          <h2 class="qbc-pain-title">为什么需要题库共建</h2>
+          <p class="qbc-pain-sub">人事考试命题的四道<br />现实难关</p>
+          <p class="qbc-pain-desc">
+            多数考试机构并非不够专业，而是在命题资源、工具与机制上"单打独斗"。题库共建存在的意义，就是把这套能力变成你的底座。
+          </p>
+          <div class="qbc-pain-card">
+            <img src="/assets/images/question_bank1/box1-img.png" alt="" />
+            <div class="qbc-pain-card-inner">
+              <p class="qbc-pain-quote">
+                命题的事，交给专业的人；考试的主导权，始终在你手里。
+              </p>
+              <span class="qbc-pain-quote-from">—— 题库共建合作理念</span>
             </div>
-        </section>
+          </div>
+        </div>
+        <div class="qbc-pain-list">
+          <div
+            v-for="(item, i) in painPoints"
+            :key="item.title"
+            class="qbc-pain-item qbc-animate"
+            :style="{ transitionDelay: i * 0.1 + 's' }"
+          >
+            <img :src="item.icon" alt="" class="qbc-pain-item-icon" />
+            <div>
+              <h3>{{ item.title }}</h3>
+              <p>{{ item.desc }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <!-- ========== 核心合作模式 ========== -->
-        <section id="qbc-mode" class="qbc-mode">
-            <div class="qbc-mode-bg">
-                <img src="/assets/images/question_bank1/bg1.png" alt="" />
-            </div>
-            <div class="container-qbc qbc-mode-inner">
-                <div class="qbc-animate">
-                    <h2 class="qbc-mode-title">核心合作模式</h2>
-                    <p class="qbc-mode-sub">五大共享，一套底座</p>
-                    <p class="qbc-mode-desc">
-                        不是简单"卖题"，而是把专家、题库、技术、任务与机制整体开放——从资源到能力，全面赋能你的命题业务。
-                    </p>
-                </div>
-                <div class="qbc-mode-grid">
-                    <div v-for="(card, i) in modeCards" :key="card.title" class="qbc-mode-card qbc-animate"
-                        :style="{ transitionDelay: i * 0.08 + 's' }">
-                        <img :src="card.icon" alt="" />
-                        <h3>{{ card.title }}</h3>
-                        <p>{{ card.desc }}</p>
-                        <em>{{ card.en }}</em>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <!-- ========== 核心合作模式 ========== -->
+    <section id="qbc-mode" class="qbc-mode">
+      <div class="qbc-mode-bg">
+        <img src="/assets/images/question_bank1/bg1.png" alt="" />
+      </div>
+      <div class="container-qbc qbc-mode-inner">
+        <div class="qbc-animate">
+          <h2 class="qbc-mode-title">核心合作模式</h2>
+          <p class="qbc-mode-sub">五大共享，一套底座</p>
+          <p class="qbc-mode-desc">
+            不是简单"卖题"，而是把专家、题库、技术、任务与机制整体开放——从资源到能力，全面赋能你的命题业务。
+          </p>
+        </div>
+        <div class="qbc-mode-grid">
+          <div
+            v-for="(card, i) in modeCards"
+            :key="card.title"
+            class="qbc-mode-card qbc-animate"
+            :style="{ transitionDelay: i * 0.08 + 's' }"
+          >
+            <img :src="card.icon" alt="" />
+            <h3>{{ card.title }}</h3>
+            <p>{{ card.desc }}</p>
+            <em>{{ card.en }}</em>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <!-- ========== 品牌优势 ========== -->
-        <section id="qbc-brand" class="qbc-brand">
-            <div class="container-qbc">
-                <div class="qbc-animate">
-                    <h2 class="qbc-brand-title">智能化命题技术平台</h2>
-                    <p class="qbc-brand-sub">一套平台，<br />贯通命题全链条</p>
-                    <p class="qbc-brand-desc">自主知识产权的五大系统，覆盖从题目生产到考务交付的完整闭环，全流程留痕、可管可控。</p>
-                </div>
-                <div class="qbc-brand-grid">
-                    <div v-for="(card, i) in brandCards" :key="card.title" class="qbc-brand-card qbc-animate"
-                        :style="{ transitionDelay: i * 0.08 + 's' }">
-                        <img :src="card.icon" alt="" />
-                        <h3>{{ card.title }}</h3>
-                        <p>{{ card.desc }}</p>
-                    </div>
-                </div>
-                <div class="qbc-brand-foot qbc-animate">
-                    <strong>交付即赋能</strong>
-                    <span>—⁠—⁠ ⁠系⁠统⁠部⁠署⁠、⁠联⁠调⁠、⁠人⁠员⁠操⁠作⁠培⁠训⁠全⁠流⁠程⁠由⁠中⁠测⁠高⁠科⁠专⁠业⁠团⁠队⁠完⁠成⁠。</span>
-                </div>
-            </div>
-        </section>
+    <!-- ========== 品牌优势 ========== -->
+    <section id="qbc-brand" class="qbc-brand">
+      <div class="container-qbc">
+        <div class="qbc-animate">
+          <h2 class="qbc-brand-title">智能化命题技术平台</h2>
+          <p class="qbc-brand-sub">一套平台，<br />贯通命题全链条</p>
+          <p class="qbc-brand-desc">
+            自主知识产权的五大系统，覆盖从题目生产到考务交付的完整闭环，全流程留痕、可管可控。
+          </p>
+        </div>
+        <div class="qbc-brand-grid">
+          <div
+            v-for="(card, i) in brandCards"
+            :key="card.title"
+            class="qbc-brand-card qbc-animate"
+            :style="{ transitionDelay: i * 0.08 + 's' }"
+          >
+            <img :src="card.icon" alt="" />
+            <h3>{{ card.title }}</h3>
+            <p>{{ card.desc }}</p>
+          </div>
+        </div>
+        <div class="qbc-brand-foot qbc-animate">
+          <strong>交付即赋能</strong>
+          <span
+            >—⁠—⁠ ⁠系⁠统⁠部⁠署⁠、⁠联⁠调⁠、⁠人⁠员⁠操⁠作⁠培⁠训⁠全⁠流⁠程⁠由⁠中⁠测⁠高⁠科⁠专⁠业⁠团⁠队⁠完⁠成⁠。</span
+          >
+        </div>
+      </div>
+    </section>
 
-        <!-- ========== 安全保障 ========== -->
-        <section id="qbc-safe" class="qbc-safe">
-            <div class="qbc-safe-bg">
-                <img src="/assets/images/question_bank1/bg2.png" alt="" />
+    <!-- ========== 安全保障 ========== -->
+    <section id="qbc-safe" class="qbc-safe">
+      <div class="qbc-safe-bg">
+        <img src="/assets/images/question_bank1/bg2.png" alt="" />
+      </div>
+      <div class="container-qbc qbc-safe-inner">
+        <div class="qbc-animate">
+          <h2 class="qbc-safe-title">安全保障</h2>
+          <p class="qbc-safe-sub">保密，是不可妥协的底线</p>
+        </div>
+        <div class="qbc-safe-grid">
+          <div
+            v-for="(card, i) in safeCards"
+            :key="card.title"
+            class="qbc-safe-card qbc-animate"
+            :style="{ transitionDelay: i * 0.08 + 's' }"
+          >
+            <div class="qbc-safe-card-head">
+              <h3>{{ card.title }}</h3>
+              <img :src="card.icon" alt="" />
             </div>
-            <div class="container-qbc qbc-safe-inner">
-                <div class="qbc-animate">
-                    <h2 class="qbc-safe-title">安全保障</h2>
-                    <p class="qbc-safe-sub">保密，是不可妥协的底线</p>
-                </div>
-                <div class="qbc-safe-grid">
-                    <div v-for="(card, i) in safeCards" :key="card.title" class="qbc-safe-card qbc-animate"
-                        :style="{ transitionDelay: i * 0.08 + 's' }">
-                        <div class="qbc-safe-card-head">
-                            <h3>{{ card.title }}</h3>
-                            <img :src="card.icon" alt="" />
-                        </div>
-                        <p>{{ card.desc }}</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+            <p>{{ card.desc }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <!-- ========== 合作共建 ========== -->
-        <section id="qbc-cobuild">
-            <!-- 工作协同流程图 -->
-            <div class="qbc-flow">
-                <!-- <h2 class="qbc-flow-title qbc-animate">共建命题基地工作协同流程图</h2> -->
-                <img class="qbc-flow-img qbc-animate" src="/assets/images/question_bank1/box5-img.png"
-                    alt="共建命题基地工作协同流程图" />
+    <!-- ========== 合作共建 ========== -->
+    <section id="qbc-cobuild">
+      <!-- 工作协同流程图 -->
+      <div class="qbc-flow">
+        <!-- <h2 class="qbc-flow-title qbc-animate">共建命题基地工作协同流程图</h2> -->
+        <img
+          class="qbc-flow-img qbc-animate"
+          src="/assets/images/question_bank1/box5-img.png"
+          alt="共建命题基地工作协同流程图"
+        />
+      </div>
+      <!-- 三大共建核心内容 -->
+      <div class="qbc-cobuild">
+        <div class="qbc-cobuild-bg">
+          <img src="/assets/images/question_bank1/bg3.png" alt="" />
+        </div>
+        <div class="container-qbc qbc-cobuild-inner">
+          <h2 class="qbc-sec-title qbc-animate">共建内容</h2>
+          <p class="qbc-sec-sub qbc-animate">三大共建核心内容</p>
+          <div class="qbc-cobuild-grid">
+            <div
+              v-for="(card, i) in cobuildCards"
+              :key="card.title"
+              class="qbc-cobuild-card qbc-animate"
+              :style="{ transitionDelay: i * 0.1 + 's' }"
+            >
+              <div class="qbc-cobuild-head">
+                <img :src="card.img" alt="" />
+                <h3>{{ card.title }}</h3>
+              </div>
+              <div class="qbc-cobuild-body">
+                <p v-if="card.desc">{{ card.desc }}</p>
+                <ul v-else>
+                  <li v-for="b in card.bullets" :key="b">{{ b }}</li>
+                </ul>
+              </div>
             </div>
-            <!-- 三大共建核心内容 -->
-            <div class="qbc-cobuild">
-                <div class="qbc-cobuild-bg">
-                    <img src="/assets/images/question_bank1/bg3.png" alt="" />
-                </div>
-                <div class="container-qbc qbc-cobuild-inner">
-                    <h2 class="qbc-sec-title qbc-animate">共建内容</h2>
-                    <p class="qbc-sec-sub qbc-animate">三大共建核心内容</p>
-                    <div class="qbc-cobuild-grid">
-                        <div v-for="(card, i) in cobuildCards" :key="card.title" class="qbc-cobuild-card qbc-animate"
-                            :style="{ transitionDelay: i * 0.1 + 's' }">
-                            <div class="qbc-cobuild-head">
-                                <img :src="card.img" alt="" />
-                                <h3>{{ card.title }}</h3>
-                            </div>
-                            <div class="qbc-cobuild-body">
-                                <p v-if="card.desc">{{ card.desc }}</p>
-                                <ul v-else>
-                                    <li v-for="b in card.bullets" :key="b">{{ b }}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          </div>
+        </div>
+      </div>
+      <!-- 双方责任分工 -->
+      <div class="qbc-duty">
+        <div class="container-qbc">
+          <h2 class="qbc-sec-title qbc-animate">共建内容</h2>
+          <p class="qbc-sec-sub qbc-animate">双方责任分工</p>
+          <div class="qbc-duty-grid">
+            <div class="qbc-duty-card qbc-duty-card-partner qbc-animate">
+              <div class="qbc-duty-head">
+                <img
+                  src="/assets/images/question_bank1/box7-icon1.png"
+                  alt=""
+                />
+                <h3>合作方（贵方）职责</h3>
+              </div>
+              <ol class="qbc-duty-list">
+                <li v-for="d in dutyPartner" :key="d">{{ d }}</li>
+              </ol>
             </div>
-            <!-- 双方责任分工 -->
-            <div class="qbc-duty">
-                <div class="container-qbc">
-                    <h2 class="qbc-sec-title qbc-animate">共建内容</h2>
-                    <p class="qbc-sec-sub qbc-animate">双方责任分工</p>
-                    <div class="qbc-duty-grid">
-                        <div class="qbc-duty-card qbc-duty-card-partner qbc-animate">
-                            <div class="qbc-duty-head">
-                                <img src="/assets/images/question_bank1/box7-icon1.png" alt="" />
-                                <h3>合作方（贵方）职责</h3>
-                            </div>
-                            <ol class="qbc-duty-list">
-                                <li v-for="d in dutyPartner" :key="d">{{ d }}</li>
-                            </ol>
-                        </div>
-                        <div class="qbc-duty-card qbc-duty-card-company qbc-animate">
-                            <div class="qbc-duty-head">
-                                <img src="/assets/images/question_bank1/box7-icon2.png" alt="" />
-                                <h3>中测高科职责</h3>
-                            </div>
-                            <ol class="qbc-duty-list">
-                                <li v-for="d in dutyCompany" :key="d.k"><strong>{{ d.k }}</strong><span>：{{ d.v
-                                }}</span>
-                                </li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
+            <div class="qbc-duty-card qbc-duty-card-company qbc-animate">
+              <div class="qbc-duty-head">
+                <img
+                  src="/assets/images/question_bank1/box7-icon2.png"
+                  alt=""
+                />
+                <h3>中测高科职责</h3>
+              </div>
+              <ol class="qbc-duty-list">
+                <li v-for="d in dutyCompany" :key="d.k">
+                  <strong>{{ d.k }}</strong
+                  ><span>：{{ d.v }}</span>
+                </li>
+              </ol>
             </div>
-        </section>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <!-- ========== 合作流程 ========== -->
-        <section id="qbc-process" class="qbc-process">
-            <div class="container-qbc">
-                <h2 class="qbc-sec-title qbc-animate">合作流程</h2>
-                <p class="qbc-sec-sub qbc-sec-sub-mb qbc-animate">三步开启，长期同行</p>
-                <div class="qbc-process-steps">
-                    <template v-for="(step, i) in processSteps" :key="step.title">
-                        <div class="qbc-process-step qbc-animate" :style="{ transitionDelay: i * 0.12 + 's' }">
-                            <div class="qbc-process-num">{{ step.num }}
-                                <img v-if="i < processSteps.length - 1" class="qbc-process-arrow"
-                                    src="/assets/images/question_bank1/line.png" alt="" />
-                            </div>
-                            <h3>{{ step.title }}</h3>
-                            <p>{{ step.desc }}</p>
-                        </div>
-                    </template>
-                </div>
-                <p class="qbc-process-note qbc-animate">以<strong>5 年为期的长期陪伴</strong>—— 期满前 1
-                    个月双方评估协商，可续签或有序交接 · 全程签署保密协议，权责清晰</p>
+    <!-- ========== 合作流程 ========== -->
+    <section id="qbc-process" class="qbc-process">
+      <div class="container-qbc">
+        <h2 class="qbc-sec-title qbc-animate">合作流程</h2>
+        <p class="qbc-sec-sub qbc-sec-sub-mb qbc-animate">三步开启，长期同行</p>
+        <div class="qbc-process-steps">
+          <template v-for="(step, i) in processSteps" :key="step.title">
+            <div
+              class="qbc-process-step qbc-animate"
+              :style="{ transitionDelay: i * 0.12 + 's' }"
+            >
+              <div class="qbc-process-num">
+                {{ step.num }}
+                <img
+                  v-if="i < processSteps.length - 1"
+                  class="qbc-process-arrow"
+                  src="/assets/images/question_bank1/line.png"
+                  alt=""
+                />
+              </div>
+              <h3>{{ step.title }}</h3>
+              <p>{{ step.desc }}</p>
             </div>
-        </section>
+          </template>
+        </div>
+        <p class="qbc-process-note qbc-animate">
+          以<strong>5 年为期的长期陪伴</strong>—— 期满前 1
+          个月双方评估协商，可续签或有序交接 · 全程签署保密协议，权责清晰
+        </p>
+      </div>
+    </section>
 
-        <!-- ========== 服务案例（内容后期补充） ========== -->
-        <section id="qbc-cases" class="qbc-cases">
-            <div class="qb-why-choose-box">
-                <div class="qb-why-bg">
-                    <div class="qb-why-circle qb-why-circle-tl"></div>
-                    <div class="qb-why-circle qb-why-circle-br"></div>
-                </div>
-                <div class="qb-why-header qbc-animate">合作实践</div>
-                <div class="qb-why-subTitle qbc-animate">他⁠们⁠已⁠经⁠在⁠用题库共建⁠</div>
-                <div class="qb-why-desc qbc-animate">从省级考试机构到人才集团、央企集团，题库共建以不同模式支撑各类命题业务落地。</div>
-                <div class="qb-why-box">
-                    <div class="qb-why-card qbc-animate" v-for="(card, i) in qbcData" :key="i"
-                        :style="{ transitionDelay: i * 0.12 + 's' }">
-                        <div class="qb-why-card-label">{{ card.label }}</div>
-                        <div class="qb-why-card-title">{{ card.name }}</div>
-                        <div class="qb-why-card-desc">{{ card.content }}</div>
-                        <div class="qb-why-card-more">{{ card.desc }}</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
+    <!-- ========== 服务案例（内容后期补充） ========== -->
+    <section id="qbc-cases" class="qbc-cases">
+      <div class="qb-why-choose-box">
+        <div class="qb-why-bg">
+          <div class="qb-why-circle qb-why-circle-tl"></div>
+          <div class="qb-why-circle qb-why-circle-br"></div>
+        </div>
+        <div class="qb-why-header qbc-animate">合作实践</div>
+        <div class="qb-why-subTitle qbc-animate">
+          他⁠们⁠已⁠经⁠在⁠用题库共建⁠
+        </div>
+        <div class="qb-why-desc qbc-animate">
+          从省级考试机构到人才集团、央企集团，题库共建以不同模式支撑各类命题业务落地。
+        </div>
+        <div class="qb-why-box">
+          <div
+            class="qb-why-card qbc-animate"
+            v-for="(card, i) in qbcData"
+            :key="i"
+            :style="{ transitionDelay: i * 0.12 + 's' }"
+          >
+            <div class="qb-why-card-label">{{ card.label }}</div>
+            <div class="qb-why-card-title">{{ card.name }}</div>
+            <div class="qb-why-card-desc">{{ card.content }}</div>
+            <div class="qb-why-card-more">{{ card.desc }}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 
-    <!-- ============================================================ -->
-    <!-- ========== 移动端版本（≤1024px 生效，与 web 端零耦合）========== -->
-    <!-- ============================================================ -->
-    <div ref="qbmSection" class="qbm-page">
-        <!-- ========== Banner ========== -->
-        <section class="qbm-banner">
-            <div class="qbm-banner-bg">
-                <img src="/assets/images/question_bank1/banner-bg.png" alt="" />
-            </div>
-            <div class="qbm-container qbm-banner-content">
-                <h1 class="qbm-banner-title"><span>题库共建</span>服务</h1>
-                <p class="qbm-banner-subtitle">面向各级人事考试机构、人才集团、企事业单位开放合作</p>
-                <p class="qbm-banner-desc">通过全国考试头部智库机构——中测高科赋能助力各级考试机构建立自有可控优质高效的命题基地</p>
-            </div>
-            <div class="qbm-stats-bar">
-                <div class="qbm-stats-inner">
-                    <div class="qbm-stat-item qbm-animate">
-                        <strong><span v-count-up="10">10</span><i>余年</i></strong>
-                        <span class="qbm-stat-desc">行业沉淀</span>
-                    </div>
-                    <div class="qbm-stat-item qbm-animate">
-                        <strong><span v-count-up="64">64</span><i>万</i></strong>
-                        <span class="qbm-stat-desc">企业客户信赖</span>
-                    </div>
-                    <div class="qbm-stat-item qbm-animate">
-                        <strong><span v-count-up="204">204</span><i>万</i></strong>
-                        <span class="qbm-stat-desc">场考试交付</span>
-                    </div>
-                    <div class="qbm-stat-item qbm-animate">
-                        <strong><span data-decimal-target="1.3">1.3</span><i>亿</i></strong>
-                        <span class="qbm-stat-desc">人次累计参考</span>
-                    </div>
-                </div>
-            </div>
-        </section>
+  <!-- ============================================================ -->
+  <!-- ========== 移动端版本（≤1024px 生效，与 web 端零耦合）========== -->
+  <!-- ============================================================ -->
+  <div ref="qbmSection" class="qbm-page">
+    <!-- ========== Banner ========== -->
+    <section class="qbm-banner">
+      <div class="qbm-banner-bg">
+        <img src="/assets/images/question_bank1/banner-bg.png" alt="" />
+      </div>
+      <div class="qbm-container qbm-banner-content">
+        <h1 class="qbm-banner-title"><span>题库共建</span>服务</h1>
+        <p class="qbm-banner-subtitle">
+          面向各级人事考试机构、人才集团、企事业单位开放合作
+        </p>
+        <p class="qbm-banner-desc">
+          通过全国考试头部智库机构——中测高科赋能助力各级考试机构建立自有可控优质高效的命题基地
+        </p>
+        <NuxtLink class="qbm-banner-btn" :to="contactRoute">咨询预约</NuxtLink>
+      </div>
+      <div class="qbm-stats-bar">
+        <div class="qbm-stats-inner">
+          <div class="qbm-stat-item qbm-animate">
+            <strong><span v-count-up="10">10</span><i>余年</i></strong>
+            <span class="qbm-stat-desc">行业沉淀</span>
+          </div>
+          <div class="qbm-stat-item qbm-animate">
+            <strong><span v-count-up="64">64</span><i>万</i></strong>
+            <span class="qbm-stat-desc">企业客户信赖</span>
+          </div>
+          <div class="qbm-stat-item qbm-animate">
+            <strong><span v-count-up="204">204</span><i>万</i></strong>
+            <span class="qbm-stat-desc">场考试交付</span>
+          </div>
+          <div class="qbm-stat-item qbm-animate">
+            <strong><span data-decimal-target="1.3">1.3</span><i>亿</i></strong>
+            <span class="qbm-stat-desc">人次累计参考</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <!-- ========== 内容导航 ========== -->
-        <nav class="qbm-nav">
-            <div class="qbm-nav-scroll">
-                <a v-for="tab in qbmNavTabs" :key="tab.target" class="qbm-nav-tab"
-                    :class="{ 'qbm-nav-tab-active': qbmActiveNav === tab.target }" :href="`#qbm-${tab.target}`">
-                    {{ tab.label }}
-                </a>
-            </div>
-        </nav>
+    <!-- ========== 内容导航 ========== -->
+    <nav class="qbm-nav">
+      <div class="qbm-nav-scroll">
+        <a
+          v-for="tab in qbmNavTabs"
+          :key="tab.target"
+          class="qbm-nav-tab"
+          :class="{ 'qbm-nav-tab-active': qbmActiveNav === tab.target }"
+          :href="`#qbm-${tab.target}`"
+        >
+          {{ tab.label }}
+        </a>
+      </div>
+    </nav>
 
-        <!-- ========== 用户痛点 ========== -->
-        <section id="qbm-pain" class="qbm-section qbm-pain">
-            <div class="qbm-container">
-                <div class="qbm-pain-intro qbm-animate">
-                    <h2 class="qbm-pain-title">为什么需要题库共建</h2>
-                    <p class="qbm-pain-sub">人事考试命题的四道现实难关</p>
-                    <p class="qbm-pain-desc">多数考试机构并非不够专业，而是在命题资源、工具与机制上“单打独斗”。题库共建存在的意义，就是把这套能力变成你的底座。</p>
-                </div>
-                <div class="qbm-pain-card qbm-animate">
-                    <img src="/assets/images/question_bank1/box1-img.png" alt="" />
-                    <div class="qbm-pain-card-inner">
-                        <p class="qbm-pain-quote">命题的事，交给专业的人；考试的主导权，始终在你手里。</p>
-                        <span class="qbm-pain-quote-from">—— 题库共建合作理念</span>
-                    </div>
-                </div>
-                <div class="qbm-pain-list">
-                    <div v-for="(item, i) in painPoints" :key="item.title" class="qbm-pain-item qbm-animate"
-                        :style="{ transitionDelay: i * 0.08 + 's' }">
-                        <img :src="item.icon" alt="" class="qbm-pain-item-icon" />
-                        <div>
-                            <h3>{{ item.title }}</h3>
-                            <p>{{ item.desc }}</p>
-                        </div>
-                    </div>
-                </div>
+    <!-- ========== 用户痛点 ========== -->
+    <section id="qbm-pain" class="qbm-section qbm-pain">
+      <div class="qbm-container">
+        <div class="qbm-pain-intro qbm-animate">
+          <h2 class="qbm-pain-title">为什么需要题库共建</h2>
+          <p class="qbm-pain-sub">人事考试命题的四道现实难关</p>
+          <p class="qbm-pain-desc">
+            多数考试机构并非不够专业，而是在命题资源、工具与机制上“单打独斗”。题库共建存在的意义，就是把这套能力变成你的底座。
+          </p>
+        </div>
+        <div class="qbm-pain-card qbm-animate">
+          <img src="/assets/images/question_bank1/box1-img.png" alt="" />
+          <div class="qbm-pain-card-inner">
+            <p class="qbm-pain-quote">
+              命题的事，交给专业的人；考试的主导权，始终在你手里。
+            </p>
+            <span class="qbm-pain-quote-from">—— 题库共建合作理念</span>
+          </div>
+        </div>
+        <div class="qbm-pain-list">
+          <div
+            v-for="(item, i) in painPoints"
+            :key="item.title"
+            class="qbm-pain-item qbm-animate"
+            :style="{ transitionDelay: i * 0.08 + 's' }"
+          >
+            <img :src="item.icon" alt="" class="qbm-pain-item-icon" />
+            <div>
+              <h3>{{ item.title }}</h3>
+              <p>{{ item.desc }}</p>
             </div>
-        </section>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <!-- ========== 核心合作模式 ========== -->
-        <section id="qbm-mode" class="qbm-section qbm-mode">
-            <div class="qbm-mode-bg">
-                <img src="/assets/images/question_bank1/bg1.png" alt="" />
-            </div>
-            <div class="qbm-container qbm-mode-inner">
-                <div class="qbm-sec-head qbm-animate">
-                    <h2 class="qbm-sec-title">核心合作模式</h2>
-                    <p class="qbm-sec-sub">五大共享，一套底座</p>
-                    <p class="qbm-sec-desc">不是简单“卖题”，而是把专家、题库、技术、任务与机制整体开放——从资源到能力，全面赋能你的命题业务。</p>
-                </div>
-                <div class="qbm-mode-grid">
-                    <div v-for="(card, i) in modeCards" :key="card.title" class="qbm-mode-card qbm-animate"
-                        :style="{ transitionDelay: i * 0.06 + 's' }">
-                        <img :src="card.icon" alt="" />
-                        <h3>{{ card.title }}</h3>
-                        <p>{{ card.desc }}</p>
-                        <em>{{ card.en }}</em>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <!-- ========== 核心合作模式 ========== -->
+    <section id="qbm-mode" class="qbm-section qbm-mode">
+      <div class="qbm-mode-bg">
+        <img src="/assets/images/question_bank1/bg1.png" alt="" />
+      </div>
+      <div class="qbm-container qbm-mode-inner">
+        <div class="qbm-sec-head qbm-animate">
+          <h2 class="qbm-sec-title">核心合作模式</h2>
+          <p class="qbm-sec-sub">五大共享，一套底座</p>
+          <p class="qbm-sec-desc">
+            不是简单“卖题”，而是把专家、题库、技术、任务与机制整体开放——从资源到能力，全面赋能你的命题业务。
+          </p>
+        </div>
+        <div class="qbm-mode-grid">
+          <div
+            v-for="(card, i) in modeCards"
+            :key="card.title"
+            class="qbm-mode-card qbm-animate"
+            :style="{ transitionDelay: i * 0.06 + 's' }"
+          >
+            <img :src="card.icon" alt="" />
+            <h3>{{ card.title }}</h3>
+            <p>{{ card.desc }}</p>
+            <em>{{ card.en }}</em>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <!-- ========== 品牌优势 ========== -->
-        <section id="qbm-brand" class="qbm-section qbm-brand">
-            <div class="qbm-container">
-                <div class="qbm-sec-head qbm-animate">
-                    <h2 class="qbm-sec-title">智能化命题技术平台</h2>
-                    <p class="qbm-sec-sub">一套平台，贯通命题全链条</p>
-                    <p class="qbm-sec-desc">自主知识产权的五大系统，覆盖从题目生产到考务交付的完整闭环，全流程留痕、可管可控。</p>
-                </div>
-                <div class="qbm-brand-grid">
-                    <div v-for="(card, i) in brandCards" :key="card.title" class="qbm-brand-card qbm-animate"
-                        :style="{ transitionDelay: i * 0.06 + 's' }">
-                        <img :src="card.icon" alt="" />
-                        <h3>{{ card.title }}</h3>
-                        <p>{{ card.desc }}</p>
-                    </div>
-                </div>
-                <div class="qbm-brand-foot qbm-animate">
-                    <strong>交付即赋能</strong>
-                    <span>系统部署、联调、人员操作培训全流程由中测高科专业团队完成。</span>
-                </div>
-            </div>
-        </section>
+    <!-- ========== 品牌优势 ========== -->
+    <section id="qbm-brand" class="qbm-section qbm-brand">
+      <div class="qbm-container">
+        <div class="qbm-sec-head qbm-animate">
+          <h2 class="qbm-sec-title">智能化命题技术平台</h2>
+          <p class="qbm-sec-sub">一套平台，贯通命题全链条</p>
+          <p class="qbm-sec-desc">
+            自主知识产权的五大系统，覆盖从题目生产到考务交付的完整闭环，全流程留痕、可管可控。
+          </p>
+        </div>
+        <div class="qbm-brand-grid">
+          <div
+            v-for="(card, i) in brandCards"
+            :key="card.title"
+            class="qbm-brand-card qbm-animate"
+            :style="{ transitionDelay: i * 0.06 + 's' }"
+          >
+            <img :src="card.icon" alt="" />
+            <h3>{{ card.title }}</h3>
+            <p>{{ card.desc }}</p>
+          </div>
+        </div>
+        <div class="qbm-brand-foot qbm-animate">
+          <strong>交付即赋能</strong>
+          <span
+            >系统部署、联调、人员操作培训全流程由中测高科专业团队完成。</span
+          >
+        </div>
+      </div>
+    </section>
 
-        <!-- ========== 安全保障 ========== -->
-        <section id="qbm-safe" class="qbm-section qbm-safe">
-            <div class="qbm-safe-bg">
-                <img src="/assets/images/question_bank1/bg2.png" alt="" />
+    <!-- ========== 安全保障 ========== -->
+    <section id="qbm-safe" class="qbm-section qbm-safe">
+      <div class="qbm-safe-bg">
+        <img src="/assets/images/question_bank1/bg2.png" alt="" />
+      </div>
+      <div class="qbm-container qbm-safe-inner">
+        <div class="qbm-sec-head qbm-animate">
+          <h2 class="qbm-sec-title">安全保障</h2>
+          <p class="qbm-sec-sub">保密，是不可妥协的底线</p>
+        </div>
+        <div class="qbm-safe-list">
+          <div
+            v-for="(card, i) in safeCards"
+            :key="card.title"
+            class="qbm-safe-card qbm-animate"
+            :style="{ transitionDelay: i * 0.08 + 's' }"
+          >
+            <div class="qbm-safe-card-head">
+              <h3>{{ card.title }}</h3>
+              <img :src="card.icon" alt="" />
             </div>
-            <div class="qbm-container qbm-safe-inner">
-                <div class="qbm-sec-head qbm-animate">
-                    <h2 class="qbm-sec-title">安全保障</h2>
-                    <p class="qbm-sec-sub">保密，是不可妥协的底线</p>
-                </div>
-                <div class="qbm-safe-list">
-                    <div v-for="(card, i) in safeCards" :key="card.title" class="qbm-safe-card qbm-animate"
-                        :style="{ transitionDelay: i * 0.08 + 's' }">
-                        <div class="qbm-safe-card-head">
-                            <h3>{{ card.title }}</h3>
-                            <img :src="card.icon" alt="" />
-                        </div>
-                        <p>{{ card.desc }}</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+            <p>{{ card.desc }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <!-- ========== 合作共建 ========== -->
-        <section id="qbm-cobuild">
-            <!-- 工作协同流程图（横向滚动） -->
-            <div class="qbm-flow">
-                <div class="qbm-flow-scroll qbm-animate">
-                    <img class="qbm-flow-img" src="/assets/images/question_bank1/box5-img.png"
-                        alt="共建命题基地工作协同流程图" />
-                </div>
-                <p class="qbm-flow-hint">← 左右滑动查看完整流程图 →</p>
+    <!-- ========== 合作共建 ========== -->
+    <section id="qbm-cobuild">
+      <!-- 工作协同流程图（横向滚动） -->
+      <div class="qbm-flow">
+        <div class="qbm-flow-scroll qbm-animate">
+          <img
+            class="qbm-flow-img"
+            src="/assets/images/question_bank1/box5-img.png"
+            alt="共建命题基地工作协同流程图"
+          />
+        </div>
+        <p class="qbm-flow-hint">← 左右滑动查看完整流程图 →</p>
+      </div>
+      <!-- 三大共建核心内容 -->
+      <div class="qbm-section qbm-cobuild">
+        <div class="qbm-cobuild-bg">
+          <img src="/assets/images/question_bank1/bg3.png" alt="" />
+        </div>
+        <div class="qbm-container qbm-cobuild-inner">
+          <div class="qbm-sec-head qbm-animate">
+            <h2 class="qbm-sec-title">共建内容</h2>
+            <p class="qbm-sec-sub">三大共建核心内容</p>
+          </div>
+          <div class="qbm-cobuild-list">
+            <div
+              v-for="(card, i) in cobuildCards"
+              :key="card.title"
+              class="qbm-cobuild-card qbm-animate"
+              :style="{ transitionDelay: i * 0.08 + 's' }"
+            >
+              <div class="qbm-cobuild-head">
+                <img :src="card.img" alt="" />
+                <h3>{{ card.title }}</h3>
+              </div>
+              <div class="qbm-cobuild-body">
+                <p v-if="card.desc">{{ card.desc }}</p>
+                <ul v-else>
+                  <li v-for="b in card.bullets" :key="b">{{ b }}</li>
+                </ul>
+              </div>
             </div>
-            <!-- 三大共建核心内容 -->
-            <div class="qbm-section qbm-cobuild">
-                <div class="qbm-cobuild-bg">
-                    <img src="/assets/images/question_bank1/bg3.png" alt="" />
-                </div>
-                <div class="qbm-container qbm-cobuild-inner">
-                    <div class="qbm-sec-head qbm-animate">
-                        <h2 class="qbm-sec-title">共建内容</h2>
-                        <p class="qbm-sec-sub">三大共建核心内容</p>
-                    </div>
-                    <div class="qbm-cobuild-list">
-                        <div v-for="(card, i) in cobuildCards" :key="card.title" class="qbm-cobuild-card qbm-animate"
-                            :style="{ transitionDelay: i * 0.08 + 's' }">
-                            <div class="qbm-cobuild-head">
-                                <img :src="card.img" alt="" />
-                                <h3>{{ card.title }}</h3>
-                            </div>
-                            <div class="qbm-cobuild-body">
-                                <p v-if="card.desc">{{ card.desc }}</p>
-                                <ul v-else>
-                                    <li v-for="b in card.bullets" :key="b">{{ b }}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          </div>
+        </div>
+      </div>
+      <!-- 双方责任分工 -->
+      <div class="qbm-section qbm-duty">
+        <div class="qbm-container">
+          <div class="qbm-sec-head qbm-animate">
+            <h2 class="qbm-sec-title">共建内容</h2>
+            <p class="qbm-sec-sub">双方责任分工</p>
+          </div>
+          <div class="qbm-duty-list">
+            <div class="qbm-duty-card qbm-duty-card-partner qbm-animate">
+              <div class="qbm-duty-head">
+                <img
+                  src="/assets/images/question_bank1/box7-icon1.png"
+                  alt=""
+                />
+                <h3>合作方（贵方）职责</h3>
+              </div>
+              <ol class="qbm-duty-ol">
+                <li v-for="d in dutyPartner" :key="d">{{ d }}</li>
+              </ol>
             </div>
-            <!-- 双方责任分工 -->
-            <div class="qbm-section qbm-duty">
-                <div class="qbm-container">
-                    <div class="qbm-sec-head qbm-animate">
-                        <h2 class="qbm-sec-title">共建内容</h2>
-                        <p class="qbm-sec-sub">双方责任分工</p>
-                    </div>
-                    <div class="qbm-duty-list">
-                        <div class="qbm-duty-card qbm-duty-card-partner qbm-animate">
-                            <div class="qbm-duty-head">
-                                <img src="/assets/images/question_bank1/box7-icon1.png" alt="" />
-                                <h3>合作方（贵方）职责</h3>
-                            </div>
-                            <ol class="qbm-duty-ol">
-                                <li v-for="d in dutyPartner" :key="d">{{ d }}</li>
-                            </ol>
-                        </div>
-                        <div class="qbm-duty-card qbm-duty-card-company qbm-animate">
-                            <div class="qbm-duty-head">
-                                <img src="/assets/images/question_bank1/box7-icon2.png" alt="" />
-                                <h3>中测高科职责</h3>
-                            </div>
-                            <ol class="qbm-duty-ol">
-                                <li v-for="d in dutyCompany" :key="d.k"><strong>{{ d.k }}</strong><span>：{{ d.v }}</span></li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
+            <div class="qbm-duty-card qbm-duty-card-company qbm-animate">
+              <div class="qbm-duty-head">
+                <img
+                  src="/assets/images/question_bank1/box7-icon2.png"
+                  alt=""
+                />
+                <h3>中测高科职责</h3>
+              </div>
+              <ol class="qbm-duty-ol">
+                <li v-for="d in dutyCompany" :key="d.k">
+                  <strong>{{ d.k }}</strong
+                  ><span>：{{ d.v }}</span>
+                </li>
+              </ol>
             </div>
-        </section>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <!-- ========== 合作流程 ========== -->
-        <section id="qbm-process" class="qbm-section qbm-process">
-            <div class="qbm-container">
-                <div class="qbm-sec-head qbm-animate">
-                    <h2 class="qbm-sec-title">合作流程</h2>
-                    <p class="qbm-sec-sub">三步开启，长期同行</p>
-                </div>
-                <div class="qbm-process-steps">
-                    <div v-for="(step, i) in processSteps" :key="step.title" class="qbm-process-step qbm-animate"
-                        :style="{ transitionDelay: i * 0.1 + 's' }">
-                        <div class="qbm-process-num">{{ step.num }}</div>
-                        <h3>{{ step.title }}</h3>
-                        <p>{{ step.desc }}</p>
-                    </div>
-                </div>
-                <p class="qbm-process-note qbm-animate">以<strong>5 年为期的长期陪伴</strong>—— 期满前 1 个月双方评估协商，可续签或有序交接 · 全程签署保密协议，权责清晰</p>
-            </div>
-        </section>
+    <!-- ========== 合作流程 ========== -->
+    <section id="qbm-process" class="qbm-section qbm-process">
+      <div class="qbm-container">
+        <div class="qbm-sec-head qbm-animate">
+          <h2 class="qbm-sec-title">合作流程</h2>
+          <p class="qbm-sec-sub">三步开启，长期同行</p>
+        </div>
+        <div class="qbm-process-steps">
+          <div
+            v-for="(step, i) in processSteps"
+            :key="step.title"
+            class="qbm-process-step qbm-animate"
+            :style="{ transitionDelay: i * 0.1 + 's' }"
+          >
+            <div class="qbm-process-num">{{ step.num }}</div>
+            <h3>{{ step.title }}</h3>
+            <p>{{ step.desc }}</p>
+          </div>
+        </div>
+        <p class="qbm-process-note qbm-animate">
+          以<strong>5 年为期的长期陪伴</strong>—— 期满前 1
+          个月双方评估协商，可续签或有序交接 · 全程签署保密协议，权责清晰
+        </p>
+      </div>
+    </section>
 
-        <!-- ========== 服务案例 ========== -->
-        <section id="qbm-cases" class="qbm-cases">
-            <div class="qbm-cases-bg">
-                <div class="qbm-cases-circle qbm-cases-circle-tl"></div>
-                <div class="qbm-cases-circle qbm-cases-circle-br"></div>
-            </div>
-            <div class="qbm-container qbm-cases-inner">
-                <div class="qbm-cases-head qbm-animate">合作实践</div>
-                <div class="qbm-cases-subtitle qbm-animate">他们已经在用题库共建</div>
-                <div class="qbm-cases-desc qbm-animate">从省级考试机构到人才集团、央企集团，题库共建以不同模式支撑各类命题业务落地。</div>
-                <div class="qbm-cases-box">
-                    <div class="qbm-cases-card qbm-animate" v-for="(card, i) in qbcData" :key="i"
-                        :style="{ transitionDelay: i * 0.1 + 's' }">
-                        <div class="qbm-cases-card-label">{{ card.label }}</div>
-                        <div class="qbm-cases-card-title">{{ card.name }}</div>
-                        <div class="qbm-cases-card-desc">{{ card.content }}</div>
-                        <div class="qbm-cases-card-more">{{ card.desc }}</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
+    <!-- ========== 服务案例 ========== -->
+    <section id="qbm-cases" class="qbm-cases">
+      <div class="qbm-cases-bg">
+        <div class="qbm-cases-circle qbm-cases-circle-tl"></div>
+        <div class="qbm-cases-circle qbm-cases-circle-br"></div>
+      </div>
+      <div class="qbm-container qbm-cases-inner">
+        <div class="qbm-cases-head qbm-animate">合作实践</div>
+        <div class="qbm-cases-subtitle qbm-animate">他们已经在用题库共建</div>
+        <div class="qbm-cases-desc qbm-animate">
+          从省级考试机构到人才集团、央企集团，题库共建以不同模式支撑各类命题业务落地。
+        </div>
+        <div class="qbm-cases-box">
+          <div
+            class="qbm-cases-card qbm-animate"
+            v-for="(card, i) in qbcData"
+            :key="i"
+            :style="{ transitionDelay: i * 0.1 + 's' }"
+          >
+            <div class="qbm-cases-card-label">{{ card.label }}</div>
+            <div class="qbm-cases-card-title">{{ card.name }}</div>
+            <div class="qbm-cases-card-desc">{{ card.content }}</div>
+            <div class="qbm-cases-card-more">{{ card.desc }}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 </template>
 
 <style scoped>
 /* ===== 基础 ===== */
 .qbc-page {
-    font-family: Inter, "SF Pro Display", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
-    color: #161616;
+  font-family:
+    Inter, "SF Pro Display", "PingFang SC", "Microsoft YaHei", system-ui,
+    sans-serif;
+  color: #161616;
 }
 
 .container-qbc {
-    width: min(1200px, calc(100% - 40px));
-    margin: 0 auto;
+  width: min(1200px, calc(100% - 40px));
+  margin: 0 auto;
 }
 
 /* 滚动进入动画 */
 .qbc-animate {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
 }
 
 .qbc-animate.qbc-visible {
-    opacity: 1;
-    transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* 居中区块标题 */
 .qbc-sec-title {
-    font-weight: 600;
-    font-size: 36px;
-    color: #0F62FE;
-    line-height: 50px;
-    letter-spacing: 2px;
-    text-align: center;
-    margin: 0 0 14px;
+  font-weight: 600;
+  font-size: 36px;
+  color: #0f62fe;
+  line-height: 50px;
+  letter-spacing: 2px;
+  text-align: center;
+  margin: 0 0 14px;
 }
 
 .qbc-sec-sub {
-    font-weight: 600;
-    font-size: 24px;
-    color: #16324F;
-    line-height: 50px;
-    text-align: center;
-    margin: 0 0 28px;
+  font-weight: 600;
+  font-size: 24px;
+  color: #16324f;
+  line-height: 50px;
+  text-align: center;
+  margin: 0 0 28px;
 }
 
 .qbc-sec-sub-mb {
-    margin-bottom: 62px;
+  margin-bottom: 62px;
 }
 
 /* ===== Banner ===== */
 .qbc-banner {
-    position: relative;
-    width: 100%;
-    height: 540px;
-    background: #dae9ff;
-    overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 540px;
+  background: #dae9ff;
+  overflow: hidden;
 }
 
 .qbc-banner-bg {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 1440px;
-    height: 605px;
-    margin-top: -65px;
-    pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1440px;
+  height: 605px;
+  margin-top: -65px;
+  pointer-events: none;
 }
 
 .qbc-banner-bg img {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .qbc-banner-content {
-    position: relative;
-    z-index: 2;
-    padding-top: 112px;
-    text-align: center;
+  position: relative;
+  z-index: 2;
+  padding-top: 112px;
+  text-align: center;
 }
 
 .qbc-banner-title {
-    font-weight: 600;
-    font-size: 48px;
-    color: #1677FF;
-    line-height: 48px;
-    margin: 0 auto 23px;
+  font-weight: 600;
+  font-size: 48px;
+  color: #1677ff;
+  line-height: 48px;
+  margin: 0 auto 23px;
 }
 
 .qbc-banner-title span {
-    color: #222222;
+  color: #222222;
 }
 
 .qbc-banner-subtitle {
-    font-weight: 400;
-    font-size: 14px;
-    color: #929292;
-    line-height: 27px;
-    letter-spacing: 2px;
-    margin: 0 0 16px;
+  font-weight: 400;
+  font-size: 14px;
+  color: #929292;
+  line-height: 27px;
+  letter-spacing: 2px;
+  margin: 0 0 16px;
 }
 
 .qbc-banner-desc {
-    font-weight: 400;
-    font-size: 18px;
-    color: #6A6A6A;
-    line-height: 31px;
-    max-width: 620px;
-    margin: 0 auto;
+  font-weight: 400;
+  font-size: 18px;
+  color: #6a6a6a;
+  line-height: 31px;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.qbc-banner-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 6px;
+  padding: 14px 36px;
+  background: #1677ff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.qbc-banner-btn:hover {
+  background: #0e5fd9;
+  box-shadow: 0 6px 20px rgba(22, 119, 255, 0.4);
+  transform: translateY(-2px);
 }
 
 /* 数值栏 */
 .qbc-stats-bar {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 117px;
-    background: rgba(255, 255, 255, 0.6);
-    padding: 29px 0 25px;
-    z-index: 3;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 117px;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 29px 0 25px;
+  z-index: 3;
 }
 
 .qbc-stats-inner {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 213px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 213px;
 }
 
 .qbc-stat-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
 }
 
 .qbc-stat-item strong {
-    display: flex;
-    align-items: baseline;
-    font-size: 32px;
-    font-weight: 700;
-    color: #0F62FE;
-    line-height: 1;
+  display: flex;
+  align-items: baseline;
+  font-size: 32px;
+  font-weight: 700;
+  color: #0f62fe;
+  line-height: 1;
 }
 
 .qbc-stat-item strong i {
-    font-style: normal;
-    font-size: 16px;
-    font-weight: 400;
-    margin-left: 2px;
+  font-style: normal;
+  font-size: 16px;
+  font-weight: 400;
+  margin-left: 2px;
 }
 
 .qbc-stat-desc {
-    font-size: 14px;
-    color: #6A6A6A;
+  font-size: 14px;
+  color: #6a6a6a;
 }
 
 /* ===== 内容导航 ===== */
 .qbc-nav {
-    position: sticky;
-    top: 76px;
-    left: 0;
-    z-index: 15;
-    width: 100%;
-    height: 56px;
-    background: #F4F7FB;
+  position: sticky;
+  top: 76px;
+  left: 0;
+  z-index: 15;
+  width: 100%;
+  height: 56px;
+  background: #f4f7fb;
 }
 
 .qbc-nav-inner {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 64px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 64px;
 }
 
 .qbc-nav-tab {
-    position: relative;
-    display: flex;
-    align-items: center;
-    height: 100%;
-    font-size: 16px;
-    font-weight: 400;
-    color: #161616;
-    text-decoration: none;
-    cursor: pointer;
-    transition: color 0.25s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  font-size: 16px;
+  font-weight: 400;
+  color: #161616;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.25s ease;
 }
 
 .qbc-nav-tab::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 2px;
-    background: #0F62FE;
-    opacity: 0;
-    transition: opacity 0.25s ease;
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: #0f62fe;
+  opacity: 0;
+  transition: opacity 0.25s ease;
 }
 
 .qbc-nav-tab:hover,
 .qbc-nav-tab-active {
-    color: #0F62FE;
+  color: #0f62fe;
 }
 
 .qbc-nav-tab-active::after {
-    opacity: 1;
+  opacity: 1;
 }
 
 /* ===== 用户痛点 ===== */
 .qbc-pain {
-    background: #fff;
-    padding: 71px 0 90px;
+  background: #fff;
+  padding: 71px 0 90px;
 }
 
 .qbc-pain-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 74px;
-    align-items: start;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 74px;
+  align-items: start;
 }
 
 .qbc-pain-title {
-    font-weight: 500;
-    font-size: 36px;
-    color: #0F62FE;
-    line-height: 50px;
-    margin: 0 0 25px;
+  font-weight: 500;
+  font-size: 36px;
+  color: #0f62fe;
+  line-height: 50px;
+  margin: 0 0 25px;
 }
 
 .qbc-pain-sub {
-    font-weight: 500;
-    font-size: 24px;
-    color: #222222;
-    line-height: 34px;
-    margin: 0 0 19px;
+  font-weight: 500;
+  font-size: 24px;
+  color: #222222;
+  line-height: 34px;
+  margin: 0 0 19px;
 }
 
 .qbc-pain-desc {
-    font-weight: 400;
-    font-size: 16px;
-    color: #4E657F;
-    line-height: 29px;
-    margin: 0 0 17px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #4e657f;
+  line-height: 29px;
+  margin: 0 0 17px;
 }
 
 .qbc-pain-card {
-    position: relative;
-    width: 448px;
-    height: 167px;
-    border-radius: 12px;
-    overflow: hidden;
-    margin-left: -12px;
+  position: relative;
+  width: 448px;
+  height: 167px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-left: -12px;
 }
 
-.qbc-pain-card>img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+.qbc-pain-card > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .qbc-pain-card-inner {
-    position: relative;
-    z-index: 2;
-    padding: 44px 50px;
+  position: relative;
+  z-index: 2;
+  padding: 44px 50px;
 }
 
 .qbc-pain-card-inner::before {
-    content: '';
-    position: absolute;
-    left: 36px;
-    top: 32px;
-    width: 12px;
-    height: 24px;
-    border-left: 2px solid #fff;
-    border-top: 2px solid #fff;
+  content: "";
+  position: absolute;
+  left: 36px;
+  top: 32px;
+  width: 12px;
+  height: 24px;
+  border-left: 2px solid #fff;
+  border-top: 2px solid #fff;
 }
 
 .qbc-pain-quote {
-    font-size: 16px;
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.75;
-    max-width: 300px;
-    margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.75;
+  max-width: 300px;
+  margin: 0 0 12px;
 }
 
 .qbc-pain-quote-from {
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.85);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .qbc-pain-item {
-    display: flex;
-    gap: 27px;
-    padding: 12px 0;
-    border-bottom: 1px dashed #E8ECF2;
+  display: flex;
+  gap: 27px;
+  padding: 12px 0;
+  border-bottom: 1px dashed #e8ecf2;
 }
 
 .qbc-pain-item:first-child {
-    padding-top: 4px;
+  padding-top: 4px;
 }
 
 .qbc-pain-item:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
 .qbc-pain-item-icon {
-    width: 72px;
-    height: 72px;
-    flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
 }
 
 .qbc-pain-item h3 {
-    font-weight: 500;
-    font-size: 17px;
-    color: #0F62FE;
-    line-height: 28px;
-    margin: 0 0 6px;
+  font-weight: 500;
+  font-size: 17px;
+  color: #0f62fe;
+  line-height: 28px;
+  margin: 0 0 6px;
 }
 
 .qbc-pain-item p {
-    font-weight: 400;
-    font-size: 14px;
-    color: #4E657F;
-    line-height: 25px;
-    margin: 0;
+  font-weight: 400;
+  font-size: 14px;
+  color: #4e657f;
+  line-height: 25px;
+  margin: 0;
 }
 
 /* ===== 核心合作模式 ===== */
 .qbc-mode {
-    position: relative;
-    height: 610px;
-    background: #fff;
-    overflow: hidden;
-    padding: 59px 0 87px;
+  position: relative;
+  height: 610px;
+  background: #fff;
+  overflow: hidden;
+  padding: 59px 0 87px;
 }
 
 .qbc-mode-bg {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 1450px;
-    height: 610px;
-    pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1450px;
+  height: 610px;
+  pointer-events: none;
 }
 
 .qbc-mode-bg img {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .qbc-mode-inner {
-    position: relative;
-    z-index: 2;
+  position: relative;
+  z-index: 2;
 }
 
 .qbc-mode-title {
-    font-weight: 600;
-    font-size: 36px;
-    color: #0F62FE;
-    line-height: 50px;
-    margin: 0 0 16px;
+  font-weight: 600;
+  font-size: 36px;
+  color: #0f62fe;
+  line-height: 50px;
+  margin: 0 0 16px;
 }
 
 .qbc-mode-sub {
-    font-weight: 600;
-    font-size: 24px;
-    color: #222222;
-    line-height: 34px;
-    margin: 0 0 8px;
+  font-weight: 600;
+  font-size: 24px;
+  color: #222222;
+  line-height: 34px;
+  margin: 0 0 8px;
 }
 
 .qbc-mode-desc {
-    font-weight: 400;
-    font-size: 16px;
-    color: #4E657F;
-    line-height: 29px;
-    max-width: 640px;
-    margin: 0 0 42px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #4e657f;
+  line-height: 29px;
+  max-width: 640px;
+  margin: 0 0 42px;
 }
 
 .qbc-mode-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 11px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 11px;
 }
 
 .qbc-mode-card {
-    background: #FFFFFF;
-    border-radius: 12px 12px 12px 12px;
-    border: 1px solid #DCE9F5;
-    padding: 30px 17px 29px 23px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: #ffffff;
+  border-radius: 12px 12px 12px 12px;
+  border: 1px solid #dce9f5;
+  padding: 30px 17px 29px 23px;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .qbc-mode-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(15, 98, 254, 0.1);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(15, 98, 254, 0.1);
 }
 
-.qbc-mode-card>img {
-    width: 42px;
-    height: 42px;
+.qbc-mode-card > img {
+  width: 42px;
+  height: 42px;
 }
 
 .qbc-mode-card h3 {
-    font-weight: 500;
-    font-size: 17px;
-    color: #0F62FE;
-    line-height: 28px;
-    margin: 18px 0 10px;
+  font-weight: 500;
+  font-size: 17px;
+  color: #0f62fe;
+  line-height: 28px;
+  margin: 18px 0 10px;
 }
 
 .qbc-mode-card p {
-    font-weight: 400;
-    font-size: 14px;
-    color: #4E657F;
-    line-height: 23px;
-    margin: 0 0 13px;
+  font-weight: 400;
+  font-size: 14px;
+  color: #4e657f;
+  line-height: 23px;
+  margin: 0 0 13px;
 }
 
 .qbc-mode-card em {
-    font-weight: 500;
-    font-size: 12px;
-    color: rgba(15, 98, 254, 0.9);
-    line-height: 19px;
+  font-weight: 500;
+  font-size: 12px;
+  color: rgba(15, 98, 254, 0.9);
+  line-height: 19px;
 }
 
 /* ===== 品牌优势 ===== */
 .qbc-brand {
-    background: #fafafa;
-    padding: 86px 0 76px;
+  background: #fafafa;
+  padding: 86px 0 76px;
 }
 
 .qbc-brand-title {
-    font-weight: 600;
-    font-size: 36px;
-    color: #0F62FE;
-    line-height: 21px;
-    letter-spacing: 1px;
-    margin: 0 0 26px;
+  font-weight: 600;
+  font-size: 36px;
+  color: #0f62fe;
+  line-height: 21px;
+  letter-spacing: 1px;
+  margin: 0 0 26px;
 }
 
 .qbc-brand-sub {
-    font-weight: 600;
-    font-size: 24px;
-    color: #222222;
-    line-height: 34px;
-    margin: 0 0 9px;
+  font-weight: 600;
+  font-size: 24px;
+  color: #222222;
+  line-height: 34px;
+  margin: 0 0 9px;
 }
 
 .qbc-brand-desc {
-    font-weight: 400;
-    font-size: 16px;
-    color: #4E657F;
-    line-height: 29px;
-    margin: 0 0 39px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #4e657f;
+  line-height: 29px;
+  margin: 0 0 39px;
 }
 
 .qbc-brand-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 9px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 9px;
 }
 
 .qbc-brand-card {
-    background: #FFFFFF;
-    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.1);
-    border-radius: 4px 4px 4px 4px;
-    padding: 15px 24px 23px;
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: #ffffff;
+  box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 4px 4px 4px 4px;
+  padding: 15px 24px 23px;
+  text-align: center;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .qbc-brand-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(15, 98, 254, 0.1);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(15, 98, 254, 0.1);
 }
 
-.qbc-brand-card>img {
-    width: 75px;
-    height: 75px;
+.qbc-brand-card > img {
+  width: 75px;
+  height: 75px;
 }
 
 .qbc-brand-card h3 {
-    font-weight: 500;
-    font-size: 16px;
-    color: #16324F;
-    line-height: 22px;
-    margin: 11px 0 10px;
+  font-weight: 500;
+  font-size: 16px;
+  color: #16324f;
+  line-height: 22px;
+  margin: 11px 0 10px;
 }
 
 .qbc-brand-card p {
-    font-weight: 400;
-    font-size: 14px;
-    color: #4E657F;
-    line-height: 21px;
-    margin: 0;
+  font-weight: 400;
+  font-size: 14px;
+  color: #4e657f;
+  line-height: 21px;
+  margin: 0;
 }
 
 .qbc-brand-foot {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    margin-top: 29px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 29px;
 }
 
 .qbc-brand-foot strong {
-    font-size: 18px;
-    font-weight: 600;
-    color: #0F62FE;
+  font-size: 18px;
+  font-weight: 600;
+  color: #0f62fe;
 }
 
 .qbc-brand-foot-line {
-    width: 44px;
-    height: 1px;
-    background: #9AA4B2;
+  width: 44px;
+  height: 1px;
+  background: #9aa4b2;
 }
 
-.qbc-brand-foot>span:last-child {
-    font-weight: 500;
-    font-size: 18px;
-    color: #8CA3BB;
-    line-height: 25px;
+.qbc-brand-foot > span:last-child {
+  font-weight: 500;
+  font-size: 18px;
+  color: #8ca3bb;
+  line-height: 25px;
 }
 
 /* ===== 安全保障 ===== */
 .qbc-safe {
-    position: relative;
-    height: 538px;
-    background: #fafafa;
-    overflow: hidden;
-    padding: 39px 0 52px;
+  position: relative;
+  height: 538px;
+  background: #fafafa;
+  overflow: hidden;
+  padding: 39px 0 52px;
 }
 
 .qbc-safe-bg {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 1484px;
-    height: 538px;
-    pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1484px;
+  height: 538px;
+  pointer-events: none;
 }
 
 .qbc-safe-bg img {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .qbc-safe-inner {
-    position: relative;
-    z-index: 2;
+  position: relative;
+  z-index: 2;
 }
 
 .qbc-safe-title {
-    font-weight: 600;
-    font-size: 36px;
-    color: #0F62FE;
-    line-height: 50px;
-    letter-spacing: 2px;
-    margin: 0 0 0;
+  font-weight: 600;
+  font-size: 36px;
+  color: #0f62fe;
+  line-height: 50px;
+  letter-spacing: 2px;
+  margin: 0 0 0;
 }
 
 .qbc-safe-sub {
-    font-weight: 600;
-    font-size: 24px;
-    color: #16324F;
-    line-height: 50px;
-    margin: 0 0 11px;
+  font-weight: 600;
+  font-size: 24px;
+  color: #16324f;
+  line-height: 50px;
+  margin: 0 0 11px;
 }
 
 .qbc-safe-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 236px);
-    gap: 18px 17px;
+  display: grid;
+  grid-template-columns: repeat(2, 236px);
+  gap: 18px 17px;
 }
 
 .qbc-safe-card {
-    background: rgba(255, 255, 255, 0.6);
-    border-radius: 12px;
-    padding: 14px 18px 23px 20px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 12px;
+  padding: 14px 18px 23px 20px;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .qbc-safe-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 26px rgba(31, 69, 138, 0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 26px rgba(31, 69, 138, 0.1);
 }
 
 .qbc-safe-card-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .qbc-safe-card-head h3 {
-    font-weight: 500;
-    font-size: 16px;
-    color: #16324F;
-    line-height: 26px;
-    margin: 0;
+  font-weight: 500;
+  font-size: 16px;
+  color: #16324f;
+  line-height: 26px;
+  margin: 0;
 }
 
 .qbc-safe-card-head img {
-    width: 48px;
-    height: 48px;
-    flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
 }
 
 .qbc-safe-card p {
-    font-weight: 400;
-    font-size: 14px;
-    color: #4E657F;
-    line-height: 23px;
-    margin: 6px 0 0;
+  font-weight: 400;
+  font-size: 14px;
+  color: #4e657f;
+  line-height: 23px;
+  margin: 6px 0 0;
 }
 
 /* ===== 合作共建：流程图 ===== */
 .qbc-flow {
-    background: #f3f9fe;
-    padding: 29px 0 29px;
-    text-align: center;
+  background: #f3f9fe;
+  padding: 29px 0 29px;
+  text-align: center;
 }
 
 .qbc-flow-title {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: 20px;
-    font-size: 28px;
-    font-weight: 700;
-    color: #161616;
-    margin: 0;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #161616;
+  margin: 0;
 }
 
 .qbc-flow-title::before,
 .qbc-flow-title::after {
-    content: '';
-    width: 6px;
-    height: 6px;
-    background: #0F62FE;
-    transform: rotate(45deg);
+  content: "";
+  width: 6px;
+  height: 6px;
+  background: #0f62fe;
+  transform: rotate(45deg);
 }
 
 .qbc-flow-title::before {
-    box-shadow: -14px 0 0 rgba(15, 98, 254, 0.45), -26px 0 0 rgba(15, 98, 254, 0.2);
+  box-shadow:
+    -14px 0 0 rgba(15, 98, 254, 0.45),
+    -26px 0 0 rgba(15, 98, 254, 0.2);
 }
 
 .qbc-flow-title::after {
-    box-shadow: 14px 0 0 rgba(15, 98, 254, 0.45), 26px 0 0 rgba(15, 98, 254, 0.2);
+  box-shadow:
+    14px 0 0 rgba(15, 98, 254, 0.45),
+    26px 0 0 rgba(15, 98, 254, 0.2);
 }
 
 .qbc-flow-img {
-    display: block;
-    width: 1080px;
-    height: 623px;
-    max-width: calc(100% - 40px);
-    margin: 29px auto 0;
+  display: block;
+  width: 1080px;
+  height: 623px;
+  max-width: calc(100% - 40px);
+  margin: 29px auto 0;
 }
 
 /* ===== 合作共建：三大核心内容 ===== */
 .qbc-cobuild {
-    position: relative;
-    background: #fff;
-    overflow: hidden;
-    padding: 38px 0 89px;
+  position: relative;
+  background: #fff;
+  overflow: hidden;
+  padding: 38px 0 89px;
 }
 
 .qbc-cobuild-bg {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 1440px;
-    height: 571px;
-    pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1440px;
+  height: 571px;
+  pointer-events: none;
 }
 
 .qbc-cobuild-bg img {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .qbc-cobuild-inner {
-    position: relative;
-    z-index: 2;
+  position: relative;
+  z-index: 2;
 }
 
 .qbc-cobuild-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
 }
 
 .qbc-cobuild-card {
-    background: #fff;
-    border: 1px solid #EDF1F7;
-    border-radius: 20px 20px 12px 12px;
-    box-shadow: 0 6px 24px rgba(31, 69, 138, 0.08);
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: #fff;
+  border: 1px solid #edf1f7;
+  border-radius: 20px 20px 12px 12px;
+  box-shadow: 0 6px 24px rgba(31, 69, 138, 0.08);
+  overflow: hidden;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .qbc-cobuild-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 14px 36px rgba(31, 69, 138, 0.14);
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px rgba(31, 69, 138, 0.14);
 }
 
 .qbc-cobuild-head {
-    position: relative;
-    height: 127px;
+  position: relative;
+  height: 127px;
 }
 
-.qbc-cobuild-head>img {
-    display: block;
-    width: 100%;
-    height: 127px;
+.qbc-cobuild-head > img {
+  display: block;
+  width: 100%;
+  height: 127px;
 }
 
 .qbc-cobuild-head h3 {
-    position: absolute;
-    left: 26px;
-    top: 37px;
-    width: 54%;
-    font-weight: 600;
-    font-size: 18px;
-    color: #0F62FE;
-    line-height: 25px;
-    margin: 0;
-    white-space: pre-line;
+  position: absolute;
+  left: 26px;
+  top: 37px;
+  width: 54%;
+  font-weight: 600;
+  font-size: 18px;
+  color: #0f62fe;
+  line-height: 25px;
+  margin: 0;
+  white-space: pre-line;
 }
 
 .qbc-cobuild-body {
-    padding: 19px 25px 16px;
+  padding: 19px 25px 16px;
 }
 
 .qbc-cobuild-body p {
-    font-weight: 400;
-    font-size: 14px;
-    color: #4E657F;
-    line-height: 28px;
-    margin: 0;
+  font-weight: 400;
+  font-size: 14px;
+  color: #4e657f;
+  line-height: 28px;
+  margin: 0;
 }
 
 .qbc-cobuild-body ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .qbc-cobuild-body li {
-    position: relative;
-    padding-left: 12px;
-    font-size: 13px;
-    color: #6A6A6A;
-    line-height: 1.9;
+  position: relative;
+  padding-left: 12px;
+  font-size: 13px;
+  color: #6a6a6a;
+  line-height: 1.9;
 }
 
 .qbc-cobuild-body li:last-child {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .qbc-cobuild-body li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 10px;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: #6A6A6A;
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #6a6a6a;
 }
 
 /* ===== 合作共建：双方责任分工 ===== */
 .qbc-duty {
-    background: #fff;
-    padding: 53px 0 43px;
+  background: #fff;
+  padding: 53px 0 43px;
 }
 
 .qbc-duty-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 27px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 27px;
 }
 
 .qbc-duty-card {
-    border-radius: 14px 14px 14px 14px;
-    border: 1px solid #DDDDDD;
-    padding: 28px 25px 39px;
+  border-radius: 14px 14px 14px 14px;
+  border: 1px solid #dddddd;
+  padding: 28px 25px 39px;
 }
 
 .qbc-duty-card-partner {
-    background: #FFFCF8;
+  background: #fffcf8;
 }
 
 .qbc-duty-card-company {
-    background: #F4F7FB;
-    ;
+  background: #f4f7fb;
 }
 
 .qbc-duty-head {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
 }
 
 .qbc-duty-head img {
-    width: 28px;
-    height: 28px;
-    flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
 }
 
 .qbc-duty-head h3 {
-    font-weight: 600;
-    font-size: 18px;
-    color: #222222;
-    line-height: 21px;
-    margin: 0;
+  font-weight: 600;
+  font-size: 18px;
+  color: #222222;
+  line-height: 21px;
+  margin: 0;
 }
 
 .qbc-duty-list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    counter-reset: duty;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: duty;
 }
 
 .qbc-duty-list li {
-    counter-increment: duty;
-    position: relative;
-    padding-left: 26px;
-    font-weight: 400;
-    font-size: 16px;
-    color: #6A6A6A;
-    line-height: 34px;
+  counter-increment: duty;
+  position: relative;
+  padding-left: 26px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #6a6a6a;
+  line-height: 34px;
 }
 
 .qbc-duty-list li::before {
-    content: counter(duty) '.';
-    position: absolute;
-    left: 0;
-    color: #4A4A4A;
+  content: counter(duty) ".";
+  position: absolute;
+  left: 0;
+  color: #4a4a4a;
 }
 
 .qbc-duty-list strong {
-    font-weight: 700;
-    color: #0F62FE;
+  font-weight: 700;
+  color: #0f62fe;
 }
 
 .qbc-duty-list span {
-    color: #4A4A4A;
+  color: #4a4a4a;
 }
 
 /* ===== 合作流程 ===== */
 .qbc-process {
-    background: #f4f7fb;
-    padding: 50px 0;
+  background: #f4f7fb;
+  padding: 50px 0;
 }
 
 .qbc-process-steps {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 72px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 72px;
 }
 
 .qbc-process-step {
-    width: 320px;
-    text-align: center;
+  width: 320px;
+  text-align: center;
 }
 
 .qbc-process-num {
-    width: 54px;
-    height: 54px;
-    margin: 0 auto;
-    border-radius: 50%;
-    background: #0F62FE;
-    font-weight: 400;
-    font-size: 20px;
-    color: #FFFFFF;
-    line-height: 33px;
-    display: grid;
-    place-items: center;
-    box-shadow: 0 6px 16px rgba(15, 98, 254, 0.3);
-    position: relative;
+  width: 54px;
+  height: 54px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: #0f62fe;
+  font-weight: 400;
+  font-size: 20px;
+  color: #ffffff;
+  line-height: 33px;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 6px 16px rgba(15, 98, 254, 0.3);
+  position: relative;
 }
 
 .qbc-process-step h3 {
-    font-size: 18px;
-    font-weight: 700;
-    color: #16324F;
-    margin: 22px 0 10px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #16324f;
+  margin: 22px 0 10px;
 }
 
 .qbc-process-step p {
-    font-weight: 400;
-    font-size: 14px;
-    color: #4E657F;
-    line-height: 25px;
-    max-width: 330px;
-    margin: 0 auto;
+  font-weight: 400;
+  font-size: 14px;
+  color: #4e657f;
+  line-height: 25px;
+  max-width: 330px;
+  margin: 0 auto;
 }
 
 .qbc-process-arrow {
-    width: 297px;
-    height: 6px;
-    position: absolute;
-    top: 25px;
-    left: 71px;
+  width: 297px;
+  height: 6px;
+  position: absolute;
+  top: 25px;
+  left: 71px;
 }
 
 .qbc-process-note {
-    margin: 46px 0 0;
-    font-weight: 400;
-    font-size: 16px;
-    color: #16324F;
-    line-height: 22px;
-    text-align: center;
+  margin: 46px 0 0;
+  font-weight: 400;
+  font-size: 16px;
+  color: #16324f;
+  line-height: 22px;
+  text-align: center;
 }
 
 .qbc-process-note strong {
-    font-weight: 700;
-    color: #0F62FE;
+  font-weight: 700;
+  color: #0f62fe;
 }
 
 /* ===== 服务案例（占位，内容后期补充） ===== */
 .qbc-cases {
-    position: relative;
-    width: 100%;
-    height: 588px;
-    background: #fff;
-    overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 588px;
+  background: #fff;
+  overflow: hidden;
 }
 
 .qb-why-choose-box {
-    width: 1440px;
-    height: 100%;
-    position: relative;
-    margin: 0 auto;
-    padding: 62px 140px 115px;
-    background: linear-gradient(125deg, #003399 0%, #0052D9 40%, #1677FF 100%);
+  width: 1440px;
+  height: 100%;
+  position: relative;
+  margin: 0 auto;
+  padding: 62px 140px 115px;
+  background: linear-gradient(125deg, #003399 0%, #0052d9 40%, #1677ff 100%);
 }
 
 .qb-why-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .qb-why-circle {
-    position: absolute;
-    border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 1);
-    z-index: 2;
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 1);
+  z-index: 2;
 }
 
 .qb-why-circle-tl {
-    width: 328px;
-    height: 328px;
-    top: -114px;
-    right: -114px;
-    animation: qbc-float 7s ease-in-out infinite;
+  width: 328px;
+  height: 328px;
+  top: -114px;
+  right: -114px;
+  animation: qbc-float 7s ease-in-out infinite;
 }
 
 .qb-why-circle-br {
-    width: 230px;
-    height: 230px;
-    left: -36px;
-    bottom: -36px;
-    animation: qbc-float 6s ease-in-out 1s infinite;
+  width: 230px;
+  height: 230px;
+  left: -36px;
+  bottom: -36px;
+  animation: qbc-float 6s ease-in-out 1s infinite;
 }
 
 @keyframes qbc-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
 
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(14px);
-    }
+  50% {
+    transform: translateY(14px);
+  }
 }
 
 .qb-why-header {
-    font-weight: 600;
-    font-size: 36px;
-    color: #FFFFFF;
-    letter-spacing: 2px;
+  font-weight: 600;
+  font-size: 36px;
+  color: #ffffff;
+  letter-spacing: 2px;
 }
 
 .qb-why-subTitle {
-    font-weight: 600;
-    font-size: 24px;
-    color: #FFFFFF;
-    line-height: 34px;
-    margin: 12px 0 8px;
+  font-weight: 600;
+  font-size: 24px;
+  color: #ffffff;
+  line-height: 34px;
+  margin: 12px 0 8px;
 }
 
 .qb-why-desc {
-    font-weight: 400;
-    font-size: 16px;
-    color: rgba(255, 255, 255, 0.9);
-    line-height: 29px;
-    margin: 0px 0 22px;
+  font-weight: 400;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 29px;
+  margin: 0px 0 22px;
 }
 
 .qb-why-box {
-    display: flex;
-    gap: 30px;
-    justify-content: center;
+  display: flex;
+  gap: 30px;
+  justify-content: center;
 }
 
 .qb-why-card {
-    background: #FFFFFF;
-    border-radius: 12px 12px 12px 12px;
-    border: 1px solid #DCE9F5;
-    padding: 32px 27px;
-    transition: opacity 0.7s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  background: #ffffff;
+  border-radius: 12px 12px 12px 12px;
+  border: 1px solid #dce9f5;
+  padding: 32px 27px;
+  transition:
+    opacity 0.7s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .qb-why-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 16px 40px rgba(0, 21, 68, 0.35);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0, 21, 68, 0.35);
 }
 
 .qb-why-card-label {
-    background: #EAF4FC;
-    border-radius: 20px 20px 20px 20px;
-    font-weight: 400;
-    font-size: 12px;
-    color: #0F62FE;
-    line-height: 19px;
-    text-align: center;
-    padding: 4px 12px;
-    margin: 0 0 16px;
-    display: inline-block;
+  background: #eaf4fc;
+  border-radius: 20px 20px 20px 20px;
+  font-weight: 400;
+  font-size: 12px;
+  color: #0f62fe;
+  line-height: 19px;
+  text-align: center;
+  padding: 4px 12px;
+  margin: 0 0 16px;
+  display: inline-block;
 }
 
 .qb-why-card-title {
-    font-weight: 500;
-    font-size: 17px;
-    color: #16324F;
-    line-height: 27px;
-    margin: 0px 0 10px;
+  font-weight: 500;
+  font-size: 17px;
+  color: #16324f;
+  line-height: 27px;
+  margin: 0px 0 10px;
 }
 
 .qb-why-card-desc {
-    font-weight: 400;
-    font-size: 14px;
-    color: #4E657F;
-    line-height: 24px;
-    margin: 0px 0 16px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid #DCE9F5;
+  font-weight: 400;
+  font-size: 14px;
+  color: #4e657f;
+  line-height: 24px;
+  margin: 0px 0 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #dce9f5;
 }
 
 .qb-why-card-more {
-    font-weight: 600;
-    font-size: 13px;
-    color: #0F62FE;
-    line-height: 21px;
+  font-weight: 600;
+  font-size: 13px;
+  color: #0f62fe;
+  line-height: 21px;
 }
 
 /* ===== 响应式 ===== */
 @media (max-width: 1100px) {
-    .qbc-stats-inner {
-        gap: 60px;
-    }
+  .qbc-stats-inner {
+    gap: 60px;
+  }
 
-    .qbc-nav-inner {
-        gap: 28px;
-        overflow-x: auto;
-    }
+  .qbc-nav-inner {
+    gap: 28px;
+    overflow-x: auto;
+  }
 
-    .qbc-pain-grid {
-        grid-template-columns: 1fr;
-        gap: 50px;
-    }
+  .qbc-pain-grid {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
 
-    .qbc-mode-grid,
-    .qbc-brand-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+  .qbc-mode-grid,
+  .qbc-brand-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-    .qbc-mode {
-        height: auto;
-        padding-bottom: 70px;
-    }
+  .qbc-mode {
+    height: auto;
+    padding-bottom: 70px;
+  }
 
-    .qbc-safe {
-        height: auto;
-        padding-bottom: 60px;
-    }
+  .qbc-safe {
+    height: auto;
+    padding-bottom: 60px;
+  }
 
-    .qbc-cobuild-grid,
-    .qbc-duty-grid {
-        grid-template-columns: 1fr;
-    }
+  .qbc-cobuild-grid,
+  .qbc-duty-grid {
+    grid-template-columns: 1fr;
+  }
 
-    .qbc-process-steps {
-        flex-direction: column;
-        align-items: center;
-        gap: 40px;
-    }
+  .qbc-process-steps {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
 
-    .qbc-process-arrow {
-        display: none;
-    }
+  .qbc-process-arrow {
+    display: none;
+  }
 }
 
 /* ============================================================
@@ -1889,192 +2183,882 @@ onUnmounted(() => {
    · 所有移动样式限定在 .qbm-page 作用域内
    · 不给 .qbm-page 设 overflow:hidden，避免破坏 .qbm-nav 的 sticky
    ============================================================ */
-.qbm-page { display: none; }
+.qbm-page {
+  display: none;
+}
 
 @media (max-width: 1024px) {
-    .qbc-page { display: none; }
-    .qbm-page { display: block; }
+  .qbc-page {
+    display: none;
+  }
+  .qbm-page {
+    display: block;
+  }
 }
 
 /* ===== 移动根变量与基础 ===== */
 .qbm-page {
-    --qbm-blue: #0F62FE;
-    --qbm-ink: #16324F;
-    --qbm-muted: #4E657F;
-    --qbm-border: #DCE9F5;
-    font-family: Inter, "SF Pro Display", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
-    color: #161616;
+  --qbm-blue: #0f62fe;
+  --qbm-ink: #16324f;
+  --qbm-muted: #4e657f;
+  --qbm-border: #dce9f5;
+  font-family:
+    Inter, "SF Pro Display", "PingFang SC", "Microsoft YaHei", system-ui,
+    sans-serif;
+  color: #161616;
 }
 
-.qbm-container { width: calc(100% - 32px); margin: 0 auto; }
-.qbm-page em { font-style: normal; }
+.qbm-container {
+  width: calc(100% - 32px);
+  margin: 0 auto;
+}
+.qbm-page em {
+  font-style: normal;
+}
 
 /* 入场动画（移动独立 observer 命中后加 .qbm-visible） */
-.qbm-animate { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
-.qbm-animate.qbm-visible { opacity: 1; transform: translateY(0); }
+.qbm-animate {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+.qbm-animate.qbm-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 /* 通用 section / 标题 */
-.qbm-section { position: relative; scroll-margin-top: 130px; }
-#qbm-cobuild, .qbm-cases { scroll-margin-top: 130px; }
-.qbm-sec-head { margin-bottom: 24px; }
-.qbm-sec-title { font-weight: 600; font-size: 24px; color: var(--qbm-blue); line-height: 1.35; margin: 0 0 8px; }
-.qbm-sec-sub { font-weight: 600; font-size: 17px; color: var(--qbm-ink); line-height: 1.5; margin: 0 0 10px; }
-.qbm-sec-desc { font-weight: 400; font-size: 14px; color: var(--qbm-muted); line-height: 1.75; margin: 0; }
+.qbm-section {
+  position: relative;
+  scroll-margin-top: 130px;
+}
+#qbm-cobuild,
+.qbm-cases {
+  scroll-margin-top: 130px;
+}
+.qbm-sec-head {
+  margin-bottom: 24px;
+}
+.qbm-sec-title {
+  font-weight: 600;
+  font-size: 24px;
+  color: var(--qbm-blue);
+  line-height: 1.35;
+  margin: 0 0 8px;
+}
+.qbm-sec-sub {
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--qbm-ink);
+  line-height: 1.5;
+  margin: 0 0 10px;
+}
+.qbm-sec-desc {
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--qbm-muted);
+  line-height: 1.75;
+  margin: 0;
+}
 
 /* ===== Banner ===== */
-.qbm-banner { position: relative; background: #dae9ff; overflow: hidden; padding: 40px 0 0; }
-.qbm-banner-bg { position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; }
-.qbm-banner-bg img { display: block; width: 100%; height: auto; }
-.qbm-banner-content { position: relative; z-index: 2; text-align: center; padding-bottom: 36px; }
-.qbm-banner-title { font-weight: 600; font-size: 28px; color: #1677FF; line-height: 1.3; margin: 0 0 14px; }
-.qbm-banner-title span { color: #222222; }
-.qbm-banner-subtitle { font-weight: 400; font-size: 13px; color: #5b6675; line-height: 1.7; letter-spacing: 1px; margin: 0 0 12px; }
-.qbm-banner-desc { font-weight: 400; font-size: 14px; color: #4a5563; line-height: 1.75; margin: 0; }
-.qbm-stats-bar { position: relative; z-index: 2; background: rgba(255, 255, 255, 0.72); padding: 22px 0; }
-.qbm-stats-inner { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px 12px; width: calc(100% - 32px); margin: 0 auto; }
-.qbm-stat-item { display: flex; flex-direction: column; align-items: center; gap: 5px; }
-.qbm-stat-item strong { display: flex; align-items: baseline; font-size: 26px; font-weight: 700; color: var(--qbm-blue); line-height: 1; }
-.qbm-stat-item strong i { font-style: normal; font-size: 14px; font-weight: 400; margin-left: 2px; }
-.qbm-stat-desc { font-size: 12px; color: #6A6A6A; }
+.qbm-banner {
+  position: relative;
+  background: #dae9ff;
+  overflow: hidden;
+  padding: 40px 0 0;
+}
+.qbm-banner-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+}
+.qbm-banner-bg img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.qbm-banner-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding-bottom: 36px;
+}
+.qbm-banner-title {
+  font-weight: 600;
+  font-size: 28px;
+  color: #1677ff;
+  line-height: 1.3;
+  margin: 0 0 14px;
+}
+.qbm-banner-title span {
+  color: #222222;
+}
+.qbm-banner-subtitle {
+  font-weight: 400;
+  font-size: 13px;
+  color: #5b6675;
+  line-height: 1.7;
+  letter-spacing: 1px;
+  margin: 0 0 12px;
+}
+.qbm-banner-desc {
+  font-weight: 400;
+  font-size: 14px;
+  color: #4a5563;
+  line-height: 1.75;
+  margin: 0;
+}
+.qbm-banner-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 12px 32px;
+  background: #1677ff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+.qbm-banner-btn:active {
+  background: #0e5fd9;
+  transform: translateY(1px);
+}
+.qbm-stats-bar {
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.72);
+  padding: 22px 0;
+}
+.qbm-stats-inner {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px 12px;
+  width: calc(100% - 32px);
+  margin: 0 auto;
+}
+.qbm-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+.qbm-stat-item strong {
+  display: flex;
+  align-items: baseline;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--qbm-blue);
+  line-height: 1;
+}
+.qbm-stat-item strong i {
+  font-style: normal;
+  font-size: 14px;
+  font-weight: 400;
+  margin-left: 2px;
+}
+.qbm-stat-desc {
+  font-size: 12px;
+  color: #6a6a6a;
+}
 
 /* ===== 内容导航 ===== */
-.qbm-nav { position: sticky; top: 76px; z-index: 15; width: 100%; background: #F4F7FB; border-bottom: 1px solid #E8ECF2; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); }
-.qbm-nav-scroll { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-.qbm-nav-scroll::-webkit-scrollbar { display: none; }
-.qbm-nav-tab { flex-shrink: 0; scroll-snap-align: center; padding: 14px 18px; font-size: 14px; font-weight: 500; color: #161616; text-decoration: none; white-space: nowrap; position: relative; transition: color .25s ease; }
-.qbm-nav-tab-active { color: var(--qbm-blue); font-weight: 600; }
-.qbm-nav-tab-active::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 24px; height: 3px; background: var(--qbm-blue); border-radius: 2px 2px 0 0; }
+.qbm-nav {
+  position: sticky;
+  top: 76px;
+  z-index: 15;
+  width: 100%;
+  background: #f4f7fb;
+  border-bottom: 1px solid #e8ecf2;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+.qbm-nav-scroll {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.qbm-nav-scroll::-webkit-scrollbar {
+  display: none;
+}
+.qbm-nav-tab {
+  flex-shrink: 0;
+  scroll-snap-align: center;
+  padding: 14px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #161616;
+  text-decoration: none;
+  white-space: nowrap;
+  position: relative;
+  transition: color 0.25s ease;
+}
+.qbm-nav-tab-active {
+  color: var(--qbm-blue);
+  font-weight: 600;
+}
+.qbm-nav-tab-active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 3px;
+  background: var(--qbm-blue);
+  border-radius: 2px 2px 0 0;
+}
 
 /* ===== 用户痛点 ===== */
-.qbm-pain { background: #fff; padding: 40px 0; }
-.qbm-pain-intro { margin-bottom: 22px; }
-.qbm-pain-title { font-weight: 600; font-size: 24px; color: var(--qbm-blue); line-height: 1.35; margin: 0 0 8px; }
-.qbm-pain-sub { font-weight: 600; font-size: 17px; color: #222; line-height: 1.5; margin: 0 0 10px; }
-.qbm-pain-desc { font-weight: 400; font-size: 14px; color: var(--qbm-muted); line-height: 1.75; margin: 0; }
-.qbm-pain-card { position: relative; border-radius: 12px; overflow: hidden; margin-bottom: 24px; min-height: 150px; }
-.qbm-pain-card>img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.qbm-pain-card-inner { position: relative; z-index: 2; padding: 32px 24px; }
-.qbm-pain-card-inner::before { content: ''; position: absolute; left: 14px; top: 20px; width: 10px; height: 20px; border-left: 2px solid #fff; border-top: 2px solid #fff; }
-.qbm-pain-quote { font-size: 15px; font-weight: 700; color: #fff; line-height: 1.7; margin: 0 0 10px; }
-.qbm-pain-quote-from { font-size: 12px; color: rgba(255, 255, 255, 0.85); }
-.qbm-pain-list { display: flex; flex-direction: column; }
-.qbm-pain-item { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px dashed #E8ECF2; }
-.qbm-pain-item:first-child { padding-top: 4px; }
-.qbm-pain-item:last-child { border-bottom: none; padding-bottom: 0; }
-.qbm-pain-item-icon { width: 52px; height: 52px; flex-shrink: 0; }
-.qbm-pain-item h3 { font-weight: 500; font-size: 16px; color: var(--qbm-blue); line-height: 1.5; margin: 0 0 6px; }
-.qbm-pain-item p { font-weight: 400; font-size: 13px; color: var(--qbm-muted); line-height: 1.7; margin: 0; }
+.qbm-pain {
+  background: #fff;
+  padding: 40px 0;
+}
+.qbm-pain-intro {
+  margin-bottom: 22px;
+}
+.qbm-pain-title {
+  font-weight: 600;
+  font-size: 24px;
+  color: var(--qbm-blue);
+  line-height: 1.35;
+  margin: 0 0 8px;
+}
+.qbm-pain-sub {
+  font-weight: 600;
+  font-size: 17px;
+  color: #222;
+  line-height: 1.5;
+  margin: 0 0 10px;
+}
+.qbm-pain-desc {
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--qbm-muted);
+  line-height: 1.75;
+  margin: 0;
+}
+.qbm-pain-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  min-height: 150px;
+}
+.qbm-pain-card > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.qbm-pain-card-inner {
+  position: relative;
+  z-index: 2;
+  padding: 32px 24px;
+}
+.qbm-pain-card-inner::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 20px;
+  width: 10px;
+  height: 20px;
+  border-left: 2px solid #fff;
+  border-top: 2px solid #fff;
+}
+.qbm-pain-quote {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.7;
+  margin: 0 0 10px;
+}
+.qbm-pain-quote-from {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
+}
+.qbm-pain-list {
+  display: flex;
+  flex-direction: column;
+}
+.qbm-pain-item {
+  display: flex;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px dashed #e8ecf2;
+}
+.qbm-pain-item:first-child {
+  padding-top: 4px;
+}
+.qbm-pain-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.qbm-pain-item-icon {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+}
+.qbm-pain-item h3 {
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--qbm-blue);
+  line-height: 1.5;
+  margin: 0 0 6px;
+}
+.qbm-pain-item p {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--qbm-muted);
+  line-height: 1.7;
+  margin: 0;
+}
 
 /* ===== 核心合作模式 ===== */
-.qbm-mode { background: #fff; overflow: hidden; padding: 40px 0; }
-.qbm-mode-bg { position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; }
-.qbm-mode-bg img { display: block; width: 100%; height: auto; }
-.qbm-mode-inner { position: relative; z-index: 2; }
-.qbm-mode-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-.qbm-mode-card { background: #fff; border-radius: 12px; border: 1px solid var(--qbm-border); padding: 20px 16px; }
-.qbm-mode-card:last-child { grid-column: span 2; }
-.qbm-mode-card>img { width: 38px; height: 38px; }
-.qbm-mode-card h3 { font-weight: 500; font-size: 16px; color: var(--qbm-blue); line-height: 1.4; margin: 12px 0 8px; }
-.qbm-mode-card p { font-weight: 400; font-size: 13px; color: var(--qbm-muted); line-height: 1.65; margin: 0 0 10px; }
-.qbm-mode-card em { font-weight: 500; font-size: 11px; color: rgba(15, 98, 254, 0.9); line-height: 1.5; }
+.qbm-mode {
+  background: #fff;
+  overflow: hidden;
+  padding: 40px 0;
+}
+.qbm-mode-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+}
+.qbm-mode-bg img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.qbm-mode-inner {
+  position: relative;
+  z-index: 2;
+}
+.qbm-mode-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.qbm-mode-card {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid var(--qbm-border);
+  padding: 20px 16px;
+}
+.qbm-mode-card:last-child {
+  grid-column: span 2;
+}
+.qbm-mode-card > img {
+  width: 38px;
+  height: 38px;
+}
+.qbm-mode-card h3 {
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--qbm-blue);
+  line-height: 1.4;
+  margin: 12px 0 8px;
+}
+.qbm-mode-card p {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--qbm-muted);
+  line-height: 1.65;
+  margin: 0 0 10px;
+}
+.qbm-mode-card em {
+  font-weight: 500;
+  font-size: 11px;
+  color: rgba(15, 98, 254, 0.9);
+  line-height: 1.5;
+}
 
 /* ===== 品牌优势 ===== */
-.qbm-brand { background: #fafafa; padding: 40px 0; }
-.qbm-brand-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-.qbm-brand-card { background: #fff; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); border-radius: 8px; padding: 20px 16px; text-align: center; }
-.qbm-brand-card:last-child { grid-column: span 2; }
-.qbm-brand-card>img { width: 60px; height: 60px; }
-.qbm-brand-card h3 { font-weight: 500; font-size: 15px; color: var(--qbm-ink); line-height: 1.4; margin: 12px 0 8px; }
-.qbm-brand-card p { font-weight: 400; font-size: 13px; color: var(--qbm-muted); line-height: 1.6; margin: 0; }
-.qbm-brand-foot { margin-top: 24px; text-align: center; }
-.qbm-brand-foot strong { display: block; font-size: 16px; font-weight: 600; color: var(--qbm-blue); margin-bottom: 6px; }
-.qbm-brand-foot span { font-weight: 400; font-size: 13px; color: #8CA3BB; line-height: 1.6; }
+.qbm-brand {
+  background: #fafafa;
+  padding: 40px 0;
+}
+.qbm-brand-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.qbm-brand-card {
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  padding: 20px 16px;
+  text-align: center;
+}
+.qbm-brand-card:last-child {
+  grid-column: span 2;
+}
+.qbm-brand-card > img {
+  width: 60px;
+  height: 60px;
+}
+.qbm-brand-card h3 {
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--qbm-ink);
+  line-height: 1.4;
+  margin: 12px 0 8px;
+}
+.qbm-brand-card p {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--qbm-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+.qbm-brand-foot {
+  margin-top: 24px;
+  text-align: center;
+}
+.qbm-brand-foot strong {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--qbm-blue);
+  margin-bottom: 6px;
+}
+.qbm-brand-foot span {
+  font-weight: 400;
+  font-size: 13px;
+  color: #8ca3bb;
+  line-height: 1.6;
+}
 
 /* ===== 安全保障 ===== */
-.qbm-safe { background: #fafafa; overflow: hidden; padding: 40px 0; }
-.qbm-safe-bg { position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; }
-.qbm-safe-bg img { display: block; width: 100%; height: auto; }
-.qbm-safe-inner { position: relative; z-index: 2; }
-.qbm-safe-list { display: flex; flex-direction: column; gap: 12px; }
-.qbm-safe-card { background: rgba(255, 255, 255, 0.78); border-radius: 12px; padding: 16px 18px; }
-.qbm-safe-card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.qbm-safe-card-head h3 { font-weight: 500; font-size: 16px; color: var(--qbm-ink); line-height: 1.4; margin: 0; }
-.qbm-safe-card-head img { width: 42px; height: 42px; flex-shrink: 0; }
-.qbm-safe-card p { font-weight: 400; font-size: 13px; color: var(--qbm-muted); line-height: 1.7; margin: 8px 0 0; }
+.qbm-safe {
+  background: #fafafa;
+  overflow: hidden;
+  padding: 40px 0;
+}
+.qbm-safe-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+}
+.qbm-safe-bg img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.qbm-safe-inner {
+  position: relative;
+  z-index: 2;
+}
+.qbm-safe-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.qbm-safe-card {
+  background: rgba(255, 255, 255, 0.78);
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+.qbm-safe-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.qbm-safe-card-head h3 {
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--qbm-ink);
+  line-height: 1.4;
+  margin: 0;
+}
+.qbm-safe-card-head img {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+}
+.qbm-safe-card p {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--qbm-muted);
+  line-height: 1.7;
+  margin: 8px 0 0;
+}
 
 /* ===== 合作共建：流程图（横向滚动） ===== */
-.qbm-flow { background: #f3f9fe; padding: 24px 0; }
-.qbm-flow-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 0 16px; }
-.qbm-flow-img { display: block; width: 820px; max-width: none; height: auto; }
-.qbm-flow-hint { text-align: center; font-size: 12px; color: #8CA3BB; margin: 12px 0 0; }
+.qbm-flow {
+  background: #f3f9fe;
+  padding: 24px 0;
+}
+.qbm-flow-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 16px;
+}
+.qbm-flow-img {
+  display: block;
+  width: 820px;
+  max-width: none;
+  height: auto;
+}
+.qbm-flow-hint {
+  text-align: center;
+  font-size: 12px;
+  color: #8ca3bb;
+  margin: 12px 0 0;
+}
 
 /* ===== 合作共建：三大核心内容 ===== */
-.qbm-cobuild { background: #fff; overflow: hidden; padding: 40px 0; }
-.qbm-cobuild-bg { position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; }
-.qbm-cobuild-bg img { display: block; width: 100%; height: auto; }
-.qbm-cobuild-inner { position: relative; z-index: 2; }
-.qbm-cobuild-list { display: flex; flex-direction: column; gap: 16px; }
-.qbm-cobuild-card { background: #fff; border: 1px solid #EDF1F7; border-radius: 16px 16px 12px 12px; box-shadow: 0 6px 24px rgba(31, 69, 138, 0.08); overflow: hidden; }
-.qbm-cobuild-head { position: relative; }
-.qbm-cobuild-head>img { display: block; width: 100%; height: auto; }
-.qbm-cobuild-head h3 { position: absolute; left: 18px; top: 20px; width: 62%; font-weight: 600; font-size: 16px; color: var(--qbm-blue); line-height: 1.4; margin: 0; white-space: pre-line; }
-.qbm-cobuild-body { padding: 16px 18px; }
-.qbm-cobuild-body p { font-weight: 400; font-size: 13px; color: var(--qbm-muted); line-height: 1.85; margin: 0; }
-.qbm-cobuild-body ul { margin: 0; padding: 0; list-style: none; }
-.qbm-cobuild-body li { position: relative; padding-left: 12px; font-size: 13px; color: #6A6A6A; line-height: 1.85; }
-.qbm-cobuild-body li::before { content: ''; position: absolute; left: 0; top: 10px; width: 4px; height: 4px; border-radius: 50%; background: #6A6A6A; }
+.qbm-cobuild {
+  background: #fff;
+  overflow: hidden;
+  padding: 40px 0;
+}
+.qbm-cobuild-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+}
+.qbm-cobuild-bg img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.qbm-cobuild-inner {
+  position: relative;
+  z-index: 2;
+}
+.qbm-cobuild-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.qbm-cobuild-card {
+  background: #fff;
+  border: 1px solid #edf1f7;
+  border-radius: 16px 16px 12px 12px;
+  box-shadow: 0 6px 24px rgba(31, 69, 138, 0.08);
+  overflow: hidden;
+}
+.qbm-cobuild-head {
+  position: relative;
+}
+.qbm-cobuild-head > img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.qbm-cobuild-head h3 {
+  position: absolute;
+  left: 18px;
+  top: 20px;
+  width: 62%;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--qbm-blue);
+  line-height: 1.4;
+  margin: 0;
+  white-space: pre-line;
+}
+.qbm-cobuild-body {
+  padding: 16px 18px;
+}
+.qbm-cobuild-body p {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--qbm-muted);
+  line-height: 1.85;
+  margin: 0;
+}
+.qbm-cobuild-body ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.qbm-cobuild-body li {
+  position: relative;
+  padding-left: 12px;
+  font-size: 13px;
+  color: #6a6a6a;
+  line-height: 1.85;
+}
+.qbm-cobuild-body li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #6a6a6a;
+}
 
 /* ===== 合作共建：双方责任分工 ===== */
-.qbm-duty { background: #fff; padding: 40px 0; }
-.qbm-duty-list { display: flex; flex-direction: column; gap: 16px; }
-.qbm-duty-card { border-radius: 14px; border: 1px solid #DDDDDD; padding: 22px 20px; }
-.qbm-duty-card-partner { background: #FFFCF8; }
-.qbm-duty-card-company { background: #F4F7FB; }
-.qbm-duty-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-.qbm-duty-head img { width: 26px; height: 26px; flex-shrink: 0; }
-.qbm-duty-head h3 { font-weight: 600; font-size: 17px; color: #222222; line-height: 1.3; margin: 0; }
-.qbm-duty-ol { margin: 0; padding: 0; list-style: none; counter-reset: qbm-duty; }
-.qbm-duty-ol li { counter-increment: qbm-duty; position: relative; padding-left: 24px; font-weight: 400; font-size: 14px; color: #6A6A6A; line-height: 1.85; margin-bottom: 6px; }
-.qbm-duty-ol li::before { content: counter(qbm-duty) '.'; position: absolute; left: 0; color: #4A4A4A; }
-.qbm-duty-ol strong { font-weight: 700; color: var(--qbm-blue); }
-.qbm-duty-ol span { color: #4A4A4A; }
+.qbm-duty {
+  background: #fff;
+  padding: 40px 0;
+}
+.qbm-duty-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.qbm-duty-card {
+  border-radius: 14px;
+  border: 1px solid #dddddd;
+  padding: 22px 20px;
+}
+.qbm-duty-card-partner {
+  background: #fffcf8;
+}
+.qbm-duty-card-company {
+  background: #f4f7fb;
+}
+.qbm-duty-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.qbm-duty-head img {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+.qbm-duty-head h3 {
+  font-weight: 600;
+  font-size: 17px;
+  color: #222222;
+  line-height: 1.3;
+  margin: 0;
+}
+.qbm-duty-ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: qbm-duty;
+}
+.qbm-duty-ol li {
+  counter-increment: qbm-duty;
+  position: relative;
+  padding-left: 24px;
+  font-weight: 400;
+  font-size: 14px;
+  color: #6a6a6a;
+  line-height: 1.85;
+  margin-bottom: 6px;
+}
+.qbm-duty-ol li::before {
+  content: counter(qbm-duty) ".";
+  position: absolute;
+  left: 0;
+  color: #4a4a4a;
+}
+.qbm-duty-ol strong {
+  font-weight: 700;
+  color: var(--qbm-blue);
+}
+.qbm-duty-ol span {
+  color: #4a4a4a;
+}
 
 /* ===== 合作流程 ===== */
-.qbm-process { background: #f4f7fb; padding: 40px 0; }
-.qbm-process-steps { display: flex; flex-direction: column; gap: 26px; }
-.qbm-process-step { text-align: center; }
-.qbm-process-num { width: 48px; height: 48px; margin: 0 auto; border-radius: 50%; background: var(--qbm-blue); font-weight: 400; font-size: 18px; color: #FFFFFF; display: grid; place-items: center; box-shadow: 0 6px 16px rgba(15, 98, 254, 0.3); }
-.qbm-process-step h3 { font-size: 17px; font-weight: 700; color: var(--qbm-ink); margin: 14px 0 8px; }
-.qbm-process-step p { font-weight: 400; font-size: 13px; color: var(--qbm-muted); line-height: 1.7; margin: 0 auto; }
-.qbm-process-note { margin: 28px 0 0; font-weight: 400; font-size: 13px; color: var(--qbm-ink); line-height: 1.7; text-align: center; }
-.qbm-process-note strong { font-weight: 700; color: var(--qbm-blue); }
+.qbm-process {
+  background: #f4f7fb;
+  padding: 40px 0;
+}
+.qbm-process-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+.qbm-process-step {
+  text-align: center;
+}
+.qbm-process-num {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: var(--qbm-blue);
+  font-weight: 400;
+  font-size: 18px;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 6px 16px rgba(15, 98, 254, 0.3);
+}
+.qbm-process-step h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--qbm-ink);
+  margin: 14px 0 8px;
+}
+.qbm-process-step p {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--qbm-muted);
+  line-height: 1.7;
+  margin: 0 auto;
+}
+.qbm-process-note {
+  margin: 28px 0 0;
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--qbm-ink);
+  line-height: 1.7;
+  text-align: center;
+}
+.qbm-process-note strong {
+  font-weight: 700;
+  color: var(--qbm-blue);
+}
 
 /* ===== 服务案例 ===== */
-.qbm-cases { position: relative; overflow: hidden; background: linear-gradient(125deg, #003399 0%, #0052D9 40%, #1677FF 100%); padding: 44px 0; }
-.qbm-cases-bg { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
-.qbm-cases-circle { position: absolute; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.5); }
-.qbm-cases-circle-tl { width: 200px; height: 200px; top: -70px; right: -70px; animation: qbm-float 7s ease-in-out infinite; }
-.qbm-cases-circle-br { width: 150px; height: 150px; left: -40px; bottom: -40px; animation: qbm-float 6s ease-in-out 1s infinite; }
-@keyframes qbm-float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(12px); }
+.qbm-cases {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(125deg, #003399 0%, #0052d9 40%, #1677ff 100%);
+  padding: 44px 0;
 }
-.qbm-cases-inner { position: relative; z-index: 2; }
-.qbm-cases-head { font-weight: 600; font-size: 24px; color: #FFFFFF; letter-spacing: 1px; }
-.qbm-cases-subtitle { font-weight: 600; font-size: 18px; color: #FFFFFF; line-height: 1.5; margin: 8px 0; }
-.qbm-cases-desc { font-weight: 400; font-size: 13px; color: rgba(255, 255, 255, 0.9); line-height: 1.75; margin: 0 0 22px; }
-.qbm-cases-box { display: flex; flex-direction: column; gap: 14px; }
-.qbm-cases-card { background: #FFFFFF; border-radius: 12px; border: 1px solid var(--qbm-border); padding: 22px 20px; }
-.qbm-cases-card-label { background: #EAF4FC; border-radius: 20px; font-weight: 400; font-size: 12px; color: var(--qbm-blue); line-height: 19px; text-align: center; padding: 4px 12px; margin: 0 0 14px; display: inline-block; }
-.qbm-cases-card-title { font-weight: 500; font-size: 16px; color: var(--qbm-ink); line-height: 1.5; margin: 0 0 8px; }
-.qbm-cases-card-desc { font-weight: 400; font-size: 13px; color: var(--qbm-muted); line-height: 1.7; margin: 0 0 14px; padding-bottom: 12px; border-bottom: 1px solid var(--qbm-border); }
-.qbm-cases-card-more { font-weight: 600; font-size: 13px; color: var(--qbm-blue); line-height: 1.5; }
+.qbm-cases-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.qbm-cases-circle {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+.qbm-cases-circle-tl {
+  width: 200px;
+  height: 200px;
+  top: -70px;
+  right: -70px;
+  animation: qbm-float 7s ease-in-out infinite;
+}
+.qbm-cases-circle-br {
+  width: 150px;
+  height: 150px;
+  left: -40px;
+  bottom: -40px;
+  animation: qbm-float 6s ease-in-out 1s infinite;
+}
+@keyframes qbm-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(12px);
+  }
+}
+.qbm-cases-inner {
+  position: relative;
+  z-index: 2;
+}
+.qbm-cases-head {
+  font-weight: 600;
+  font-size: 24px;
+  color: #ffffff;
+  letter-spacing: 1px;
+}
+.qbm-cases-subtitle {
+  font-weight: 600;
+  font-size: 18px;
+  color: #ffffff;
+  line-height: 1.5;
+  margin: 8px 0;
+}
+.qbm-cases-desc {
+  font-weight: 400;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.75;
+  margin: 0 0 22px;
+}
+.qbm-cases-box {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.qbm-cases-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid var(--qbm-border);
+  padding: 22px 20px;
+}
+.qbm-cases-card-label {
+  background: #eaf4fc;
+  border-radius: 20px;
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--qbm-blue);
+  line-height: 19px;
+  text-align: center;
+  padding: 4px 12px;
+  margin: 0 0 14px;
+  display: inline-block;
+}
+.qbm-cases-card-title {
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--qbm-ink);
+  line-height: 1.5;
+  margin: 0 0 8px;
+}
+.qbm-cases-card-desc {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--qbm-muted);
+  line-height: 1.7;
+  margin: 0 0 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--qbm-border);
+}
+.qbm-cases-card-more {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--qbm-blue);
+  line-height: 1.5;
+}
 
 /* ===== 移动端小屏分档（≤1024px 与 site-header 高度对齐） ===== */
 @media (max-width: 560px) {
-    .qbm-nav { top: 66px; }
-    .qbm-section, #qbm-cobuild, .qbm-cases { scroll-margin-top: 120px; }
-    .qbm-banner-title { font-size: 24px; }
-    .qbm-sec-title, .qbm-pain-title, .qbm-cases-head { font-size: 22px; }
+  .qbm-nav {
+    top: 66px;
+  }
+  .qbm-section,
+  #qbm-cobuild,
+  .qbm-cases {
+    scroll-margin-top: 120px;
+  }
+  .qbm-banner-title {
+    font-size: 24px;
+  }
+  .qbm-sec-title,
+  .qbm-pain-title,
+  .qbm-cases-head {
+    font-size: 22px;
+  }
 }
 </style>
