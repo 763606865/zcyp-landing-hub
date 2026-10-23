@@ -787,6 +787,7 @@ onMounted(() => {
 }
 
 /* ===== 响应式 ===== */
+/* 平板（≤1024px）：规划区改单列堆叠，卡片区降为两列，布局不破坏即可 */
 @media (max-width: 1024px) {
   .ar-banner {
     min-height: 520px;
@@ -804,6 +805,7 @@ onMounted(() => {
   .ar-sec-title,
   .ar-ready h2 {
     font-size: 34px;
+    line-height: 1.4;
   }
   .ar-plan-grid {
     flex-direction: column;
@@ -811,124 +813,234 @@ onMounted(() => {
   .ar-plan-side {
     flex: 1 1 auto;
   }
-  .ar-ai-grid,
+  /* .ar-ai-grid 基础样式是 flex + 固定 850px，需改为 grid 并放开宽度 */
+  .ar-ai-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ar-ai-card {
+    max-width: none;
+  }
   .ar-sec-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* 手机（≤768px）：以 375px 为主目标，卡片区尽量保持双列 */
 @media (max-width: 768px) {
+  /* Banner 区 */
   .ar-banner {
-    min-height: 440px;
+    min-height: 0;
   }
   .ar-banner-inner {
-    padding: 30px 0 50px;
+    padding: 56px 0 60px;
   }
   .ar-banner h1 {
-    font-size: 34px;
+    margin-bottom: 16px;
+    font-size: 30px;
+    line-height: 1.35;
+    letter-spacing: 0;
   }
   .ar-banner-desc {
-    font-size: 15px;
-    margin-bottom: 30px;
+    margin-bottom: 26px;
+    font-size: 14px;
+    line-height: 1.8;
+    letter-spacing: 0.02em;
   }
   .ar-btn {
-    min-height: 48px;
+    min-height: 44px;
     padding: 0 30px;
     font-size: 15px;
   }
+  .ar-btn-banner {
+    height: auto !important;
+    padding: 12px 36px !important;
+  }
+
+  /* 数据区：品牌行独占一行，三项数据保持一行横排 */
   .ar-stats {
-    margin-top: -14px;
+    min-height: 0;
+    margin-top: -12px;
   }
   .ar-stats-inner {
     flex-wrap: wrap;
-    padding: 16px 0 18px;
+    min-height: 0;
+    padding: 20px 0 22px;
   }
   .ar-stats-brand {
     flex: 1 1 100%;
-    padding: 0 0 10px;
+    padding: 0 0 14px;
+  }
+  .ar-stats-title {
+    margin-bottom: 4px;
+    font-size: 17px;
+  }
+  .ar-stats-sub {
+    font-size: 12px;
   }
   .ar-stat {
-    padding-left: 18px;
+    flex: 1 1 0;
+    padding-left: 14px;
   }
   .ar-stat-v {
-    font-size: 24px;
+    font-size: 21px;
   }
   .ar-stat-l {
     font-size: 12px;
   }
+
+  /* 区块通用：收敛内边距与标题字号 */
   .ar-plan,
   .ar-flow,
   .ar-ai,
   .ar-sec {
-    padding: 56px 0;
+    padding: 48px 0;
   }
   .ar-plan-title,
   .ar-flow-title,
   .ar-ai-title,
-  .ar-sec-title,
-  .ar-ready h2 {
-    font-size: 27px;
-  }
-  .ar-flow-lead {
-    margin-bottom: 30px;
-    font-size: 14px;
-  }
-  .ar-flow-cta {
-    margin-top: 30px;
-  }
-  .ar-ai-lead,
-  .ar-sec-lead {
-    margin-bottom: 30px;
-    font-size: 14px;
-  }
-  .ar-sec-checks {
-    flex-wrap: wrap;
-    gap: 14px 26px;
-    margin-top: 32px;
-  }
-  .ar-ready-inner {
-    padding: 40px 0;
-  }
-}
-@media (max-width: 560px) {
-  .ar-banner {
-    min-height: 400px;
-  }
-  .ar-banner h1 {
-    font-size: 28px;
-  }
-  .ar-banner-desc {
-    font-size: 14px;
-    line-height: 1.8;
-  }
-  .ar-stats-inner {
-    display: block;
-  }
-  .ar-stats-brand {
-    padding-right: 0;
-  }
-  .ar-stat {
-    padding: 12px 0 0;
-    margin-top: 12px;
-    border-top: 1px solid #ececec;
-    border-left: 0;
-  }
-  .ar-case-grid,
-  .ar-ai-grid,
-  .ar-sec-grid {
-    grid-template-columns: 1fr;
-  }
-  .ar-plan-main,
-  .ar-plan-side {
-    padding: 22px 18px 24px;
-  }
-  .ar-plan-head {
-    font-size: 19px;
+  .ar-sec-title {
+    margin-bottom: 24px;
+    font-size: 24px;
+    line-height: 1.4;
   }
   .ar-ready h2 {
     font-size: 24px;
+    line-height: 1.4;
+  }
+
+  /* 规划区：案例卡片保持双列 */
+  .ar-plan-main,
+  .ar-plan-side {
+    padding: 22px 16px 24px;
+  }
+  .ar-plan-head {
+    margin-bottom: 20px;
+    font-size: 18px;
+  }
+  .ar-case-grid {
+    gap: 12px;
+  }
+  .ar-case {
+    padding: 14px 12px;
+  }
+  .ar-case h4 {
+    margin: 12px 0 6px;
+    font-size: 15px;
+  }
+  .ar-case p {
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+  /* 流程区 */
+  .ar-flow-lead {
+    margin-bottom: 22px;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  .ar-flow-cta {
+    margin-top: 26px;
+  }
+
+  /* AI 改造区：双列，卡片内改为图标在上、文字在下 */
+  .ar-ai-lead {
+    margin-bottom: 26px;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  .ar-ai-grid {
+    gap: 12px;
+  }
+  .ar-ai-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 16px 14px;
+    border-radius: 12px;
+  }
+  .ar-ai-card img {
+    width: 44px;
+    height: 44px;
+  }
+  .ar-ai-card p {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* 数据安全区：双列 */
+  .ar-sec-lead {
+    margin-bottom: 28px;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  .ar-sec-grid {
+    gap: 12px;
+  }
+  .ar-sec-card {
+    padding: 20px 12px 16px;
+    border-radius: 12px;
+  }
+  .ar-sec-card img {
+    width: 84px;
+    height: 79px;
+    margin-bottom: 6px;
+  }
+  .ar-sec-card h3 {
+    margin-bottom: 8px;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+  .ar-sec-card p {
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  .ar-sec-checks {
+    flex-wrap: wrap;
+    gap: 12px 22px;
+    margin-top: 28px;
+  }
+  .ar-sec-checks span {
+    font-size: 13px;
+  }
+
+  /* 准备好区 */
+  .ar-ready {
+    min-height: 0;
+  }
+  .ar-ready-inner {
+    padding: 52px 0;
   }
   .ar-ready p {
+    margin-bottom: 24px;
     font-size: 14px;
+    line-height: 1.7;
+  }
+}
+
+/* 超小屏（≤360px）：兼容 320px，进一步收敛字号与间距 */
+@media (max-width: 360px) {
+  .ar-banner h1 {
+    font-size: 26px;
+  }
+  .ar-stats-title {
+    font-size: 16px;
+  }
+  .ar-stat {
+    padding-left: 10px;
+  }
+  .ar-stat-v {
+    font-size: 18px;
+  }
+  .ar-case-grid {
+    gap: 10px;
+  }
+  .ar-ai-card p {
+    font-size: 12px;
+  }
+  .ar-sec-card p {
+    font-size: 11px;
   }
 }
 </style>
