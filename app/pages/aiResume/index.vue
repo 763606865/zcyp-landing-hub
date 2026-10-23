@@ -137,9 +137,9 @@ onMounted(() => {
         <h1 class="ar-animate">好工作，不该只属于少数人</h1>
         <p class="ar-banner-desc ar-animate">
           求职路上的迷茫、焦虑、无助，你不必独自面对。橙就未来用 AI
-          陪伴你从找准方向，到拿下理想 Offer。
+          陪你从找准方向，到拿下理想 Offer。
         </p>
-        <NuxtLink class="ar-btn ar-animate" :to="contactRoute"
+        <NuxtLink class="ar-btn ar-btn-banner ar-animate" :to="contactRoute"
           >立即获取帮助</NuxtLink
         >
       </div>
@@ -152,11 +152,7 @@ onMounted(() => {
           <p class="ar-stats-title"><em>橙就未来，</em>让好工作离你更近</p>
           <p class="ar-stats-sub">求职简历填写，在每个关键节点给予支持</p>
         </div>
-        <div
-          class="ar-stat ar-animate"
-          v-for="(s, i) in stats"
-          :key="i"
-        >
+        <div class="ar-stat ar-animate" v-for="(s, i) in stats" :key="i">
           <div class="ar-stat-v">
             <span v-if="s.value !== undefined" v-count-up="s.value">{{
               s.text
@@ -226,7 +222,9 @@ onMounted(() => {
           height="504"
         />
         <div class="ar-flow-cta ar-animate">
-          <NuxtLink class="ar-btn" :to="contactRoute">体验 AI 简历生成</NuxtLink>
+          <NuxtLink class="ar-btn ar-flow-cta-btn" :to="contactRoute">
+            体验 AI 简历生成
+          </NuxtLink>
         </div>
       </div>
     </section>
@@ -234,7 +232,9 @@ onMounted(() => {
     <!-- ========== 5. AI 改造区 ========== -->
     <section class="ar-ai">
       <div class="container">
-        <h2 class="ar-ai-title ar-animate">AI 改造的不是简历，而是面试机会。</h2>
+        <h2 class="ar-ai-title ar-animate">
+          AI 改造的不是简历，而是面试机会。
+        </h2>
         <p class="ar-ai-lead ar-animate">
           一份好简历不是辞藻堆砌，而是把你的经历、能力和成果讲清楚。橙就未来从目标岗位出发，逐段诊断并给出可确认的改写建议。
         </p>
@@ -250,7 +250,9 @@ onMounted(() => {
     <!-- ========== 6. 专业之外（数据安全） ========== -->
     <section class="ar-sec">
       <div class="container">
-        <h2 class="ar-sec-title ar-animate">专业之外，我们更关心你的数据安全。</h2>
+        <h2 class="ar-sec-title ar-animate">
+          专业之外，我们更关心你的数据安全。
+        </h2>
         <p class="ar-sec-lead ar-animate">
           你的简历与职业信息只用于为你生成服务建议。我们将重要数据保护作为默认设计原则，让你可以安心地开始、修改和探索。
         </p>
@@ -278,7 +280,9 @@ onMounted(() => {
         <p class="ar-animate">
           从一次简历诊断开始，找到下一步更值得投入的方向。
         </p>
-        <NuxtLink class="ar-btn ar-animate" :to="contactRoute"
+        <NuxtLink
+          class="ar-btn ar-ready-inner-btn ar-animate"
+          :to="contactRoute"
           >开始我的简历优化计划</NuxtLink
         >
       </div>
@@ -312,7 +316,7 @@ onMounted(() => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 54px;
+  min-height: 48px;
   padding: 0 42px;
   border-radius: 999px;
   color: #fff;
@@ -330,6 +334,11 @@ onMounted(() => {
   box-shadow: 0 16px 32px rgba(240, 133, 19, 0.36);
 }
 
+.ar-btn-banner {
+  padding: 14px 52px !important;
+  height: 48px !important;
+}
+
 /* ===== 1. Banner 区（1440×598）===== */
 .ar-banner {
   min-height: 598px;
@@ -338,7 +347,7 @@ onMounted(() => {
   background-color: #cbc1b5;
   background-image: url("https://newpr-develop.oss-cn-hangzhou.aliyuncs.com/zcyp-classroom/hubImages/airesume/bannerbg.png");
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: center bottom;
   background-size: cover;
 }
 .ar-banner-inner {
@@ -360,6 +369,7 @@ onMounted(() => {
   color: #55524e;
   font-size: 18px;
   line-height: 1.9;
+  letter-spacing: 0.1em;
 }
 
 /* ===== 2. 数据区（114px，叠压 banner 22px）===== */
@@ -442,18 +452,17 @@ onMounted(() => {
 }
 .ar-plan-main {
   flex: 1;
-  padding: 30px 32px 34px;
-  border: 1px solid rgba(255, 255, 255, 0.65);
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.62);
-  box-shadow: 0 24px 60px rgba(60, 60, 60, 0.1);
+  padding: 18px 21px 20px;
+  border-radius: 12px;
+  background: rgba(255, 249, 242, 0.31);
+  box-shadow: 0px 7px 20px 0px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(6px);
 }
 .ar-plan-head {
   margin: 0 0 26px;
   text-align: center;
   color: var(--ar-ink);
-  font-size: 23px;
+  font-size: 24px;
   font-weight: 800;
 }
 .ar-case-grid {
@@ -462,11 +471,10 @@ onMounted(() => {
   gap: 18px;
 }
 .ar-case {
-  padding: 14px 16px 18px;
-  border: 1px solid #ececec;
-  border-radius: 14px;
-  background: #fff;
-  box-shadow: 0 10px 26px rgba(70, 70, 70, 0.06);
+  padding: 21px 19px 18px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0px 7px 20px 0px rgba(0, 0, 0, 0.1);
 }
 .ar-case img {
   display: block;
@@ -562,26 +570,26 @@ onMounted(() => {
 
 /* ===== 4. 流程区（白底）===== */
 .ar-flow {
-  padding: 92px 0 96px;
+  padding: 50px 0 47px;
   background: #fff;
 }
 .ar-flow-title {
-  margin: 0 0 20px;
+  margin: 0 0 6px;
   color: var(--ar-ink);
-  font-size: 42px;
-  line-height: 1.3;
-  font-weight: 800;
+  font-weight: 600;
+  font-size: 45px;
+  line-height: 63px;
 }
 .ar-flow-title em {
   color: var(--ar-orange);
   font-style: normal;
 }
 .ar-flow-lead {
-  max-width: 1060px;
-  margin: 0 0 46px;
-  color: var(--ar-muted);
+  max-width: 1200px;
+  margin: 0 0 19px;
+  color: #7f6e62;
   font-size: 16px;
-  line-height: 1.9;
+  line-height: 28px;
 }
 .ar-flow-img {
   display: block;
@@ -591,8 +599,19 @@ onMounted(() => {
   margin: 0 auto;
 }
 .ar-flow-cta {
-  margin-top: 44px;
+  margin-top: 28px;
   text-align: center;
+}
+
+.ar-flow-cta-btn {
+  border-radius: 10px 10px 10px 10px !important;
+  box-shadow: 0px 11px 24px 0px rgba(241, 106, 0, 0.22) !important;
+  background: #faa500 !important;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+  color: #ffffff !important;
+  line-height: 21px !important;
+  padding: 14px 22px !important;
 }
 
 /* ===== 5. AI 改造区（1440×525）===== */
@@ -621,11 +640,13 @@ onMounted(() => {
   line-height: 1.95;
 }
 .ar-ai-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  width: 850px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 .ar-ai-card {
+  max-width: 260px;
   display: flex;
   align-items: center;
   gap: 16px;
@@ -644,15 +665,14 @@ onMounted(() => {
 }
 .ar-ai-card p {
   margin: 0;
-  color: #4a3c22;
+  font-weight: 400;
   font-size: 16px;
-  line-height: 1.7;
-  font-weight: 700;
+  color: #28150c;
 }
 
 /* ===== 6. 专业之外（黑底）===== */
 .ar-sec {
-  padding: 86px 0 80px;
+  padding: 48px 0 33px;
   color: #fff;
   background: #0b0b0b;
 }
@@ -678,30 +698,32 @@ onMounted(() => {
   gap: 18px;
 }
 .ar-sec-card {
-  padding: 34px 26px 32px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 18px;
-  background: #1b1b1b;
+  padding: 30px 20px 21px;
+  background: rgba(255, 245, 238, 0.2);
+  box-shadow: 0px 8px 20px 0px rgba(15, 31, 46, 0.04);
+  border-radius: 16px 16px 16px 16px;
   text-align: center;
 }
 .ar-sec-card img {
   display: block;
   width: 140px;
   height: 131px;
-  margin: 0 auto 22px;
+  margin: 0 auto 8px;
   object-fit: contain;
 }
 .ar-sec-card h3 {
-  margin: 0 0 14px;
-  color: #fff;
-  font-size: 21px;
-  font-weight: 800;
+  margin: 0 0 16px;
+  font-weight: 600;
+  font-size: 20px;
+  color: #ffffff;
+  line-height: 27px;
 }
 .ar-sec-card p {
   margin: 0;
-  color: rgba(255, 255, 255, 0.55);
+  font-weight: 400;
   font-size: 13px;
-  line-height: 1.9;
+  color: #ffffff;
+  line-height: 22px;
 }
 .ar-sec-checks {
   display: flex;
@@ -735,22 +757,33 @@ onMounted(() => {
   background-size: cover;
 }
 .ar-ready-inner {
-  padding: 46px 0;
+  padding: 73px 0 71px;
   text-align: center;
 }
 .ar-ready h2 {
   max-width: none;
-  margin: 0 0 16px;
-  color: var(--ar-orange-deep);
-  font-size: 42px;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
-  font-weight: 800;
+  margin: 0 0 22px;
+  font-weight: 600;
+  font-size: 48px;
+  color: #faa500;
+  line-height: 67px;
 }
 .ar-ready p {
-  margin: 0 0 34px;
-  color: #6b5a44;
+  margin: 0 0 29px;
+  font-weight: 400;
   font-size: 16px;
+  color: #05070e;
+  line-height: 23px;
+}
+
+.ar-ready-inner-btn {
+  padding: 14px 23px !important;
+  background: #faa500 !important;
+  border-radius: 10px !important;
+  font-weight: 600;
+  font-size: 16px;
+  color: #ffffff;
+  line-height: 23px;
 }
 
 /* ===== 响应式 ===== */
