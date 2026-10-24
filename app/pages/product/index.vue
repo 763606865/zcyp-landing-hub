@@ -284,13 +284,87 @@
       </div>
     </section>
 
-    <!-- ========== 9. 身份核验类 ========== -->
-    <section class="pd-s9">
-      <div class="pd-stage">
-        <header class="pd-sec-head pd-abs-head pd-head-light pd-animate">
-          <p class="pd-en pd-en-light">FACE VERIFICATION TERMINAL</p>
+    <!-- ========== 9. 身份核验类：RI 10 / RI 20 ========== -->
+    <section class="pd-s9-new">
+      <div class="pd-container">
+        <header class="pd-sec-head pd-animate">
+          <p class="pd-en">FACE VERIFICATION TERMINAL</p>
           <h2>身份核验类</h2>
         </header>
+
+        <article class="pd-ri10 pd-animate">
+          <div class="pd-ri10-main">
+            <div class="pd-ri10-visual">
+              <img
+                class="pd-ri10-img"
+                :src="`${IMG}/other1.png`"
+                :alt="ri10.title"
+                width="480"
+                height="624"
+              />
+              <img
+                class="pd-ri10-detail"
+                :src="`${IMG}/other2.png`"
+                alt="RI 10 产品细节"
+                width="227"
+                height="177"
+              />
+            </div>
+            <div class="pd-ri10-copy">
+              <h3 class="pd-prod-title">{{ ri10.title }}</h3>
+              <p class="pd-identity-desc">{{ ri10.desc }}</p>
+              <ul class="pd-dots pd-dots-26 pd-identity-dots">
+                <li v-for="(b, bi) in ri10.bullets" :key="bi">{{ b }}</li>
+              </ul>
+            </div>
+          </div>
+          <div class="pd-identity-spec pd-ri10-spec">
+            <div class="pd-identity-spec-inner">
+              <div class="pd-spec-title">技术规格</div>
+              <p class="pd-spec-line">{{ ri10.spec.flat().join(" ｜ ") }}</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="pd-ri20 pd-animate">
+          <div class="pd-ri20-main">
+            <div class="pd-ri20-copy">
+              <h3 class="pd-prod-title">{{ ri20.title }}</h3>
+              <p class="pd-identity-desc">
+                {{ ri20.desc }}
+              </p>
+              <ul class="pd-dots pd-dots-26 pd-identity-dots">
+                <li v-for="(b, bi) in ri20.bullets" :key="bi">{{ b }}</li>
+              </ul>
+              <img
+                class="pd-ri20-detail"
+                :src="`${IMG}/other4.png`"
+                alt="RI 20 产品细节"
+                width="246"
+                height="176"
+              />
+            </div>
+            <img
+              class="pd-ri20-img"
+              :src="`${IMG}/other3.png`"
+              :alt="ri20.title"
+              width="911"
+              height="601"
+            />
+          </div>
+          <div class="pd-identity-spec pd-ri20-spec">
+            <div class="pd-identity-spec-inner">
+              <div class="pd-spec-title">技术规格</div>
+              <p class="pd-spec-line">{{ ri20.spec.flat().join(" ｜ ") }}</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- RI 30 保留原模块 -->
+    <section class="pd-s9">
+      <div class="pd-stage">
         <div class="pd-face-card pd-animate">
           <h3 class="pd-prod-title pd-on-dark-text">{{ face.title }}</h3>
           <p class="pd-face-desc">{{ face.desc }}</p>
@@ -319,6 +393,29 @@
               <div class="pd-spec-title">{{ b.t }}</div>
               <p class="pd-spec-line">{{ b.d }}</p>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RI 40 -->
+    <section class="pd-s9-ri40">
+      <div class="pd-stage">
+        <div class="pd-ri40-head">
+          <h3 class="pd-prod-title pd-ri40-title">{{ ri40.title }}</h3>
+          <p class="pd-ri40-desc">{{ ri40.desc }}</p>
+        </div>
+        <div class="pd-ri40-copy pd-animate">
+          <ul class="pd-dots pd-dots-26 pd-ri40-dots">
+            <li v-for="(b, bi) in ri40.bullets" :key="bi">{{ b }}</li>
+          </ul>
+          <div class="pd-ri40-spec">
+            <div class="pd-spec-title">技术参数</div>
+            <p class="pd-spec-line" v-for="(line, li) in ri40.spec" :key="li">
+              <template v-for="(seg, si) in line" :key="si"
+                ><em v-if="si">｜</em>{{ seg }}</template
+              >
+            </p>
           </div>
         </div>
       </div>
@@ -381,7 +478,7 @@
           <p class="pd-en">PRODUCT SUMMARY</p>
           <h2>产品汇总表</h2>
           <p class="pd-lead">
-            5大系列、十三款产品的功能与场景一览，快速匹配您的安防检测需求。
+            5大系列、十六款产品的功能与场景一览，快速匹配您的安防检测需求。
           </p>
         </header>
         <div class="pd-table-wrap pd-animate">
@@ -668,13 +765,67 @@
       </div>
     </section>
 
-    <!-- 9. 身份核验类 -->
-    <section class="pm-section pm-section-grey">
+    <!-- 9. 身份核验类：RI 10 / RI 20 -->
+    <section class="pm-section pm-identity-new">
       <div class="pm-container">
         <header class="pm-sec-head pm-animate">
           <p class="pm-en">FACE VERIFICATION TERMINAL</p>
           <h2>身份核验类</h2>
         </header>
+
+        <article class="pm-identity-device pm-animate">
+          <div class="pm-identity-visual">
+            <img
+              class="pm-identity-img"
+              :src="`${IMG}/other1.png`"
+              :alt="ri10.title"
+            />
+            <img
+              class="pm-identity-detail"
+              :src="`${IMG}/other2.png`"
+              alt="RI 10 产品细节"
+            />
+          </div>
+          <h3 class="pm-prod-title">{{ ri10.title }}</h3>
+          <p class="pm-desc">{{ ri10.desc }}</p>
+          <ul class="pm-dots">
+            <li v-for="(b, bi) in ri10.bullets" :key="bi">{{ b }}</li>
+          </ul>
+          <div class="pm-spec-box pm-identity-spec">
+            <div class="pm-spec-title">技术规格</div>
+            <p class="pm-spec-line">{{ ri10.spec.flat().join(" ｜ ") }}</p>
+          </div>
+        </article>
+
+        <article class="pm-identity-device pm-animate">
+          <div class="pm-identity-visual">
+            <img
+              class="pm-identity-img"
+              :src="`${IMG}/other3.png`"
+              :alt="ri20.title"
+            />
+            <img
+              class="pm-identity-detail"
+              :src="`${IMG}/other4.png`"
+              alt="RI 20 产品细节"
+            />
+          </div>
+          <h3 class="pm-prod-title">{{ ri20.title }}</h3>
+          <p class="pm-desc">{{ ri20.desc }}</p>
+          <ul class="pm-dots">
+            <li v-for="(b, bi) in ri20.bullets" :key="bi">{{ b }}</li>
+          </ul>
+          <div class="pm-spec-box pm-identity-spec">
+            <div class="pm-spec-title">技术规格</div>
+            <p class="pm-spec-line">{{ ri20.spec.flat().join(" ｜ ") }}</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- RI 30 保留原模块 -->
+    <section class="pm-section pm-section-grey">
+      <div class="pm-container">
         <!-- 标题/描述叠放在图底部（不裁图），补住图下方留白 -->
         <div class="pm-hero pm-animate">
           <img :src="`${IMG}/box8bg.png`" :alt="face.title" />
@@ -712,6 +863,31 @@
         </div>
       </div>
     </section>
+
+    <!-- RI 40 -->
+    <section class="pm-section pm-ri40">
+      <div class="pm-container">
+        <h3 class="pm-prod-title pm-animate">{{ ri40.title }}</h3>
+        <img
+          class="pm-ri40-img pm-animate"
+          :src="`${IMG}/other5.png`"
+          :alt="ri40.title"
+        />
+        <p class="pm-desc pm-animate">{{ ri40.desc }}</p>
+        <ul class="pm-dots pm-animate">
+          <li v-for="(b, bi) in ri40.bullets" :key="bi">{{ b }}</li>
+        </ul>
+        <div class="pm-spec-box pm-animate">
+          <div class="pm-spec-title">技术参数</div>
+          <p class="pm-spec-line" v-for="(line, li) in ri40.spec" :key="li">
+            <template v-for="(seg, si) in line" :key="si"
+              ><em v-if="si">｜</em>{{ seg }}</template
+            >
+          </p>
+        </div>
+      </div>
+    </section>
+
     <!-- 10. 面试考场设备 -->
     <section class="pm-section">
       <div class="pm-container">
@@ -758,7 +934,7 @@
           <p class="pm-en">PRODUCT SUMMARY</p>
           <h2>产品汇总表</h2>
           <p class="pm-lead">
-            5大系列、十三款产品的功能与场景一览，快速匹配您的安防检测需求。
+            5大系列、十六款产品的功能与场景一览，快速匹配您的安防检测需求。
           </p>
         </header>
         <div class="pm-table-wrap pm-animate">
@@ -827,7 +1003,7 @@ onBeforeUnmount(() => observer?.disconnect());
 // Banner 数值行
 const heroStats = [
   { value: 5, suffix: "大", label: "产品系列" },
-  { value: 13, suffix: "款", label: "核心在售产品" },
+  { value: 16, suffix: "款", label: "核心在售产品" },
   { text: "GB12899", label: "符合国家标准" },
   { value: 3, suffix: "项", label: "主管部门/CE/ROHS 认证" },
 ];
@@ -1061,8 +1237,124 @@ const node = {
 };
 
 // 9. 身份核验类
+const ri10 = {
+  title: "ZCGK//RI 10型 人脸识别终端",
+  desc: "集成人脸、IC 卡、二维码、云身份证、红外测温与 TTS 语音库功能，支持 TCP、HTTP、MQTT 协议，可在透传模式、协议模式、离线门禁模式下工作。具备 IP66 防护等级，适配人脸测温、口罩检测、身份证健康信息认证、健康码认证等防疫场景，适用于办公区域、酒店、通道闸机、写字楼、银行、医院、学校、商场、社区及公共服务场所。",
+  bullets: [
+    "动态人脸识别，集成二维码与刷卡",
+    "5.5 英寸高亮液晶屏，真人语音提示，集成 TTS 语音库",
+    "97% 以上识别准确率，毫秒级识别速率",
+    "识别距离 0.3–1.5m，最大支持 5000 人脸库、20000 二维码/卡白名单",
+    "戴口罩、戴眼镜、戴帽子均可有效识别，并支持口罩检测",
+    "内置静默活体检测，有效阻挡照片、视频和面具攻击",
+    "多种工作模式：透传模式、协议模式、白名单模式",
+    "支持 TCP、MQTT、HTTP 协议，支持扫码配置、扫码注册",
+    "支持外部报警输入、门磁状态输入、出门开关输入",
+    "内置高精度时钟芯片与 RTC 电池；内置霍尔开关防拆检测",
+    "静电防护接触 8kV / 空气 8kV；防尘防水等级 IP66",
+    "支持 logo 定制、协议定制与 OEM；支持闸机、86 盒、平墙、立柱安装",
+  ],
+  spec: [
+    ["系统 Linux", "存储 8GB", "处理器 ARM Cortex A7 MP2 1GHz"],
+    ["显示屏 5.5 英寸液晶屏", "分辨率 720×1280"],
+    ["通讯 1 路 10/100M 自适应网口", "2.4G WiFi", "RS485×1", "韦根 26/34 接口"],
+    ["防拆开关×1", "继电器 30V1A", "2 路报警输入"],
+    ["供电 9~24V DC（推荐 12V）", "功耗 14.4W"],
+    ["摄像头 RGB 1920×1080（D70.3°/H63°/V38°，F2.0，4.35mm）"],
+    ["红外 1616×1232（D68°/H60°/V37°，F2.2，2.35mm）"],
+    ["测温（选配）精度 一米以内 ±0.3℃", "工作温度 10℃~35℃"],
+    ["环境 非测温版 -20℃~55℃", "测温版 8℃~33℃（室内无风）", "湿度 10%~90%"],
+    ["防护 静电接触 8kV / 空气 8kV", "IP66（测温版本不防水）"],
+    [
+      "人脸 1:N 动态检测",
+      "人像容量 5000",
+      "识别 <1s",
+      "距离 0.3~1.5m",
+      "通过率 ≥97%",
+    ],
+    ["刷卡 13.56MHz", "读卡 0~5cm", "S50、S70、FM1208、身份证等"],
+    ["扫码 640×480", "QR/PDF417", "读取 0~10cm", "≥7mil", "光照 0~80000Lux"],
+  ],
+};
+
+const ri20 = {
+  title: "ZCGK//RI 20型 人脸识别终端",
+  desc: "一款支持在线人证核验的人脸门禁一体机，集成人脸识别、刷卡（支持身份证核验）、二维码等认证方式。采用 8 英寸液晶触摸屏，搭载 Linux 操作系统，存储容量 8GB；提供 RS485、韦根、以太网、WiFi 等多种通讯方式（可扩展 4G）。",
+  bullets: [
+    "8 英寸高亮液晶触摸屏，真人语音播报，预留麦克风",
+    "满库 99% 以上识别准确率，识别时间 ≤0.3s/人，识别距离 0.3–1.5m",
+    "戴口罩、戴眼镜、戴帽子均可有效识别，并支持口罩检测",
+    "内置静默活体检测，有效阻挡照片、视频和面具攻击",
+    "支持 TCP/IP、MQTT、HTTP 协议，支持扫码配置与扫码注册",
+    "支持外部报警输入、门磁状态输入、出门开关输入",
+    "内置高精度时钟芯片与 RTC 电池，断电可保存时间",
+    "静电防护接触 8kV；非 4G 且不带测温模块的版本防护等级达 IP66",
+    "协议定制与 OEM；支持闸机、86 盒、平墙、立柱安装",
+  ],
+  spec: [
+    ["系统 Linux", "存储 8GB", "CPU ARM Cortex A7 MP2 1GHz"],
+    ["网络 以太网 1 路 10/100M", "2.4G Wi-Fi", "可选 4G 全网通"],
+    ["接口 RJ45、RS-485、韦根 WG26/WG34、IO 输入 2 路、继电器 30V1A、USB2.0"],
+    ["屏幕 8 英寸液晶触摸屏", "分辨率 800×1280"],
+    ["摄像头 RGB 1920×1080（D65°/H59°/V38°，F2.0，4.35mm）"],
+    ["红外 1616×1232（D68°/H60°/V40°，F2.2，2.35mm）"],
+    ["音频 扬声器 2 个", "8Ω1W", "材质 防火 ABS + 有机玻璃"],
+    ["电气 供电 9~24V DC（推荐 12V）", "12V/2A", "最大功率 16W"],
+    [
+      "环境 IP66（非测温非 4G）",
+      "静电 8kV / 空气 15kV",
+      "-20℃~55℃",
+      "湿度 10%~90%",
+    ],
+    [
+      "人脸 1:N 动态检测",
+      "人脸库 50000",
+      "识别 <0.3s",
+      "距离 0.3~1.5m",
+      "通过率 ≥97%",
+      "误识率 ≤0.01%",
+    ],
+    ["刷卡 13.56MHz", "读卡 0~5cm", "S50、S70、FM1208、身份证等"],
+    ["扫码 640×480", "QR/PDF417", "读取 0~10cm", "识读精度 ≥7mil"],
+  ],
+};
+
+const ri40 = {
+  title: "ZCGK//RI 40型 人证核验终端",
+  desc: "单屏桌面式人证核验机是一款采用高性能处理器与高精度人证核验算法的 Android 智能终端。搭配双目摄像头，满足桌面便捷核验需求；可搭配 10.1 英寸 / 11.6 英寸 / 15.6 英寸 LCD 显示屏，内嵌深度学习人脸识别算法，并内嵌身份证解密模块与指纹模块。",
+  bullets: [
+    "双目摄像头，成像清晰，准确识别",
+    "摄像头可上下左右转动：上下 45°、左右 180°，支持抗逆光",
+    "10.1 英寸 16:9 横屏，10 点电容触控，支持手指与触摸笔操作",
+    "内嵌深度学习人脸识别算法，配合身份证解密模块与指纹模块",
+    "选配电磁手写：5080LPI 手写分辨率、8192 级压感",
+    "笔迹特征智能比对（5 维运笔特征）与 1:1 签字笔迹溯源回放",
+    "笔迹图片加密存储，防复制与篡改",
+  ],
+  spec: [
+    ["显示 10.1 英寸", "16:9 横屏", "800×1280", "16.7M 色", "10 点电容触控"],
+    ["硬件 RK3288", "2.0GHz CPU", "2GB 内存", "8GB 存储", "Android 7.1.2"],
+    ["端口 USB2.0×2", "LAN×1", "耳机 Line Out×1", "HDMI×1", "喇叭 8Ω2W"],
+    ["网络 有线网络 + WiFi"],
+    ["环境 工作温度 -10℃~50℃", "储存温度 -20℃~60℃", "操作湿度 <85%"],
+    ["电气 工作电压 12V/2A", "功率约 20W"],
+    ["摄像头 200 万双目摄像头", "抗逆光", "上下 45°、左右 180° 可调"],
+    [
+      "选配 电容式指纹模块",
+      "二代/三代身份证 + IC 卡读卡器（0~5cm，读卡 <1.5s）",
+    ],
+    ["电磁手写（选配）无源被动式电磁感应", "5080LPI", "8192 级压感"],
+    [
+      "精度 ±0.5mm（中心）",
+      "感应高度 10mm",
+      "读取速率 233PPS",
+      "握笔倾角 ±45°",
+    ],
+  ],
+};
+
 const face = {
-  title: "中测高科人脸核验终端",
+  title: "ZCGK//RI 30型 人脸核验终端",
   desc: "TSR-RS2人脸核验设备（双屏人证识别一体机）是一款集身份证读取、人像抓拍、人证比对于一体的智能身份核验终端。基于Android操作系统，采用双屏显示配置，配备200万像素单目摄像头与二代身份证识读模块，适用于考场身份核验、入场签到等考务场景。",
   configTitle: "核心配置",
   config: [
@@ -1198,9 +1490,24 @@ const summaryTable: string[][] = [
     "桌面办公、政务窗口、柜台双面显示",
   ],
   [
-    "人脸核验设备",
+    "ZCGK//RI 10型 人脸识别终端",
+    "5.5 英寸人证核验门禁一体机，人脸+身份证+二维码",
+    "考场入场核验、企业门禁、政务窗口",
+  ],
+  [
+    "ZCGK//RI 20型 人脸识别终端",
+    "8 英寸人证核验，可选红外测温与健康码核验",
+    "办公区域、酒店、医院、学校、通道闸机",
+  ],
+  [
+    "ZCGK//RI 30型 人脸核验终端",
     "前后双屏同步同显，21.5 英寸",
-    "政务窗口、银行柜台、营业厅双向公示",
+    "考场身份核验、入场签到、涉密核验",
+  ],
+  [
+    "ZCGK//RI 40型 人证核验终端",
+    "桌面式双目人证核验，可选指纹与电磁手写",
+    "考场核验、政务窗口、营业厅桌面",
   ],
   [
     "21.5寸双面同显显示器",
@@ -1332,7 +1639,7 @@ onMounted(() => {
   position: relative;
   padding-left: 14px;
   font-size: 14px;
-  color: #4e5d75;
+  color: #0b2a5b;
 }
 
 .pd-dots li::before {
@@ -1378,6 +1685,7 @@ onMounted(() => {
   line-height: 19px;
   font-weight: 700;
   color: #0f62fe;
+  margin-bottom: 7px;
 }
 
 .pd-spec-line {
@@ -1845,6 +2153,7 @@ onMounted(() => {
 .pd-s7,
 .pd-s8,
 .pd-s9,
+.pd-s9-ri40,
 .pd-s10 {
   position: relative;
   isolation: isolate;
@@ -1858,6 +2167,7 @@ onMounted(() => {
   .pd-s7,
   .pd-s8,
   .pd-s9,
+  .pd-s9-ri40,
   .pd-s10
 )::before,
 :is(
@@ -1868,6 +2178,7 @@ onMounted(() => {
   .pd-s7,
   .pd-s8,
   .pd-s9,
+  .pd-s9-ri40,
   .pd-s10
 )::after {
   content: "";
@@ -1887,6 +2198,7 @@ onMounted(() => {
   .pd-s7,
   .pd-s8,
   .pd-s9,
+  .pd-s9-ri40,
   .pd-s10
 )::before {
   left: 0;
@@ -1901,6 +2213,7 @@ onMounted(() => {
   .pd-s7,
   .pd-s8,
   .pd-s9,
+  .pd-s9-ri40,
   .pd-s10
 )::after {
   right: 0;
@@ -2243,7 +2556,140 @@ onMounted(() => {
   color: rgba(250, 250, 250, 0.8);
 }
 
-/* ===== 9. 身份核验类 ===== */
+/* ===== 9. 身份核验类：RI 10 / RI 20 ===== */
+.pd-s9-new {
+  padding: 64px 0 0;
+  background: #fff;
+}
+
+.pd-s9-new .pd-container {
+  width: 1200px;
+}
+
+.pd-ri10 {
+  margin-top: 40px;
+}
+
+.pd-ri10-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 172px;
+}
+
+.pd-ri10-visual {
+  position: relative;
+  flex: none;
+  width: 480px;
+  height: 624px;
+  margin-left: -24px;
+}
+
+.pd-ri10-img {
+  display: block;
+  width: 480px;
+  height: 624px;
+  object-fit: contain;
+}
+
+.pd-ri10-detail {
+  position: absolute;
+  top: 290px;
+  right: -151px;
+  display: block;
+  width: 227px;
+  height: 177px;
+  object-fit: contain;
+}
+
+.pd-ri10-copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.pd-identity-desc {
+  margin: 20px 0 0;
+  font-size: 13px;
+  line-height: 25px;
+  color: #465c72;
+}
+
+.pd-identity-dots {
+  margin-top: 20px;
+}
+
+.pd-identity-spec {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 22px 0;
+  background: #f6f8ff;
+  box-shadow: 0 0 0 100vmax #f6f8ff;
+  clip-path: inset(0 -100vmax);
+  box-sizing: border-box;
+}
+
+.pd-identity-spec-inner {
+  width: 100%;
+  max-width: 1160px;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.pd-identity-spec .pd-spec-line {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 30px;
+  color: #4e5d75;
+}
+
+.pd-ri10-spec {
+  margin-top: -82px;
+}
+
+.pd-ri20 {
+  margin-top: 70px;
+}
+
+.pd-ri20-main {
+  position: relative;
+}
+
+.pd-ri20-copy {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding-bottom: 15px;
+}
+
+.pd-ri20-copy .pd-identity-desc {
+  max-width: 640px;
+  margin-top: 12px;
+}
+
+.pd-ri20-spec {
+  margin-top: 0;
+}
+
+.pd-ri20-img {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: block;
+  width: 911px;
+  height: 601px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.pd-ri20-detail {
+  display: block;
+  width: 246px;
+  height: 176px;
+  margin-top: 25px;
+  object-fit: contain;
+}
+
+/* RI 30 保留原模块样式 */
 .pd-s9 {
   --edge-l: linear-gradient(
     to bottom,
@@ -2287,6 +2733,99 @@ onMounted(() => {
   top: 51px;
 }
 
+/* RI 40 */
+.pd-s9-ri40 {
+  --edge-l: linear-gradient(
+    to bottom,
+    #dae9f6,
+    #d6e7f4 10%,
+    #d5e7f5 20%,
+    #d5e6f5 30%,
+    #b3d3ea 40%,
+    #b2d3eb 50%,
+    #bad7eb 60%,
+    #bbd9ed 70%,
+    #ccdfed 80%,
+    #b8d1e4 90%,
+    #b8d1e6
+  );
+  --edge-r: linear-gradient(
+    to bottom,
+    #7ca8d3,
+    #7caad4 10%,
+    #7dacd5 20%,
+    #78a6d4 30%,
+    #7bafd6 40%,
+    #6a9fcd 50%,
+    #8ec4e7 60%,
+    #91c3e4 70%,
+    #b9dded 80%,
+    #7bb0d8 90%,
+    #b4cde3
+  );
+  height: 770px;
+  background: #9fc3e1
+    url("https://newpr-develop.oss-cn-hangzhou.aliyuncs.com/zcyp-classroom/hubImages/product/other5.png")
+    center top / 1440px 770px no-repeat;
+}
+
+.pd-ri40-head {
+  position: absolute;
+  z-index: 2;
+  top: 58px;
+  right: 137px;
+  width: 650px;
+  text-align: right;
+}
+
+.pd-ri40-title {
+  color: #fff;
+}
+
+.pd-ri40-desc {
+  max-width: 650px;
+  margin: 20px 0 0;
+  font-size: 13px;
+  line-height: 25px;
+  color: #fff;
+}
+
+.pd-ri40-copy {
+  position: absolute;
+  z-index: 1;
+  top: 170px;
+  left: 137px;
+  width: 660px;
+}
+
+.pd-ri40-dots {
+  margin-top: 0;
+}
+
+.pd-ri40-dots li {
+  color: #0b2a5b;
+}
+
+.pd-ri40-dots li::before {
+  background: #0b2a5b;
+}
+
+.pd-ri40-spec {
+  width: 660px;
+  margin-top: 23px;
+  padding: 22px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid #d6e3fa;
+  border-radius: 20px;
+  box-shadow: 0 12px 32px 0 rgba(28, 79, 217, 0.06);
+  box-sizing: border-box;
+}
+
+.pd-ri40-spec .pd-spec-line {
+  line-height: 24px;
+  color: #0b2a5b;
+}
+
 .pd-face-card {
   position: absolute;
   left: 137px;
@@ -2309,7 +2848,7 @@ onMounted(() => {
 
 .pd-face-box {
   margin-top: 15px;
-  padding: 22px;
+  padding: 16px 22px;
   background: #fff;
   border-radius: 12px;
   box-sizing: border-box;
@@ -2320,7 +2859,7 @@ onMounted(() => {
 }
 
 .pd-face-box .pd-spec-line {
-  margin-top: 8px;
+  /* margin-top: 8px; */
   line-height: 24px;
 }
 
@@ -2995,6 +3534,61 @@ onMounted(() => {
   height: auto;
   margin-top: 12px;
   border-radius: 10px;
+}
+
+/* 身份核验类新增设备 */
+.pm-identity-new {
+  background: #fff;
+}
+
+.pm-identity-device + .pm-identity-device {
+  margin-top: 44px;
+}
+
+.pm-identity-visual {
+  margin-top: 22px;
+  text-align: center;
+}
+
+.pm-identity-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.pm-identity-detail {
+  display: block;
+  width: 47%;
+  max-width: 246px;
+  height: auto;
+  margin: 20px auto 0;
+}
+
+.pm-identity-spec {
+  background: #f6f8ff;
+}
+
+.pm-identity-spec .pm-spec-line {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 30px;
+  color: #4e5d75;
+}
+
+.pm-ri40 {
+  background: #eef8ff;
+}
+
+.pm-ri40 .pm-prod-title {
+  margin-top: 0;
+}
+
+.pm-ri40-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 20px;
+  border-radius: 14px;
 }
 
 /* 11. 产品汇总表（横向滚动） */
