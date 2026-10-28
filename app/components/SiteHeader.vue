@@ -51,7 +51,8 @@ const moreNav = [
   { to: "/niupai", label: "HRS牛派系统" },
   { to: "/skillCert", label: "职业技能鉴定" },
   { to: "/product", label: "考务硬件产品" },
-  { to: "/aiResume", label: "AI简历优化" },
+  // AI简历优化 页面已迁移至 zcyp-web（/aiResume），页眉入口隐藏；
+  // contact 表单“咨询产品”下拉仍保留“AI简历优化”，供页面内「获取帮助」跳转使用。
 ];
 
 const moreOpen = ref(false);
