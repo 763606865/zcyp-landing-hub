@@ -369,14 +369,18 @@ onMounted(() => {
             智能化、高效化、规范化的面试管理解决方案，专为公务员招录、事业单位招聘、企业面试设计的全流程数字化管理系统。
           </p>
           <div class="pi-banner-actions">
-            <!-- TODO: 立即体验点击事件待定 -->
-            <button type="button" class="pi-btn pi-btn-primary">
+            <a
+              class="pi-btn pi-btn-primary"
+              href="http://www.jxhrm.com:5170"
+              target="_blank"
+              rel="noopener"
+            >
               <img
                 src="/assets/images/paperlessInterview/btn-l.png"
                 alt=""
                 class="pi-btn-icon"
               />立即体验
-            </button>
+            </a>
             <a
               class="pi-btn pi-btn-ghost"
               href="https://newpr-develop.oss-cn-hangzhou.aliyuncs.com/zcyp-classroom/materials/paperlessInterview.pdf"
@@ -693,14 +697,18 @@ onMounted(() => {
             智能化、高效化、规范化的面试管理解决方案，专为公务员招录、事业单位招聘、企业面试设计的全流程数字化管理系统。
           </p>
           <div class="pim-banner-actions">
-            <!-- TODO: 立即体验点击事件待定 -->
-            <button type="button" class="pim-btn pim-btn-primary">
+            <a
+              class="pim-btn pim-btn-primary"
+              href="http://www.jxhrm.com:5170"
+              target="_blank"
+              rel="noopener"
+            >
               <img
                 src="/assets/images/paperlessInterview/btn-l.png"
                 alt=""
                 class="pim-btn-icon"
               />立即体验
-            </button>
+            </a>
             <a
               class="pim-btn pim-btn-ghost"
               href="https://newpr-develop.oss-cn-hangzhou.aliyuncs.com/zcyp-classroom/materials/paperlessInterview.pdf"
