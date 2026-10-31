@@ -14,7 +14,7 @@ const IMG =
 
 // ===== 按钮跳转 =====
 // 申请免费试用：人事考试体验系统（新窗口）
-const trialUrl = "https://zk-hrm.oss-cn-hangzhou.aliyuncs.com/index.php";
+const trialUrl = "https://zk.sun-hrm.com/index.php/#/login";
 // 立即咨询：获取方案页，预选“人事考试服务”= 20
 // @ts-ignore
 const source = useCampaignSource();
