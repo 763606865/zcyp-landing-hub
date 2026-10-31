@@ -28,6 +28,7 @@ const routeProductMap: Record<string, number> = {
   "/skillCert": 13,
   "/aiResume": 18,
   "/publicemployment": 19,
+  "/personexam": 20,
 };
 const contactRoute = computed(() => {
   const product = routeProductMap[route.path];
@@ -53,6 +54,7 @@ const moreNav = [
   { to: "/skillCert", label: "职业技能鉴定" },
   { to: "/product", label: "考务硬件产品" },
   { to: "/publicemployment", label: "公共就业服务" },
+  { to: "/personexam", label: "人事考试服务" },
   // AI简历优化 页面已迁移至 zcyp-web（/aiResume），页眉入口隐藏；
   // contact 表单“咨询产品”下拉仍保留“AI简历优化”，供页面内「获取帮助」跳转使用。
 ];
