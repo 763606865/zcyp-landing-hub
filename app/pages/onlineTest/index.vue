@@ -198,10 +198,13 @@ onMounted(() => {
             <NuxtLink class="ot-btn ot-btn-primary" :to="contactRoute"
               >预约咨询</NuxtLink
             >
-            <!-- TODO: 立即体验点击事件待定 -->
-            <button type="button" class="ot-btn ot-btn-outline">
-              立即体验
-            </button>
+            <a
+              class="ot-btn ot-btn-outline"
+              href="https://zxks.zhongkerencai.com:18443/admin/login"
+              target="_blank"
+              rel="noopener"
+              >立即体验</a
+            >
             <a
               class="ot-btn ot-btn-outline"
               href="https://newpr-develop.oss-cn-hangzhou.aliyuncs.com/zcyp-classroom/materials/onlinetest.pdf"
@@ -489,10 +492,13 @@ onMounted(() => {
           <NuxtLink class="ot-btn ot-btn-white" :to="contactRoute"
             >预约咨询</NuxtLink
           >
-          <!-- TODO: 立即体验点击事件待定 -->
-          <button type="button" class="ot-btn ot-btn-outline-white">
-            立即体验
-          </button>
+          <a
+            class="ot-btn ot-btn-outline-white"
+            href="https://zxks.zhongkerencai.com:18443/admin/login"
+            target="_blank"
+            rel="noopener"
+            >立即体验</a
+          >
           <a
             class="ot-btn ot-btn-outline-white"
             href="https://newpr-develop.oss-cn-hangzhou.aliyuncs.com/zcyp-classroom/materials/onlinetest.pdf"
@@ -530,10 +536,13 @@ onMounted(() => {
           <NuxtLink class="otm-btn otm-btn-primary" :to="contactRoute"
             >预约咨询</NuxtLink
           >
-          <!-- TODO: 立即体验点击事件待定 -->
-          <button type="button" class="otm-btn otm-btn-outline">
-            立即体验
-          </button>
+          <a
+            class="otm-btn otm-btn-outline"
+            href="https://zxks.zhongkerencai.com:18443/admin/login"
+            target="_blank"
+            rel="noopener"
+            >立即体验</a
+          >
           <a
             class="otm-btn otm-btn-outline"
             href="https://newpr-develop.oss-cn-hangzhou.aliyuncs.com/zcyp-classroom/materials/onlinetest.pdf"
@@ -780,10 +789,13 @@ onMounted(() => {
           <NuxtLink class="otm-btn otm-btn-white" :to="contactRoute"
             >预约咨询</NuxtLink
           >
-          <!-- TODO: 立即体验点击事件待定 -->
-          <button type="button" class="otm-btn otm-btn-outline-white">
-            立即体验
-          </button>
+          <a
+            class="otm-btn otm-btn-outline-white"
+            href="https://zxks.zhongkerencai.com:18443/admin/login"
+            target="_blank"
+            rel="noopener"
+            >立即体验</a
+          >
           <a
             class="otm-btn otm-btn-outline-white"
             href="https://newpr-develop.oss-cn-hangzhou.aliyuncs.com/zcyp-classroom/materials/onlinetest.pdf"
