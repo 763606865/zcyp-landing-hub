@@ -265,6 +265,57 @@ onMounted(() => {
 onBeforeUnmount(() => {
   if (slideTimer) clearInterval(slideTimer);
 });
+
+// ===================== 移动端（≤850px）专用逻辑 =====================
+// PC 端的模板 / 样式 / 脚本保持零改动；以下状态与副作用仅供移动根节点 .pxm-page 使用。
+// 轮播复用 PC 的 activeSlide / goSlide / prevSlide / nextSlide 与自动播放定时器：
+// 两棵树按媒体查询互斥显示，共享状态不会互相干扰。
+const pxmSection = ref<HTMLElement>();
+const pxmIsMobile = () =>
+  typeof window !== "undefined" &&
+  window.matchMedia("(max-width: 850px)").matches;
+
+let pxmObserver: IntersectionObserver | null = null;
+
+// 不加 pxmIsMobile 守卫：桌面端加载后缩到移动端时，display 变化会触发回调，
+// 避免移动元素停在 opacity:0 永不显示
+onMounted(() => {
+  if (!pxmSection.value) return;
+  pxmObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("pxm-visible");
+          pxmObserver?.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12 },
+  );
+  pxmSection.value
+    .querySelectorAll<HTMLElement>(".pxm-animate")
+    .forEach((el) => pxmObserver?.observe(el));
+});
+
+// 触屏左右滑动切换轮播
+let pxmTouchX = 0;
+const pxmTouchStart = (e: TouchEvent) => {
+  pxmTouchX = e.changedTouches[0]?.clientX ?? 0;
+};
+const pxmTouchEnd = (e: TouchEvent) => {
+  if (!pxmIsMobile()) return;
+  const endX = e.changedTouches[0]?.clientX;
+  if (endX == null) return;
+  const dx = endX - pxmTouchX;
+  if (Math.abs(dx) < 40) return;
+  if (dx < 0) nextSlide();
+  else prevSlide();
+};
+
+onBeforeUnmount(() => {
+  pxmObserver?.disconnect();
+  pxmObserver = null;
+});
 </script>
 
 <template>
@@ -542,6 +593,321 @@ onBeforeUnmount(() => {
                   {{ c.date }}
                 </li>
                 <li class="px-case-count">
+                  <img
+                    :src="`${IMG}/box5-icon2.png`"
+                    alt=""
+                    width="14"
+                    height="14"
+                  />
+                  <span v-count-up="c.count">{{ c.count }}</span
+                  >人
+                </li>
+                <li>
+                  <img
+                    :src="`${IMG}/box5-icon3.png`"
+                    alt=""
+                    width="14"
+                    height="14"
+                  />
+                  {{ c.place }}
+                </li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- ========== 移动端版本（≤850px 生效，与 PC 端零耦合）========== -->
+  <!-- ============================================================ -->
+  <div ref="pxmSection" class="pxm-page">
+    <!-- ===== 1. Banner（标签 + 标题压在背景图上，描述与按钮在图下方）===== -->
+    <section class="pxm-banner">
+      <div class="pxm-banner-hero">
+        <img
+          class="pxm-banner-img"
+          :src="`${IMG}/banner-bg.png`"
+          alt="一站式企事业单位招考服务平台"
+        />
+        <div class="pxm-banner-overlay">
+          <div class="pxm-banner-overlay-text">
+            <p class="pxm-banner-badge pxm-animate">
+              <img
+                :src="`${IMG}/banner-icon1.png`"
+                alt=""
+                width="20"
+                height="18"
+              />
+              {{ bannerBadge }}
+            </p>
+            <h1 class="pxm-banner-title pxm-animate">{{ bannerTitle }}</h1>
+          </div>
+        </div>
+      </div>
+      <div class="pxm-container pxm-banner-below">
+        <p class="pxm-banner-desc pxm-animate">{{ bannerDesc }}</p>
+        <div class="pxm-banner-actions pxm-animate">
+          <a
+            class="pxm-btn pxm-btn-primary"
+            :href="trialUrl"
+            target="_blank"
+            rel="noopener"
+          >
+            申请免费试用
+            <img
+              :src="`${IMG}/banner-icon2.png`"
+              alt=""
+              width="16"
+              height="16"
+            />
+          </a>
+          <NuxtLink class="pxm-btn pxm-btn-outline" :to="contactRoute">
+            立即咨询详情
+          </NuxtLink>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 2. 关于企事业单位招考服务平台 ===== -->
+    <section class="pxm-about">
+      <div class="pxm-container">
+        <h2 class="pxm-sec-title pxm-animate">关于企事业单位招考服务平台</h2>
+        <p class="pxm-about-intro pxm-animate">{{ aboutIntro }}</p>
+
+        <h3 class="pxm-sub-title pxm-animate">{{ aboutMgmtTitle }}</h3>
+        <p
+          v-for="(p, i) in aboutMgmtParas"
+          :key="i"
+          class="pxm-about-para pxm-animate"
+        >
+          {{ p }}
+        </p>
+        <ul class="pxm-about-tags pxm-animate">
+          <li v-for="t in aboutTags" :key="t">{{ t }}</li>
+        </ul>
+
+        <h3 class="pxm-sub-title pxm-animate">产品特点</h3>
+        <div class="pxm-feature-main pxm-animate">
+          <h4>{{ featureMain.title }}</h4>
+          <p>{{ featureMain.desc }}</p>
+        </div>
+        <div class="pxm-feature-grid">
+          <div
+            v-for="(f, i) in featureCards"
+            :key="f.title"
+            class="pxm-feature-card pxm-animate"
+            :style="{ '--pxm-delay': i * 0.1 + 's' }"
+          >
+            <h4>{{ f.title }}</h4>
+            <p>{{ f.desc }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 产品功能轮播（保留自动播放 + 箭头/序号跳转，新增触屏滑动） -->
+      <div class="pxm-func">
+        <div class="pxm-container">
+          <h3 class="pxm-func-title pxm-animate">产品功能</h3>
+          <div
+            class="pxm-laptop pxm-animate"
+            @touchstart="pxmTouchStart"
+            @touchend="pxmTouchEnd"
+          >
+            <img class="pxm-laptop-frame" :src="`${IMG}/box1-bg1.png`" alt="" />
+            <img
+              v-for="(s, i) in funcSlides"
+              :key="s.no"
+              class="pxm-laptop-screen"
+              :class="{ 'pxm-laptop-screen-on': i === activeSlide }"
+              :src="`${IMG}/box1-img${i + 1}.png`"
+              :alt="`产品功能 ${s.no}`"
+            />
+          </div>
+
+          <div class="pxm-func-view pxm-animate">
+            <div
+              class="pxm-func-track"
+              :style="{ transform: `translateX(-${activeSlide * 100}%)` }"
+            >
+              <div v-for="s in funcSlides" :key="s.no" class="pxm-func-card">
+                <b>{{ s.no }}</b>
+                <p>{{ s.text }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="pxm-func-controls">
+            <ul class="pxm-func-dots">
+              <li
+                v-for="(s, i) in funcSlides"
+                :key="s.no"
+                :class="{ 'pxm-func-dot-on': i === activeSlide }"
+                @click="goSlide(i)"
+              >
+                {{ s.no }}
+              </li>
+            </ul>
+            <div class="pxm-func-arrows">
+              <button
+                type="button"
+                class="pxm-func-arrow"
+                :disabled="isFirstSlide"
+                @click="prevSlide"
+              >
+                <img
+                  :src="`${IMG}/${isFirstSlide ? 'box1-lbtn' : 'box1-lbtn-act'}.png`"
+                  alt="上一张"
+                  width="32"
+                  height="32"
+                />
+              </button>
+              <button
+                type="button"
+                class="pxm-func-arrow"
+                :disabled="isLastSlide"
+                @click="nextSlide"
+              >
+                <img
+                  :src="`${IMG}/${isLastSlide ? 'box1-rbtn' : 'box1-rbtn-act'}.png`"
+                  alt="下一张"
+                  width="32"
+                  height="32"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 3. 为什么选择企事业单位招考服务系统 ===== -->
+    <section class="pxm-why">
+      <img
+        class="pxm-why-art"
+        :src="`${IMG}/box2-bg.png`"
+        alt=""
+        aria-hidden="true"
+      />
+      <div class="pxm-container">
+        <h2 class="pxm-sec-title pxm-animate">
+          为什么选择企事业单位招考服务系统
+        </h2>
+        <p class="pxm-sec-sub pxm-animate">{{ whySub }}</p>
+
+        <div class="pxm-why-grid">
+          <article
+            v-for="(c, i) in whyCards"
+            :key="c.title"
+            class="pxm-why-card pxm-animate"
+            :style="{ '--pxm-delay': (i % 2) * 0.1 + 's' }"
+          >
+            <img :src="c.icon" :alt="c.title" width="72" height="72" />
+            <h3>{{ c.title }}</h3>
+            <p>{{ c.desc }}</p>
+          </article>
+        </div>
+
+        <ul class="pxm-why-stats pxm-animate">
+          <li v-for="s in whyStats" :key="s.label">
+            <img :src="s.icon" alt="" width="18" height="18" />
+            {{ s.label }}
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== 4. 完善的考务功能体系 ===== -->
+    <section class="pxm-cap">
+      <div class="pxm-container">
+        <h2 class="pxm-sec-title pxm-animate">完善的考务功能体系</h2>
+        <p class="pxm-sec-sub pxm-animate">{{ capSub }}</p>
+
+        <div class="pxm-cap-grid">
+          <article
+            v-for="(c, i) in capCards"
+            :key="c.title"
+            class="pxm-cap-card pxm-animate"
+            :style="{ '--pxm-delay': (i % 2) * 0.1 + 's' }"
+          >
+            <img :src="c.icon" :alt="c.title" width="48" height="48" />
+            <h3>{{ c.title }}</h3>
+            <p>{{ c.desc }}</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 5. 权威认证，值得信赖 ===== -->
+    <section class="pxm-cert">
+      <div class="pxm-cert-art" aria-hidden="true">
+        <img :src="`${IMG}/box4-bg.png`" alt="" />
+        <span class="pxm-cert-art-fade"></span>
+      </div>
+      <div class="pxm-container">
+        <h2 class="pxm-sec-title pxm-animate">权威认证，值得信赖</h2>
+        <p class="pxm-sec-sub pxm-animate">{{ certSub }}</p>
+
+        <div class="pxm-cert-grid">
+          <article
+            v-for="(c, i) in certCards"
+            :key="c.title"
+            class="pxm-cert-card pxm-animate"
+            :style="{ '--pxm-delay': i * 0.1 + 's' }"
+          >
+            <img
+              :src="`${IMG}/box4-icon.png`"
+              :alt="c.title"
+              width="158"
+              height="100"
+            />
+            <h3>{{ c.title }}</h3>
+            <p>{{ c.desc }}</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 6. 全国各城市考试案例 ===== -->
+    <section class="pxm-case">
+      <div class="pxm-container">
+        <h2 class="pxm-sec-title pxm-animate">全国各城市考试案例</h2>
+        <p class="pxm-sec-sub pxm-animate">{{ caseSub }}</p>
+
+        <div class="pxm-case-stat pxm-animate">
+          <div class="pxm-case-stat-head">
+            <p class="pxm-case-stat-num">
+              <span v-count-up="39">39</span><i>万</i>
+            </p>
+            <p class="pxm-case-stat-label">2024年度报名总人次</p>
+          </div>
+          <p class="pxm-case-stat-desc">{{ caseStatDesc }}</p>
+        </div>
+
+        <p class="pxm-case-note pxm-animate">{{ caseNote }}</p>
+
+        <div class="pxm-case-grid">
+          <article
+            v-for="(c, i) in caseList"
+            :key="c.title"
+            class="pxm-case-card pxm-animate"
+            :style="{ '--pxm-delay': (i % 2) * 0.1 + 's' }"
+          >
+            <img :src="c.img" :alt="c.title" width="223" height="125" />
+            <div class="pxm-case-info">
+              <h3>{{ c.title }}</h3>
+              <ul class="pxm-case-meta">
+                <li>
+                  <img
+                    :src="`${IMG}/box5-icon1.png`"
+                    alt=""
+                    width="14"
+                    height="14"
+                  />
+                  {{ c.date }}
+                </li>
+                <li class="pxm-case-count">
                   <img
                     :src="`${IMG}/box5-icon2.png`"
                     alt=""
@@ -1505,5 +1871,751 @@ onBeforeUnmount(() => {
 .px-case-count {
   font-weight: 600;
   color: var(--px-blue);
+}
+
+/* ============================================================
+   移动端版本（pxm- 前缀，≤850px 生效，与页眉汉堡菜单断点一致）
+   · 桌面（>850px）隐藏移动根；≤850px 隐藏 PC 根、显示移动根
+   · 所有移动样式限定在 .pxm-page 作用域，不改任何 PC 现有规则
+   · 底图统一用 img 标签 + 定位，不用 CSS background-image
+   ============================================================ */
+.pxm-page {
+  display: none;
+}
+
+@media (max-width: 850px) {
+  .px-page {
+    display: none;
+  }
+  .pxm-page {
+    display: block;
+  }
+}
+
+/* ===== 根变量与容器 ===== */
+.pxm-page {
+  --pxm-blue: #0f62fe;
+  --pxm-blue-deep: #1a6fb5;
+  --pxm-ink: #1a2332;
+  --pxm-body: #5a6b7f;
+  font-family:
+    Inter, "SF Pro Display", "PingFang SC", "Microsoft YaHei", system-ui,
+    sans-serif;
+  color: var(--pxm-ink);
+}
+.pxm-container {
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* 入场动画：隐藏态只在小屏生效，避免桌面端元素带 opacity:0 被无意义计算 */
+@media (max-width: 850px) {
+  .pxm-animate {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.7s ease,
+      transform 0.7s ease;
+  }
+  .pxm-animate.pxm-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== 1. Banner（标签 + 标题压在背景图上，描述与按钮在图下方）=====
+   banner-bg 实测：插画占画布 x 700~1402，左半为浅白渐变留白，
+   所以文字靠左侧垂直居中，再用一层同色渐隐遮罩融掉插画左缘 */
+.pxm-banner {
+  padding-bottom: 30px;
+  background: linear-gradient(180deg, #fcfdfe 0%, #f7fafd 45%, #eef4fc 100%);
+}
+.pxm-banner-hero {
+  position: relative;
+}
+.pxm-banner-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.pxm-banner-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+.pxm-banner-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(252, 253, 254, 0.97) 0%,
+    rgba(252, 253, 254, 0.9) 34%,
+    rgba(252, 253, 254, 0) 68%
+  );
+}
+.pxm-banner-overlay-text {
+  position: relative;
+  max-width: 66%;
+}
+.pxm-banner-below {
+  padding-top: 18px;
+}
+.pxm-banner-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 10px;
+  padding: 5px 11px;
+  border: 1px solid rgba(26, 111, 181, 0.1);
+  border-radius: 100px;
+  background: #e8f1fa;
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--pxm-blue-deep);
+}
+.pxm-banner-badge img {
+  width: 18px;
+  height: 16px;
+  object-fit: contain;
+}
+.pxm-banner-title {
+  margin: 0;
+  font-size: 22px;
+  line-height: 30px;
+  font-weight: 700;
+  color: var(--pxm-ink);
+}
+.pxm-banner-desc {
+  margin: 0;
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--pxm-body);
+  text-align: justify;
+}
+.pxm-banner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+.pxm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.pxm-btn-primary {
+  background: var(--pxm-blue);
+  color: #fff;
+}
+.pxm-btn-primary img {
+  width: 16px;
+  height: 16px;
+}
+.pxm-btn-outline {
+  border: 1px solid #dde3ec;
+  background: transparent;
+  color: var(--pxm-ink);
+}
+
+/* ===== 2. 关于（单栏重排）===== */
+.pxm-about {
+  padding: 36px 0 40px;
+  background: #fff;
+}
+.pxm-sec-title {
+  margin: 0;
+  font-size: 22px;
+  line-height: 32px;
+  font-weight: 600;
+  color: var(--pxm-ink);
+}
+.pxm-about-intro {
+  margin: 14px 0 0;
+  font-size: 14px;
+  line-height: 26px;
+  color: var(--pxm-body);
+  text-align: justify;
+}
+.pxm-sub-title {
+  margin: 24px 0 0;
+  font-size: 17px;
+  line-height: 26px;
+  font-weight: 600;
+  color: var(--pxm-ink);
+}
+.pxm-about-para {
+  margin: 10px 0 0;
+  font-size: 13px;
+  line-height: 24px;
+  color: var(--pxm-body);
+  text-align: justify;
+}
+.pxm-about-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.pxm-about-tags li {
+  padding: 4px 13px;
+  border: 1px solid rgba(26, 111, 181, 0.08);
+  border-radius: 100px;
+  background: #e7efff;
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--pxm-blue);
+}
+.pxm-feature-main {
+  margin-top: 12px;
+  padding: 18px 16px 20px;
+  border: 1px solid #edf1f6;
+  border-radius: 12px;
+  background: var(--pxm-blue);
+}
+.pxm-feature-main h4 {
+  margin: 0 0 10px;
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 600;
+  color: #fff;
+}
+.pxm-feature-main p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 22px;
+  color: rgba(255, 255, 255, 0.92);
+  text-align: justify;
+}
+.pxm-feature-grid {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+.pxm-feature-card {
+  padding: 14px;
+  border: 1px solid #edf1f6;
+  border-radius: 12px;
+  background: #f5f8fb;
+}
+/* 入场错峰只作用于 opacity/transform，与 PC 同一套写法 */
+@media (max-width: 850px) {
+  .pxm-feature-card {
+    transition:
+      opacity 0.7s ease var(--pxm-delay, 0s),
+      transform 0.7s ease var(--pxm-delay, 0s);
+  }
+}
+.pxm-feature-card h4 {
+  margin: 0 0 6px;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 600;
+  color: var(--pxm-ink);
+}
+.pxm-feature-card p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 22px;
+  color: var(--pxm-body);
+  text-align: justify;
+}
+
+/* ===== 产品功能轮播（笔记本图缩放 + 触屏滑动）===== */
+.pxm-func {
+  margin-top: 32px;
+}
+.pxm-func-title {
+  margin: 0 0 16px;
+  font-size: 17px;
+  line-height: 26px;
+  font-weight: 600;
+  color: var(--pxm-ink);
+}
+.pxm-laptop {
+  position: relative;
+}
+.pxm-laptop-frame {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+/* 屏内图占笔记本框 517/658 = 78.6% 宽、距顶 16/378 = 4.2%，比例用 aspect-ratio 锁定 */
+.pxm-laptop-screen {
+  position: absolute;
+  top: 4.2%;
+  left: 50%;
+  z-index: 2;
+  width: 78.6%;
+  aspect-ratio: 517 / 319;
+  height: auto;
+  object-fit: cover;
+  opacity: 0;
+  transform: translateX(-50%) translateX(24px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+  pointer-events: none;
+}
+.pxm-laptop-screen-on {
+  opacity: 1;
+  transform: translateX(-50%);
+}
+.pxm-func-view {
+  margin-top: 16px;
+  overflow: hidden;
+}
+.pxm-func-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.pxm-func-card {
+  flex: 0 0 100%;
+  min-width: 0;
+  padding: 18px 16px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0px 10px 30px -12px rgba(61, 74, 199, 0.18);
+}
+.pxm-func-card b {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 26px;
+  line-height: 32px;
+  font-weight: 700;
+  color: var(--pxm-blue);
+}
+.pxm-func-card p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 24px;
+  color: var(--pxm-body);
+  text-align: justify;
+}
+.pxm-func-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+}
+.pxm-func-dots {
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pxm-func-dots li {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #f2f5fa;
+  font-size: 13px;
+  font-weight: 600;
+  color: #a7adc4;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.pxm-func-dots li.pxm-func-dot-on {
+  color: var(--pxm-blue);
+}
+.pxm-func-arrows {
+  display: flex;
+  gap: 10px;
+}
+.pxm-func-arrow {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.pxm-func-arrow img {
+  display: block;
+  width: 32px;
+  height: 32px;
+}
+.pxm-func-arrow:disabled {
+  cursor: not-allowed;
+}
+
+/* ===== 通用小节标题（为什么选择 / 考务功能体系共用）===== */
+.pxm-sec-sub {
+  margin: 12px 0 0;
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--pxm-body);
+  text-align: justify;
+}
+
+/* ===== 3. 为什么选择（box2-bg 贴底当波纹，顶部近白不会露接缝）===== */
+.pxm-why {
+  position: relative;
+  overflow: hidden;
+  padding: 40px 0 34px;
+  background: #fff;
+}
+.pxm-why-art {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 0;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+.pxm-why .pxm-container {
+  position: relative;
+  z-index: 1;
+}
+.pxm-why-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 22px;
+}
+.pxm-why-card {
+  padding: 18px 12px 20px;
+  border: 1px solid #edf1f6;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.86);
+  text-align: center;
+}
+.pxm-why-card img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+.pxm-why-card h3 {
+  margin: 12px 0 0;
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 600;
+  color: var(--pxm-blue);
+}
+.pxm-why-card p {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--pxm-body);
+  text-align: justify;
+}
+.pxm-why-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.pxm-why-stats li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border: 1px solid #edf1f6;
+  border-radius: 100px;
+  background: #fff;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--pxm-body);
+}
+.pxm-why-stats img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+/* ===== 4. 完善的考务功能体系 ===== */
+.pxm-cap {
+  padding: 40px 0;
+  background: #fff;
+}
+.pxm-cap-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 22px;
+}
+.pxm-cap-card {
+  padding: 16px 14px 18px;
+  border: 1px solid #edf1f6;
+  border-radius: 16px;
+  background: #f5f8fb;
+}
+.pxm-cap-card img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+.pxm-cap-card h3 {
+  margin: 12px 0 0;
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 600;
+  color: var(--pxm-ink);
+}
+.pxm-cap-card p {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--pxm-body);
+  text-align: justify;
+}
+
+/* 卡片入场错峰：与 PC 同一套写法（合并声明 + 延迟只给 opacity/transform） */
+@media (max-width: 850px) {
+  .pxm-why-card,
+  .pxm-cap-card,
+  .pxm-cert-card,
+  .pxm-case-card {
+    transition:
+      opacity 0.7s ease var(--pxm-delay, 0s),
+      transform 0.7s ease var(--pxm-delay, 0s);
+  }
+}
+
+/* ===== 5. 权威认证（底色由 PC 反推为纯值 #F4F8FC，图只当顶部柔光）===== */
+.pxm-cert {
+  position: relative;
+  overflow: hidden;
+  padding: 40px 0 44px;
+  background: #f4f8fc;
+}
+.pxm-cert-art {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 100%;
+  pointer-events: none;
+}
+.pxm-cert-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+/* 图底用同色渐隐接区块底色，避免柔光叠图在任意宽度下露出横向硬边 */
+.pxm-cert-art-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 26%;
+  background: linear-gradient(180deg, rgba(244, 248, 252, 0) 0%, #f4f8fc 100%);
+}
+.pxm-cert .pxm-container {
+  position: relative;
+  z-index: 1;
+}
+.pxm-cert-grid {
+  display: grid;
+  gap: 12px;
+  margin-top: 22px;
+}
+.pxm-cert-card {
+  padding: 24px 16px 26px;
+  border: 1px solid #edf1f6;
+  border-radius: 16px;
+  background: #fff;
+  text-align: center;
+}
+.pxm-cert-card img {
+  width: 126px;
+  height: 80px;
+  object-fit: contain;
+}
+.pxm-cert-card h3 {
+  margin: 16px 0 0;
+  font-size: 17px;
+  line-height: 24px;
+  font-weight: 600;
+  color: var(--pxm-ink);
+}
+.pxm-cert-card p {
+  margin: 10px 0 0;
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--pxm-body);
+  text-align: justify;
+}
+
+/* ===== 6. 全国各城市考试案例 ===== */
+.pxm-case {
+  padding: 40px 0 44px;
+  background: #fff;
+}
+.pxm-case-stat {
+  margin-top: 22px;
+  padding: 22px 18px 24px;
+  border: 1px solid rgba(26, 111, 181, 0.06);
+  border-radius: 20px;
+  background: #f5f8fb;
+}
+.pxm-case-stat-head {
+  text-align: center;
+}
+.pxm-case-stat-num {
+  margin: 0;
+  font-size: 52px;
+  line-height: 58px;
+  font-weight: 700;
+  color: var(--pxm-blue);
+}
+.pxm-case-stat-num i {
+  margin-left: 6px;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 600;
+  color: #ff912f;
+}
+.pxm-case-stat-label {
+  margin: 6px 0 0;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 600;
+  color: #1a6fb5;
+}
+.pxm-case-stat-desc {
+  margin: 16px 0 0;
+  padding-top: 16px;
+  border-top: 1px dashed rgba(26, 111, 181, 0.14);
+  font-size: 13px;
+  line-height: 24px;
+  color: var(--pxm-body);
+  text-align: justify;
+}
+.pxm-case-note {
+  margin: 20px 0 0;
+  font-size: 13px;
+  line-height: 22px;
+  color: var(--pxm-body);
+}
+.pxm-case-grid {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+/* 图在上、文字在下（375 宽下左图右文会把文字挤压到 110px） */
+.pxm-case-card {
+  overflow: hidden;
+  border: 1px solid #edf1f6;
+  border-radius: 16px;
+  background: #edf1f6;
+  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.1);
+}
+.pxm-case-card > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 223 / 125;
+  object-fit: cover;
+}
+.pxm-case-info {
+  padding: 14px 16px 16px;
+}
+.pxm-case-info h3 {
+  margin: 0 0 10px;
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 600;
+  color: var(--pxm-ink);
+}
+.pxm-case-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+  line-height: 18px;
+  color: #8a96a6;
+}
+.pxm-case-meta li {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.pxm-case-meta img {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+}
+.pxm-case-count {
+  font-weight: 600;
+  color: var(--pxm-blue);
+}
+
+/* ============================================================
+   平板区间（851~1024px）：仍走 PC 版，只修正会撞宽的固定尺寸元素
+   ============================================================ */
+@media (min-width: 851px) and (max-width: 1024px) {
+  /* 轮播：笔记本图固定 658 + 右侧文字，窄平板下文字被挤到 100px 以内 → 换行 */
+  .px-func-body {
+    flex-wrap: wrap;
+  }
+  .px-laptop {
+    flex: 0 0 100%;
+  }
+  .px-func-side {
+    flex: 1 1 100%;
+  }
+  /* 四卡改两列，避免单卡窄到容不下 72 图标 + 文字 */
+  .px-why-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  /* 案例卡 meta 单行不换行，窄屏会被裁剪 → 图缩窄 + 允许换行 */
+  .px-case-card {
+    height: auto;
+    min-height: 125px;
+  }
+  .px-case-card > img {
+    width: 180px;
+  }
+  .px-case-meta {
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    white-space: normal;
+  }
+}
+
+/* ===== 小屏收敛（≤360px）===== */
+@media (max-width: 360px) {
+  .pxm-container {
+    padding: 0 14px;
+  }
+  .pxm-banner-title {
+    font-size: 20px;
+    line-height: 28px;
+  }
+  .pxm-func-dots li {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+  }
+  .pxm-func-dots {
+    gap: 6px;
+  }
 }
 </style>
