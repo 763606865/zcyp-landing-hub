@@ -6,6 +6,10 @@ const source = useCampaignSource();
 // @ts-ignore
 const contactRoute = computed(() => getContactRoute(8, source.value));
 
+// ===== 相关资料下载（与其他模块同一目录：zcyp-classroom/materials/<名称>.pdf）=====
+const materialUrl =
+  "https://newpr-develop.oss-cn-hangzhou.aliyuncs.com/zcyp-classroom/materials/aiInterview.pdf";
+
 // 导航标签
 const navTabs = [
   { label: "技术能力", target: "tech-capability" },
@@ -214,10 +218,13 @@ onMounted(() => {
               rel="noopener noreferrer"
               >立即体验</a
             >
-            <!-- TODO: 资料下载链接待定 -->
-            <button type="button" class="ai-btn ai-btn-outline">
-              资料下载
-            </button>
+            <a
+              class="ai-btn ai-btn-outline"
+              :href="materialUrl"
+              target="_blank"
+              rel="noopener"
+              >资料下载</a
+            >
           </div>
           <div class="ai-banner-tags">
             <span class="ai-tag">多轮面试</span>
@@ -1005,10 +1012,13 @@ onMounted(() => {
             rel="noopener noreferrer"
             >立即体验</a
           >
-          <!-- TODO: 资料下载链接待定 -->
-          <button type="button" class="aim-btn aim-btn-outline">
-            资料下载
-          </button>
+          <a
+            class="aim-btn aim-btn-outline"
+            :href="materialUrl"
+            target="_blank"
+            rel="noopener"
+            >资料下载</a
+          >
         </div>
         <div class="aim-banner-tags">
           <span class="aim-tag">多轮面试</span>
