@@ -6,6 +6,10 @@ const source = useCampaignSource();
 // @ts-ignore
 const contactRoute = computed(() => getContactRoute(9, source.value));
 
+// ===== 相关资料下载（与其他模块同一目录：zcyp-classroom/materials/<名称>.pdf）=====
+const materialUrl =
+  "https://newpr-develop.oss-cn-hangzhou.aliyuncs.com/zcyp-classroom/materials/antiCheating.pdf";
+
 // @ts-ignore
 useSeoMeta({
   title: "AI考务安全智能体｜中测高科",
@@ -504,11 +508,14 @@ onMounted(() => {
               >预约咨询
               <img src="/assets/images/antiCheating/btn-l.png" alt="" />
             </NuxtLink>
-            <!-- TODO: 资料下载链接待定 -->
-            <button type="button" class="ac-btn ac-btn-outline">
-              资料下载
+            <a
+              class="ac-btn ac-btn-outline"
+              :href="materialUrl"
+              target="_blank"
+              rel="noopener"
+              >资料下载
               <img src="/assets/images/antiCheating/btn-r.png" alt="" />
-            </button>
+            </a>
           </div>
         </div>
       </div>
@@ -888,11 +895,14 @@ onMounted(() => {
             >预约咨询
             <img src="/assets/images/antiCheating/btn-l.png" alt="" />
           </NuxtLink>
-          <!-- TODO: 资料下载链接待定 -->
-          <button type="button" class="acm-btn acm-btn-outline">
-            资料下载
+          <a
+            class="acm-btn acm-btn-outline"
+            :href="materialUrl"
+            target="_blank"
+            rel="noopener"
+            >资料下载
             <img src="/assets/images/antiCheating/btn-r.png" alt="" />
-          </button>
+          </a>
         </div>
       </div>
     </section>
