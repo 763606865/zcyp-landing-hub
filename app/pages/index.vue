@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from "vue";
 
+useHead({
+  meta: [
+    { name: "baidu-site-verification", content: "codeva-gCClfwWh7a" },
+  ],
+});
+
 // 导航标签
 const navTabs = [
   { label: "品牌优势", target: "brand" },
