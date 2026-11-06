@@ -614,13 +614,7 @@ onMounted(() => {
             </div>
             <div class="marking-func-card marking-func-card-6">
               <h4>成绩分析诊断</h4>
-              <NuxtLink
-                class="marking-func-btn"
-                to="https://score-analysis-system.jxhrm.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                >立即演示</NuxtLink
-              >
+              <NuxtLink class="marking-func-btn" to="/scoreAnalysis">立即演示</NuxtLink>
               <p class="comm-indent">
                 基于自研垂直领域AI大模型，自动生成考试数据分析报告，涵盖试题难度分析、个人成绩剖析等多维度，为岗位胜任力模型构建提供科学依据。
               </p>
@@ -1131,13 +1125,7 @@ onMounted(() => {
               <div class="mm-func-band mm-func-band-6"></div>
               <div class="mm-func-body">
                 <h4>成绩分析诊断</h4>
-                <NuxtLink
-                  class="mm-func-btn"
-                  to="https://score-analysis-system.jxhrm.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >立即演示</NuxtLink
-                >
+                <NuxtLink class="mm-func-btn" to="/scoreAnalysis">立即演示</NuxtLink>
                 <p class="mm-indent">
                   基于自研垂直领域AI大模型，自动生成考试数据分析报告，涵盖试题难度分析、个人成绩剖析等多维度，为岗位胜任力模型构建提供科学依据。
                 </p>
